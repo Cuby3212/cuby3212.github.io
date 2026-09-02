@@ -26,6 +26,11 @@
 	filter:var(--icon-filter,none);
 }
 
+.white-icon {
+  /*To make icons white (apply after .icon)*/
+  filter: brightness(0) invert(1);
+}
+
 /* Brand-Specific Styles
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -552,6 +557,19 @@
 	--button-border:1px solid #FFFFFF;
 }
 
+/* Pronombr.es */
+.button-pronombr-es {
+	--button-text:#ffffff;
+	--button-background:#C71585;
+	/*--button-border:1px solid #FFFFFF;*/
+}
+
+/* PCPartPicker */
+.button-pcpartpicker {
+	--button-text:#ffffff;
+	background-image:linear-gradient(-150deg,#FFDA45,#EEA900);
+}
+
 /* Twitch */
 .button-twitch {
 	--button-text:#ffffff;
@@ -599,8 +617,10 @@
 /* X */
 .button-x {
 	--button-text:#FFFFFF;
-	--button-background:#000000;
-	--button-border:1px solid #FFFFFF;
+	/*--button-background:#000000;
+	bg antiguo (de X)*/
+	--button-background:#1185FE;
+	--button-border:1px solid #1185FE;
 }
 
 /* YouTube */
