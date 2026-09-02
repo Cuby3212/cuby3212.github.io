@@ -1,12 +1,11 @@
 # Cuby3212 (Página de enlaces)
 
 Mi página de enlaces personal de código abierto
-
 **Enlace directo:** [cuby3212.github.io](https://cuby3212.github.io)
 
-## ¿Qué es?
+## ¿Qué es esta página?
 
-Una única página con todos mis enlaces construida con [LittleLink](https://littlelink.io) y alojada gratis en GitHub Pages.
+Es una única página simple con todos mis enlaces construida con [LittleLink](https://littlelink.io) y alojada gratis en GitHub Pages que he creado como alternativa a las típicas páginas de enlaces privativas.
 
 ## Tecnología
 
