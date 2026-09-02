@@ -1,7 +1,7 @@
 # 🌸 Cuby3212 (Página de enlaces)
 
 Mi página de enlaces personal de código abierto.
-Gracias a [2Duoble](https://twitter.com/2Duoble) por ayudarme con algunos ajustes de diseño de la página
+Gracias a [2Duoble](https://twitter.com/2Duoble) por ayudarme con algunos ajustes de diseño de la página.
 
 ## ❓ ¿Qué es esta página?
 
