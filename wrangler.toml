@@ -1,0 +1,6 @@
+name = "littlelink"
+compatibility_date = "2026-01-27"
+
+[assets]
+directory = "./"
+html_handling = "auto-trailing-slash"
