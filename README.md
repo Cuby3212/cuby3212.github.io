@@ -6,7 +6,7 @@ Mi página de enlaces personal de código abierto
 
 Es una única página simple con todos mis enlaces construida con [LittleLink](https://littlelink.io) y alojada gratis en GitHub Pages que he creado como alternativa a las típicas páginas de enlaces privativas que solía usar anteriormente
 
-** ⛓️‍💥 Enlace directo:** [cuby3212.github.io](https://cuby3212.github.io)
+⛓️‍💥 **Enlace directo:** [cuby3212.github.io](https://cuby3212.github.io)
 
 ## 🖌️ ¿Qué se ha usado para crearla?
 
