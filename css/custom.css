@@ -79,7 +79,7 @@ body::before {
 	padding-top: 0;
 	padding-left: 0;
 	padding-right: 0;
-	padding-bottom: var(--spacing-xl);
+	padding-bottom: 1.75rem;
 	width: min(94vw, 32rem);
 	box-shadow: 0 1.5rem 3rem rgba(150, 60, 90, 0.2);
 	overflow: hidden;
@@ -87,6 +87,15 @@ body::before {
 	position: relative;
 	z-index: 1;
 	animation: cardFadeIn 0.9s ease both;
+}
+
+.container::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: radial-gradient(16rem circle at var(--mx, 50%) var(--my, 25%), rgba(255, 255, 255, 0.45), transparent 65%);
+	pointer-events: none;
 }
 
 @keyframes cardFadeIn {
@@ -110,34 +119,45 @@ body::before {
 }
 
 .avatar {
-	width: 6.5rem;
-	height: 6.5rem;
+	width: 100%;
+	height: 100%;
 	aspect-ratio: 1 / 1;
 	object-fit: cover;
 	object-position: center;
 	border: 0.25rem solid #ffffff;
+	border-radius: 50%;
 	display: block;
-	cursor: pointer;
-	animation: avatarBreathe 3.5s ease-in-out infinite;
-	transition: transform 0.3s ease;
-}
-.avatar:hover {
-	transform: scale(1.08);
-}
-
-@keyframes avatarBreathe {
-	0%, 100% { transform: scale(1);     box-shadow: 0 0.25rem 0.75rem rgba(150, 60, 90, 0.28); }
-	50%      { transform: scale(1.035); box-shadow: 0 0.25rem 1.4rem rgba(150, 60, 90, 0.5); }
+	box-sizing: border-box;
 }
 
 .avatar-wrap {
 	position: relative;
 	display: inline-block;
+	width: 6.5rem;
+	height: 6.5rem;
 	margin-top: -3.5rem;
 	margin-left: auto;
 	margin-right: auto;
+	border-radius: 50%;
+	cursor: pointer;
+	animation: avatarBreathe 3.5s ease-in-out infinite;
+	transition: transform 0.3s ease;
 }
-.avatar-wrap::after {
+.avatar-wrap:hover {
+	transform: scale(1.08);
+}
+.avatar-wrap-clip {
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+@keyframes avatarBreathe {
+	0%, 100% { box-shadow: 0 0.25rem 0.75rem rgba(150, 60, 90, 0.28); }
+	50%      { box-shadow: 0 0.25rem 1.4rem rgba(150, 60, 90, 0.5); }
+}
+.avatar-wrap-clip::after {
 	content: "";
 	position: absolute;
 	inset: 0;
@@ -149,7 +169,7 @@ body::before {
 	pointer-events: none;
 	transition: opacity 0.2s ease;
 }
-.avatar-wrap:hover::after {
+.avatar-wrap:hover .avatar-wrap-clip::after {
 	opacity: 1;
 	animation: avatarShine 0.9s ease forwards;
 }
@@ -177,20 +197,29 @@ h1 {
 .container .button:hover {
 	filter: brightness(97%);
 	transform: translateY(-2px);
-	box-shadow: 0 0.4rem 0.9rem rgba(150, 60, 90, 0.2);
+	animation: buttonPulse 2.4s ease-in-out infinite;
 }
 
 .container .button::before,
 .container .button::after {
-	content: "🏳️‍⚧️";
+	content: "";
 	position: absolute;
-	top: 0;
-	font-size: 0.85rem;
+	top: 50%;
+	width: 0.85rem;
+	height: 0.55rem;
+	border-radius: 0.12rem;
+	background: linear-gradient(to bottom,
+		#5bcefa 0%, #5bcefa 20%,
+		#f5a9b8 20%, #f5a9b8 40%,
+		#ffffff 40%, #ffffff 60%,
+		#f5a9b8 60%, #f5a9b8 80%,
+		#5bcefa 80%, #5bcefa 100%);
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
 	opacity: 0;
 	pointer-events: none;
 }
-.container .button::before { left: 22%; }
-.container .button::after  { left: 68%; }
+.container .button::before { left: -0.4rem; }
+.container .button::after  { right: -0.4rem; }
 .container .button:hover::before {
 	animation: flagPop 0.9s ease forwards;
 }
@@ -199,9 +228,26 @@ h1 {
 }
 
 @keyframes flagPop {
-	0%   { opacity: 0; transform: translateY(0) scale(0.6); }
-	30%  { opacity: 0.95; transform: translateY(-0.6rem) scale(1); }
-	100% { opacity: 0; transform: translateY(-1.6rem) scale(0.9); }
+	0%   { opacity: 0; transform: translateY(-50%) scale(0.5) rotate(0deg); }
+	30%  { opacity: 0.95; transform: translateY(-50%) scale(1) rotate(-8deg); }
+	100% { opacity: 0; transform: translateY(-150%) scale(0.85) rotate(-8deg); }
+}
+
+@keyframes buttonPulse {
+	0%   { box-shadow: inset 0 0 0.9rem rgba(91, 206, 250, 0.55), 0 0.5rem 1.6rem rgba(91, 206, 250, 0.3); }
+	33%  { box-shadow: inset 0 0 0.9rem rgba(245, 169, 184, 0.55), 0 0.5rem 1.6rem rgba(245, 169, 184, 0.3); }
+	66%  { box-shadow: inset 0 0 0.9rem rgba(255, 255, 255, 0.6), 0 0.5rem 1.6rem rgba(255, 255, 255, 0.35); }
+	100% { box-shadow: inset 0 0 0.9rem rgba(91, 206, 250, 0.55), 0 0.5rem 1.6rem rgba(91, 206, 250, 0.3); }
+}
+
+.container .button:hover .icon {
+	animation: iconWiggle 0.5s ease;
+}
+
+@keyframes iconWiggle {
+	0%, 100% { transform: rotate(0deg); }
+	25%      { transform: rotate(-10deg); }
+	75%      { transform: rotate(10deg); }
 }
 
 .container .button-default {
@@ -212,8 +258,12 @@ h1 {
 }
 
 footer {
+	margin: 1.25rem 0 0 0;
 	color: #8a4a63;
 	opacity: 0.85;
+}
+.container footer p {
+	font-size: 0.75rem;
 }
 footer a {
 	color: #8a4a63;
@@ -246,19 +296,37 @@ footer a {
 
 .visit-counter {
 	position: absolute;
-	top: 0.6rem;
-	right: 0.6rem;
+	top: 0.5rem;
+	right: 0.5rem;
 	z-index: 3;
-	background: rgba(255, 255, 255, 0.55);
-	backdrop-filter: blur(6px);
-	-webkit-backdrop-filter: blur(6px);
-	border-radius: 1rem;
-	padding: 0.2rem 0.45rem;
-	opacity: 0.8;
-	line-height: 0;
+	opacity: 0.85;
+	filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
 }
 .visit-counter img {
-	height: 0.8rem;
+	height: 1rem;
 	width: auto;
 	display: block;
+	border-radius: 0.3rem;
+}
+
+.confetti-flag {
+	position: fixed;
+	width: 0.8rem;
+	height: 0.5rem;
+	border-radius: 0.1rem;
+	background: linear-gradient(to bottom,
+		#5bcefa 0%, #5bcefa 20%,
+		#f5a9b8 20%, #f5a9b8 40%,
+		#ffffff 40%, #ffffff 60%,
+		#f5a9b8 60%, #f5a9b8 80%,
+		#5bcefa 80%, #5bcefa 100%);
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
+	pointer-events: none;
+	z-index: 50;
+	animation: confettiFly 0.8s ease-out forwards;
+}
+
+@keyframes confettiFly {
+	0%   { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+	100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(var(--r)); opacity: 0; }
 }
