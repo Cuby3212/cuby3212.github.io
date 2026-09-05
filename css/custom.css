@@ -94,7 +94,7 @@ body::before {
 	to { opacity: 1; transform: translateY(0); }
 }
 
-.container > *:not(.banner):not(.avatar) {
+.container > *:not(.banner):not(.avatar-wrap):not(.visit-counter) {
 	padding-left: var(--spacing-m);
 	padding-right: var(--spacing-m);
 }
@@ -116,13 +116,47 @@ body::before {
 	object-fit: cover;
 	object-position: center;
 	border: 0.25rem solid #ffffff;
-	margin-top: -3.5rem;
-	animation: avatarGlow 3.5s ease-in-out infinite;
+	display: block;
+	cursor: pointer;
+	animation: avatarBreathe 3.5s ease-in-out infinite;
+	transition: transform 0.3s ease;
+}
+.avatar:hover {
+	transform: scale(1.08);
 }
 
-@keyframes avatarGlow {
-	0%, 100% { box-shadow: 0 0.25rem 0.75rem rgba(150, 60, 90, 0.28); }
-	50%      { box-shadow: 0 0.25rem 1.4rem rgba(150, 60, 90, 0.5); }
+@keyframes avatarBreathe {
+	0%, 100% { transform: scale(1);     box-shadow: 0 0.25rem 0.75rem rgba(150, 60, 90, 0.28); }
+	50%      { transform: scale(1.035); box-shadow: 0 0.25rem 1.4rem rgba(150, 60, 90, 0.5); }
+}
+
+.avatar-wrap {
+	position: relative;
+	display: inline-block;
+	margin-top: -3.5rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+.avatar-wrap::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+	background-size: 250% 250%;
+	background-position: -100% -100%;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease;
+}
+.avatar-wrap:hover::after {
+	opacity: 1;
+	animation: avatarShine 0.9s ease forwards;
+}
+
+@keyframes avatarShine {
+	from { background-position: -100% -100%; }
+	to   { background-position: 100% 100%; }
 }
 
 h1 {
@@ -138,11 +172,36 @@ h1 {
 	border-radius: 1.5rem;
 	box-shadow: 0 0.25rem 0.6rem rgba(150, 60, 90, 0.15);
 	font-weight: 700;
+	position: relative;
 }
 .container .button:hover {
 	filter: brightness(97%);
 	transform: translateY(-2px);
 	box-shadow: 0 0.4rem 0.9rem rgba(150, 60, 90, 0.2);
+}
+
+.container .button::before,
+.container .button::after {
+	content: "🏳️‍⚧️";
+	position: absolute;
+	top: 0;
+	font-size: 0.85rem;
+	opacity: 0;
+	pointer-events: none;
+}
+.container .button::before { left: 22%; }
+.container .button::after  { left: 68%; }
+.container .button:hover::before {
+	animation: flagPop 0.9s ease forwards;
+}
+.container .button:hover::after {
+	animation: flagPop 0.9s ease forwards 0.15s;
+}
+
+@keyframes flagPop {
+	0%   { opacity: 0; transform: translateY(0) scale(0.6); }
+	30%  { opacity: 0.95; transform: translateY(-0.6rem) scale(1); }
+	100% { opacity: 0; transform: translateY(-1.6rem) scale(0.9); }
 }
 
 .container .button-default {
@@ -186,11 +245,20 @@ footer a {
 }
 
 .visit-counter {
-	margin-top: 0.6rem;
-	opacity: 0.6;
+	position: absolute;
+	top: 0.6rem;
+	right: 0.6rem;
+	z-index: 3;
+	background: rgba(255, 255, 255, 0.55);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border-radius: 1rem;
+	padding: 0.2rem 0.45rem;
+	opacity: 0.8;
+	line-height: 0;
 }
 .visit-counter img {
-	margin: 0 auto;
-	height: 0.9rem;
+	height: 0.8rem;
 	width: auto;
+	display: block;
 }
