@@ -31,11 +31,13 @@
     <img class="banner" src="images/banner.jpg" alt="Banner de Cuby3212">
 
     <div class="visit-counter">
-      <img src="https://hits.sh/cuby3212.github.io.svg?style=flat-square&label=visitas&color=b48ead" alt="Contador de visitas">
+      <img src="https://hits.sh/cuby3212.github.io.svg?style=flat&label=visitas&color=e893b0" alt="Contador de visitas">
     </div>
 
     <div class="avatar-wrap">
-      <img class="avatar avatar--rounded" src="images/avatar_cuby.png" alt="Foto de perfil de Cuby3212">
+      <div class="avatar-wrap-clip">
+        <img class="avatar avatar--rounded" src="images/avatar_cuby.png" alt="Foto de perfil de Cuby3212">
+      </div>
     </div>
 
     <h1>Cuby3212</h1>
@@ -91,15 +93,55 @@
     </a>
 
     <footer>
-      <p>&copy; 2026 Cuby3212 · Hecho con <a href="https://littlelink.io" target="_blank" rel="noopener noreferrer">LittleLink</a></p>
+      <p>&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" target="_blank" rel="noopener noreferrer">LittleLink</a></p>
 
       <details class="info-toggle">
         <summary>Sobre esta página</summary>
-        <p>Página personal sin fines comerciales, sin cookies ni formularios. Único dato recogido: un contador de visitas anónimo y global. El alojamiento (<a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>) gestiona los datos técnicos de acceso, como la IP, conforme a su propia política.</p>
+        <p>Página personal sin fines comerciales, sin cookies ni formularios. Se recoge un contador de visitas anónimo y global. La aloja <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>, que gestiona los datos técnicos de acceso, como la IP.</p>
       </details>
     </footer>
 
   </div>
+
+  <script>
+    // Año automático del copyright
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Respeta si el visitante tiene activado "reducir movimiento"
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!reduceMotion) {
+      // Foco de luz que sigue al cursor dentro de la tarjeta
+      const card = document.querySelector('.container');
+      card.addEventListener('pointermove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mx', x + '%');
+        card.style.setProperty('--my', y + '%');
+      });
+
+      // Mini estallido de banderitas al hacer clic en un botón
+      function burstFlags(x, y) {
+        for (let i = 0; i < 8; i++) {
+          const flag = document.createElement('span');
+          flag.className = 'confetti-flag';
+          const angle = Math.random() * Math.PI * 2;
+          const dist = 40 + Math.random() * 40;
+          flag.style.left = x + 'px';
+          flag.style.top = y + 'px';
+          flag.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+          flag.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+          flag.style.setProperty('--r', (Math.random() * 180 - 90) + 'deg');
+          document.body.appendChild(flag);
+          setTimeout(() => flag.remove(), 850);
+        }
+      }
+      document.querySelectorAll('.container .button').forEach((btn) => {
+        btn.addEventListener('click', (e) => burstFlags(e.clientX, e.clientY));
+      });
+    }
+  </script>
 
 </body>
 </html>
