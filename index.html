@@ -47,8 +47,7 @@
   </div>
 
   <div class="critters" aria-hidden="true">
-    <span class="critter">🐈</span>
-    <span class="critter">🐈‍⬛</span>
+    <img class="critter" src="images/running-cat.gif" alt="">
   </div>
 
   <div class="petals" aria-hidden="true">
@@ -238,22 +237,36 @@
         attachTilt(btn, 6, 1.02);
       });
 
-      // Los gatos deambulan por la pantalla a destinos aleatorios
+      // El gato corre a destinos aleatorios, a velocidad constante y mirando hacia donde va
       function wander(cat) {
-        const x = 5 + Math.random() * 85;
-        const y = 10 + Math.random() * 80;
-        const prevX = parseFloat(cat.style.left) || x;
-        cat.style.left = x + 'vw';
-        cat.style.top = y + 'vh';
-        cat.style.transform = x < prevX ? 'scaleX(-1)' : 'scaleX(1)';
-        const delay = 3000 + Math.random() * 4000;
-        setTimeout(() => wander(cat), delay);
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const w = cat.offsetWidth || 42;
+        const margin = 10;
+        const prevX = parseFloat(cat.style.left) || vw / 2;
+        const prevY = parseFloat(cat.style.top) || vh * 0.8;
+        const targetX = margin + Math.random() * (vw - w - margin * 2);
+        const targetY = vh * 0.55 + Math.random() * (vh * 0.4);
+        const dx = targetX - prevX;
+        const dy = targetY - prevY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const speed = 75; // px por segundo, ritmo de carrera creíble
+        const duration = Math.max(0.5, dist / speed);
+
+        cat.style.transition = `left ${duration}s linear, top ${duration}s linear`;
+        cat.style.transform = dx < 0 ? 'scaleX(-1)' : 'scaleX(1)'; // el gif mira a la izquierda de forma nativa
+        cat.style.left = targetX + 'px';
+        cat.style.top = targetY + 'px';
+
+        const pause = 400 + Math.random() * 1500;
+        setTimeout(() => wander(cat), duration * 1000 + pause);
       }
-      document.querySelectorAll('.critter').forEach((cat, i) => {
-        cat.style.left = (10 + i * 30) + 'vw';
-        cat.style.top = (70 + i * 10) + 'vh';
-        setTimeout(() => wander(cat), 1500 + i * 2000);
-      });
+      const cat = document.querySelector('.critter');
+      if (cat) {
+        cat.style.left = (window.innerWidth / 2) + 'px';
+        cat.style.top = (window.innerHeight * 0.8) + 'px';
+        setTimeout(() => wander(cat), 1200);
+      }
     }
   </script>
 
