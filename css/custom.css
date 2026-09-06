@@ -69,9 +69,10 @@ body::after {
 	content: "";
 	position: fixed;
 	inset: 0;
-	z-index: -1;
+	z-index: 999;
 	pointer-events: none;
-	background: radial-gradient(4rem circle at var(--mx, 50vw) var(--my, 30vh), rgba(var(--spotlight-rgb), 0.7), transparent 75%);
+	mix-blend-mode: overlay;
+	background: radial-gradient(2.5rem circle at var(--mx, 50vw) var(--my, 30vh), rgba(var(--spotlight-rgb), 0.35), transparent 80%);
 }
 
 @keyframes bgZoom {
@@ -84,9 +85,11 @@ body::after {
 	position: fixed;
 	top: 1rem;
 	right: 1rem;
-	z-index: 20;
+	z-index: 25;
 	width: 2.4rem;
 	height: 2.4rem;
+	min-width: 0;
+	min-height: 0;
 	aspect-ratio: 1 / 1;
 	display: flex;
 	align-items: center;
@@ -180,22 +183,13 @@ body::after {
 	z-index: 6;
 }
 .critter {
-	position: absolute;
-	font-size: 1.4rem;
-	opacity: 0;
-	animation: catWalk linear infinite;
+	position: fixed;
+	font-size: 0.9rem;
+	opacity: 0.7;
+	transition: left 4s ease-in-out, top 4s ease-in-out, transform 0.4s ease;
 }
-.critter:nth-child(1) { top: 88%; animation-duration: 26s; animation-delay: 2s; }
-.critter:nth-child(2) { top: 94%; animation-duration: 32s; animation-delay: 14s; font-size: 1.15rem; }
-
-@keyframes catWalk {
-	0%   { transform: translateX(-10vw) translateY(0); opacity: 0; }
-	5%   { opacity: 0.85; }
-	25%  { transform: translateX(30vw) translateY(-0.3rem); }
-	50%  { transform: translateX(60vw) translateY(0); }
-	75%  { transform: translateX(90vw) translateY(-0.3rem); }
-	95%  { opacity: 0.85; }
-	100% { transform: translateX(115vw) translateY(0); opacity: 0; }
+.critter:nth-child(2) {
+	font-size: 0.75rem;
 }
 
 .container {
@@ -215,8 +209,14 @@ body::after {
 	z-index: 1;
 	animation: cardFadeIn 0.9s ease both;
 	transition: background 0.4s ease;
-	-webkit-mask-image: radial-gradient(ellipse at center, black 88%, transparent 100%);
-	mask-image: radial-gradient(ellipse at center, black 88%, transparent 100%);
+	-webkit-mask-image:
+		linear-gradient(to right, transparent, black 6%, black 94%, transparent),
+		linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+	-webkit-mask-composite: source-in;
+	mask-image:
+		linear-gradient(to right, transparent, black 6%, black 94%, transparent),
+		linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
+	mask-composite: intersect;
 }
 
 @keyframes cardFadeIn {
@@ -240,18 +240,26 @@ body::after {
 }
 
 .visit-counter {
-	position: absolute;
-	top: 0.5rem;
-	right: 0.5rem;
-	z-index: 3;
-	opacity: 0.85;
-	filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+	position: fixed;
+	bottom: 0.75rem;
+	right: 0.75rem;
+	z-index: 15;
+	opacity: 0.55;
+	background: var(--card-bg);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	border-radius: 0.6rem;
+	padding: 0.15rem 0.35rem;
+	transition: opacity 0.2s ease, background 0.4s ease;
+}
+.visit-counter:hover {
+	opacity: 0.9;
 }
 .visit-counter img {
-	height: 1rem;
+	height: 0.85rem;
 	width: auto;
 	display: block;
-	border-radius: 0.3rem;
+	border-radius: 0.25rem;
 }
 
 .confetti-flag {
