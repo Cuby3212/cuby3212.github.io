@@ -184,12 +184,11 @@ body::after {
 }
 .critter {
 	position: fixed;
-	font-size: 0.9rem;
-	opacity: 0.7;
-	transition: left 4s ease-in-out, top 4s ease-in-out, transform 0.4s ease;
-}
-.critter:nth-child(2) {
-	font-size: 0.75rem;
+	width: 2.5rem;
+	height: auto;
+	opacity: 0.85;
+	filter: drop-shadow(0 0.15rem 0.2rem rgba(0, 0, 0, 0.25));
+	transition: transform 0.2s ease;
 }
 
 .container {
