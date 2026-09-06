@@ -1,10 +1,26 @@
 <!DOCTYPE html>
-<html lang="es" class="theme-dark">
+<html lang="es" class="theme-auto">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cuby Socials</title>
+  <title>Cuby socials</title>
   <meta name="description" content="Enlaces de Cuby3212">
+  <meta name="theme-color" content="#f7c9dd">
+
+  <!-- Open Graph / vista previa al compartir el enlace -->
+  <meta property="og:title" content="Cuby3212">
+  <meta property="og:description" content="Enlaces de Cuby3212">
+  <meta property="og:image" content="https://cuby3212.github.io/images/avatar_cuby.png">
+  <meta property="og:url" content="https://cuby3212.github.io/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cuby3212">
+  <meta name="twitter:description" content="Enlaces de Cuby3212">
+  <meta name="twitter:image" content="https://cuby3212.github.io/images/avatar_cuby.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
@@ -14,6 +30,26 @@
   <link rel="icon" type="image/png" href="images/avatar.png">
 </head>
 <body>
+
+  <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar entre modo claro y oscuro">🌙</button>
+
+  <div class="stars" aria-hidden="true">
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+  </div>
+
+  <div class="critters" aria-hidden="true">
+    <span class="critter">🐈</span>
+    <span class="critter">🐈‍⬛</span>
+  </div>
 
   <div class="petals" aria-hidden="true">
     <span class="petal">🌸</span>
@@ -42,55 +78,59 @@
 
     <h1>Cuby3212</h1>
 
-    <a class="button button-pronombr-es" href="https://pronombr.es/@Cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/pronombr_es_white.svg" alt="">
-      Pronombr.es
-    </a>
+    <div class="button-grid">
 
-    <a class="button button-pcpartpicker" href="https://es.pcpartpicker.com/user/Cuby3212/saved/#view=8q2mFT" target="_blank" rel="me noopener noreferrer">
-      <img class="icon white-icon" src="images/icons/pcpartpicker.svg" alt="">
-      Mi PC en PCPartPicker
-    </a>
+      <a class="button button-pronombr-es" href="https://pronombr.es/@Cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/pronombr_es_white.svg" alt="">
+        Pronombr.es
+      </a>
 
-    <a class="button button-twitch" href="https://www.twitch.tv/cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/twitch.svg" alt="">
-      Twitch
-    </a>
+      <a class="button button-pcpartpicker" href="https://es.pcpartpicker.com/user/Cuby3212/saved/#view=8q2mFT" target="_blank" rel="me noopener noreferrer">
+        <img class="icon white-icon" src="images/icons/pcpartpicker.svg" alt="">
+        Mi PC en PCPartPicker
+      </a>
 
-    <a class="button button-kick" href="https://kick.com/Cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/kick.svg" alt="">
-      Kick
-    </a>
+      <a class="button button-twitch" href="https://www.twitch.tv/cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/twitch.svg" alt="">
+        Twitch
+      </a>
 
-    <a class="button button-yt" href="https://youtube.com/@Cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/youtube.svg" alt="">
-      YouTube
-    </a>
+      <a class="button button-kick" href="https://kick.com/Cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/kick.svg" alt="">
+        Kick
+      </a>
 
-    <a class="button button-x" href="https://twitter.com/cubyvtuber" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/twitter-white.svg" alt="">
-      Twitter
-    </a>
+      <a class="button button-yt" href="https://youtube.com/@Cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/youtube.svg" alt="">
+        YouTube
+      </a>
 
-    <a class="button button-bluesky" href="https://bsky.app/profile/cuby3212.bsky.social" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/bluesky.svg" alt="">
-      Bluesky
-    </a>
+      <a class="button button-x" href="https://twitter.com/cubyvtuber" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/twitter-white.svg" alt="">
+        Twitter
+      </a>
 
-    <a class="button button-reddit" href="https://www.reddit.com/user/Cuby_3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/reddit.svg" alt="">
-      Reddit
-    </a>
+      <a class="button button-bluesky" href="https://bsky.app/profile/cuby3212.bsky.social" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/bluesky.svg" alt="">
+        Bluesky
+      </a>
 
-    <a class="button button-tiktok" href="https://www.tiktok.com/@cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/tiktok.svg" alt="">
-      TikTok
-    </a>
+      <a class="button button-reddit" href="https://www.reddit.com/user/Cuby_3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/reddit.svg" alt="">
+        Reddit
+      </a>
 
-    <a class="button button-instagram" href="https://www.instagram.com/cuby3212" target="_blank" rel="me noopener noreferrer">
-      <img class="icon" src="images/icons/instagram.svg" alt="">
-      Instagram
-    </a>
+      <a class="button button-tiktok" href="https://www.tiktok.com/@cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/tiktok.svg" alt="">
+        TikTok
+      </a>
+
+      <a class="button button-instagram" href="https://www.instagram.com/cuby3212" target="_blank" rel="me noopener noreferrer">
+        <img class="icon" src="images/icons/instagram.svg" alt="">
+        Instagram
+      </a>
+
+    </div>
 
     <footer>
       <p>&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" target="_blank" rel="noopener noreferrer">LittleLink</a></p>
@@ -107,21 +147,51 @@
     // Año automático del copyright
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    // ---- Modo claro / oscuro ----
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+
+    function isDarkActive() {
+      if (root.classList.contains('theme-dark')) return true;
+      if (root.classList.contains('theme-light')) return false;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    function updateToggleIcon() {
+      toggleBtn.textContent = isDarkActive() ? '☀️' : '🌙';
+    }
+
+    function applyStoredTheme() {
+      const saved = localStorage.getItem('cuby-theme');
+      if (saved === 'light' || saved === 'dark') {
+        root.classList.remove('theme-auto', 'theme-light', 'theme-dark');
+        root.classList.add('theme-' + saved);
+      }
+      updateToggleIcon();
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const goingDark = !isDarkActive();
+      root.classList.remove('theme-auto', 'theme-light', 'theme-dark');
+      root.classList.add(goingDark ? 'theme-dark' : 'theme-light');
+      localStorage.setItem('cuby-theme', goingDark ? 'dark' : 'light');
+      updateToggleIcon();
+    });
+
+    applyStoredTheme();
+
     // Respeta si el visitante tiene activado "reducir movimiento"
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!reduceMotion) {
-      // Foco de luz que sigue al cursor dentro de la tarjeta
-      const card = document.querySelector('.container');
-      card.addEventListener('pointermove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        card.style.setProperty('--mx', x + '%');
-        card.style.setProperty('--my', y + '%');
+      // Foco de luz que sigue al cursor por TODA la página
+      window.addEventListener('pointermove', (e) => {
+        document.body.style.setProperty('--mx', e.clientX + 'px');
+        document.body.style.setProperty('--my', e.clientY + 'px');
       });
 
-      // Mini estallido de banderitas al hacer clic en un botón
+      // Mini estallido de banderitas al hacer clic en un botón,
+      // con un pequeño retraso antes de abrir el enlace para que dé tiempo a verlo
       function burstFlags(x, y) {
         for (let i = 0; i < 8; i++) {
           const flag = document.createElement('span');
@@ -138,7 +208,34 @@
         }
       }
       document.querySelectorAll('.container .button').forEach((btn) => {
-        btn.addEventListener('click', (e) => burstFlags(e.clientX, e.clientY));
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          burstFlags(e.clientX, e.clientY);
+          const url = btn.href;
+          setTimeout(() => window.open(url, '_blank', 'noopener'), 480);
+        });
+      });
+
+      // Efecto "tilt": la imagen/botón se inclina según dónde esté el cursor encima
+      function attachTilt(el, maxTilt, scale) {
+        el.addEventListener('mousemove', (e) => {
+          const rect = el.getBoundingClientRect();
+          const px = (e.clientX - rect.left) / rect.width;
+          const py = (e.clientY - rect.top) / rect.height;
+          const rotateY = (px - 0.5) * maxTilt * 2;
+          const rotateX = (0.5 - py) * maxTilt * 2;
+          el.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = '';
+        });
+      }
+
+      const avatarWrap = document.querySelector('.avatar-wrap');
+      if (avatarWrap) attachTilt(avatarWrap, 12, 1.08);
+
+      document.querySelectorAll('.container .button').forEach((btn) => {
+        attachTilt(btn, 6, 1.02);
       });
     }
   </script>
