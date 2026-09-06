@@ -66,10 +66,6 @@
 
     <img class="banner" src="images/banner.jpg" alt="Banner de Cuby3212">
 
-    <div class="visit-counter">
-      <img src="https://hits.sh/cuby3212.github.io.svg?style=flat&label=visitas&color=e893b0" alt="Contador de visitas">
-    </div>
-
     <div class="avatar-wrap">
       <div class="avatar-wrap-clip">
         <img class="avatar avatar--rounded" src="images/avatar_cuby.png" alt="Foto de perfil de Cuby3212">
@@ -141,6 +137,10 @@
       </details>
     </footer>
 
+  </div>
+
+  <div class="visit-counter">
+    <img src="https://hits.sh/cuby3212.github.io.svg?style=flat&label=visitas&color=e893b0" alt="Contador de visitas">
   </div>
 
   <script>
@@ -236,6 +236,23 @@
 
       document.querySelectorAll('.container .button').forEach((btn) => {
         attachTilt(btn, 6, 1.02);
+      });
+
+      // Los gatos deambulan por la pantalla a destinos aleatorios
+      function wander(cat) {
+        const x = 5 + Math.random() * 85;
+        const y = 10 + Math.random() * 80;
+        const prevX = parseFloat(cat.style.left) || x;
+        cat.style.left = x + 'vw';
+        cat.style.top = y + 'vh';
+        cat.style.transform = x < prevX ? 'scaleX(-1)' : 'scaleX(1)';
+        const delay = 3000 + Math.random() * 4000;
+        setTimeout(() => wander(cat), delay);
+      }
+      document.querySelectorAll('.critter').forEach((cat, i) => {
+        cat.style.left = (10 + i * 30) + 'vw';
+        cat.style.top = (70 + i * 10) + 'vh';
+        setTimeout(() => wander(cat), 1500 + i * 2000);
       });
     }
   </script>
