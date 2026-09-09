@@ -1,7 +1,7 @@
 :root {
 	font-size: clamp(15px, 0.9vw + 0.9vh, 22px);
 
-	--bg-image: url('../images/bg-flowers.png');
+	--bg-image: url('../images/bg-flowers.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(255, 205, 220, 0.6) 0%, rgba(255, 170, 195, 0.35) 45%, rgba(255, 235, 235, 0.55) 100%);
 	--card-bg: rgba(255, 245, 248, 0.6);
 	--text-strong: #7a2e49;
@@ -62,7 +62,11 @@ body::before {
 	background-size: cover;
 	background-position: center;
 	animation: bgZoom 24s ease-in-out infinite alternate;
-	transition: opacity 0.4s ease;
+	opacity: 0;
+	transition: opacity 1.2s ease;
+}
+body.bg-loaded::before {
+	opacity: 1;
 }
 
 body::after {
@@ -78,6 +82,21 @@ body::after {
 @keyframes bgZoom {
 	from { transform: scale(1); }
 	to { transform: scale(1.08); }
+}
+
+:focus-visible {
+	outline: 2px solid var(--text-strong);
+	outline-offset: 2px;
+}
+
+/* Interruptor global de animaciones */
+.reduce-motion,
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+	animation-duration: 0.01ms !important;
+	animation-iteration-count: 1 !important;
+	transition-duration: 0.01ms !important;
 }
 
 /* Botón de modo claro/oscuro */
@@ -108,6 +127,10 @@ body::after {
 }
 .theme-toggle:hover {
 	transform: scale(1.08) rotate(-8deg);
+}
+
+.motion-toggle {
+	right: 4rem;
 }
 
 /* Estrellitas del modo oscuro */
@@ -359,6 +382,14 @@ h1 {
 @keyframes nameShift {
 	from { background-position: 0% center; }
 	to   { background-position: 300% center; }
+}
+
+.container .greeting {
+	font-size: 0.75rem;
+	color: var(--text-soft);
+	margin-top: -0.5rem;
+	margin-bottom: 0.75rem;
+	opacity: 0.85;
 }
 
 .button-grid {
