@@ -31,6 +31,8 @@
 </head>
 <body>
 
+  <div class="bg-layer" aria-hidden="true"></div>
+
   <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar entre modo claro y oscuro">🌙</button>
   <button id="motion-toggle" class="theme-toggle motion-toggle" aria-label="Activar o pausar las animaciones" title="Activar o pausar las animaciones">⏸️</button>
 
@@ -45,10 +47,6 @@
     <span class="star"></span>
     <span class="star"></span>
     <span class="star"></span>
-  </div>
-
-  <div class="critters" aria-hidden="true">
-    <img class="critter" src="images/running-cat.gif" alt="">
   </div>
 
   <div class="petals" aria-hidden="true">
@@ -134,14 +132,14 @@
 
       <details class="info-toggle">
         <summary>Sobre esta página</summary>
-        <p>Página personal sin fines comerciales, sin cookies ni formularios. Se recoge un contador de visitas anónimo y global. La aloja <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>, que gestiona los datos técnicos de acceso, como la IP.</p>
+        <p>Página personal sin fines comerciales, sin cookies ni formularios. Se recoge un contador de visitas únicas (por IP, sin identificar a nadie). La aloja <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>, que gestiona los datos técnicos de acceso, como la IP.</p>
       </details>
     </footer>
 
   </div>
 
   <div class="visit-counter">
-    <img src="https://hits.sh/cuby3212.github.io.svg?style=flat&label=visitas&color=e893b0" alt="Contador de visitas">
+    <img src="https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=8a4a63&rightColor=e893b0&type=unique&sessionExpire=1440&label=visitas&style=upper" alt="Contador de visitas únicas">
   </div>
 
   <script>
@@ -149,7 +147,10 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Fundido de entrada del fondo una vez cargada la página
-    window.addEventListener('load', () => document.body.classList.add('bg-loaded'));
+    window.addEventListener('load', () => {
+      const bg = document.querySelector('.bg-layer');
+      if (bg) bg.classList.add('loaded');
+    });
 
     // Saludo según la hora del visitante
     const hour = new Date().getHours();
@@ -201,43 +202,22 @@
 
     applyStoredTheme();
 
-    // El gato corre a destinos aleatorios, a velocidad constante y mirando hacia donde va
-    let catWandering = false;
-    function wander(catEl) {
-      if (!animationsOn) { catWandering = false; return; }
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const w = catEl.offsetWidth || 42;
-      const margin = 10;
-      const prevX = parseFloat(catEl.style.left) || vw / 2;
-      const prevY = parseFloat(catEl.style.top) || vh * 0.8;
-      const targetX = margin + Math.random() * (vw - w - margin * 2);
-      const targetY = vh * 0.55 + Math.random() * (vh * 0.4);
-      const dx = targetX - prevX;
-      const dy = targetY - prevY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const speed = 75; // px por segundo, ritmo de carrera creíble
-      const duration = Math.max(0.5, dist / speed);
-
-      catEl.style.transition = `left ${duration}s linear, top ${duration}s linear`;
-      catEl.style.transform = dx < 0 ? 'scaleX(-1)' : 'scaleX(1)'; // el gif mira a la izquierda de forma nativa
-      catEl.style.left = targetX + 'px';
-      catEl.style.top = targetY + 'px';
-
-      const pause = 400 + Math.random() * 1500;
-      setTimeout(() => wander(catEl), duration * 1000 + pause);
-    }
-    const cat = document.querySelector('.critter');
-    if (cat) {
-      cat.style.left = (window.innerWidth / 2) + 'px';
-      cat.style.top = (window.innerHeight * 0.8) + 'px';
-    }
-
-    // ---- Interruptor de animaciones ----
+    // ---- Interruptor de animaciones: pausa cada elemento directamente,
+    //      sin depender de ninguna clase CSS intermedia ----
     const motionBtn = document.getElementById('motion-toggle');
     const systemReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const storedMotion = safeGet('cuby-motion');
     let animationsOn = storedMotion ? storedMotion === 'on' : !systemReduceMotion;
+
+    function animatedElements() {
+      return [
+        document.querySelector('.bg-layer'),
+        document.querySelector('.avatar-wrap'),
+        document.querySelector('h1'),
+        ...document.querySelectorAll('.petal'),
+        ...document.querySelectorAll('.star'),
+      ].filter(Boolean);
+    }
 
     function updateMotionIcon() {
       motionBtn.textContent = animationsOn ? '⏸️' : '▶️';
@@ -245,13 +225,19 @@
 
     function setAnimations(on) {
       animationsOn = on;
-      root.classList.toggle('reduce-motion', !on);
       safeSet('cuby-motion', on ? 'on' : 'off');
       updateMotionIcon();
+
+      // Pausa/reanuda cada animación CSS directamente en el propio elemento:
+      // esto es lo más fiable que hay, no depende de ninguna regla externa
+      animatedElements().forEach((el) => {
+        el.style.animationPlayState = on ? 'running' : 'paused';
+      });
+      document.body.classList.toggle('motion-paused', !on);
+
       if (on) {
         document.body.style.removeProperty('--mx');
         document.body.style.removeProperty('--my');
-        if (cat && !catWandering) { catWandering = true; setTimeout(() => wander(cat), 300); }
       } else {
         document.querySelectorAll('.confetti-flag').forEach((f) => f.remove());
         document.querySelectorAll('.container .button, .avatar-wrap').forEach((el) => { el.style.transform = ''; });
@@ -269,7 +255,6 @@
     });
 
     // Mini estallido de banderitas al hacer clic en un botón,
-    // con un pequeño retraso antes de abrir el enlace para que dé tiempo a verlo,
     // más una pequeña vibración en móvil como confirmación táctil
     function burstFlags(x, y) {
       for (let i = 0; i < 8; i++) {
@@ -289,17 +274,11 @@
     document.querySelectorAll('.container .button').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        const url = btn.href;
-        const newTab = window.open('', '_blank', 'noopener');
         if (animationsOn) {
           burstFlags(e.clientX, e.clientY);
           if (navigator.vibrate) navigator.vibrate(15);
-          setTimeout(() => {
-            if (newTab) newTab.location.href = url; else window.open(url, '_blank', 'noopener');
-          }, 480);
-        } else {
-          if (newTab) newTab.location.href = url; else window.open(url, '_blank', 'noopener');
         }
+        window.open(btn.href, '_blank', 'noopener,noreferrer');
       });
     });
 
