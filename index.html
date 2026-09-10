@@ -139,7 +139,10 @@
   </div>
 
   <div class="visit-counter">
-    <img src="https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=8a4a63&rightColor=e893b0&type=unique&sessionExpire=1440&label=visitas&style=upper" alt="Contador de visitas únicas">
+    <div class="badge-stack">
+      <img id="visit-badge-light" class="visit-badge-img" src="" alt="Contador de visitas únicas">
+      <img id="visit-badge-dark" class="visit-badge-img" src="" alt="">
+    </div>
   </div>
 
   <script>
@@ -183,6 +186,22 @@
       themeBtn.textContent = isDarkActive() ? '☀️' : '🌙';
     }
 
+    // El contador es una imagen de un servicio externo: no puede "heredar"
+    // nuestras variables CSS. Para que el cambio de tema se vea suave de
+    // verdad (cambiar el "src" de una imagen siempre es un salto, nunca
+    // se puede hacer smooth), cargamos las dos versiones a la vez y solo
+    // cruzamos su opacidad, que sí es una transición normal
+    const badgeLight = document.getElementById('visit-badge-light');
+    const badgeDark = document.getElementById('visit-badge-dark');
+    if (badgeLight) badgeLight.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=e893b0&rightColor=fbdce8&type=unique&sessionExpire=1440&label=visitas&style=upper';
+    if (badgeDark) badgeDark.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=2a1830&rightColor=8a4a63&type=unique&sessionExpire=1440&label=visitas&style=upper';
+
+    function updateCounterBadge() {
+      const dark = isDarkActive();
+      if (badgeLight) badgeLight.classList.toggle('is-visible', !dark);
+      if (badgeDark) badgeDark.classList.toggle('is-visible', dark);
+    }
+
     function applyStoredTheme() {
       const saved = safeGet('cuby-theme');
       if (saved === 'light' || saved === 'dark') {
@@ -190,6 +209,7 @@
         root.classList.add('theme-' + saved);
       }
       updateThemeIcon();
+      updateCounterBadge();
     }
 
     themeBtn.addEventListener('click', () => {
@@ -198,6 +218,7 @@
       root.classList.add(goingDark ? 'theme-dark' : 'theme-light');
       safeSet('cuby-theme', goingDark ? 'dark' : 'light');
       updateThemeIcon();
+      updateCounterBadge();
     });
 
     applyStoredTheme();
