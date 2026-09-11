@@ -27,11 +27,17 @@
   <link rel="stylesheet" href="css/brands.css">
   <link rel="stylesheet" href="css/custom.css">
 
+  <link rel="preload" as="image" href="images/banner.jpg">
+  <link rel="preload" as="image" href="images/avatar_cuby.png">
+  <link rel="preload" as="image" href="images/bg-flowers.jpg" media="(prefers-color-scheme: light)">
+  <link rel="preload" as="image" href="images/bg-flowers-dark.jpg" media="(prefers-color-scheme: dark)">
+
   <link rel="icon" type="image/png" href="images/avatar.png">
 </head>
 <body>
 
   <div class="bg-layer" aria-hidden="true"></div>
+  <div class="secret-overlay" aria-hidden="true"></div>
 
   <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar entre modo claro y oscuro">🌙</button>
   <button id="motion-toggle" class="theme-toggle motion-toggle" aria-label="Activar o pausar las animaciones" title="Activar o pausar las animaciones">⏸️</button>
@@ -62,11 +68,11 @@
 
   <div class="container">
 
-    <img class="banner" src="images/banner.jpg" alt="Banner de Cuby3212">
+    <img class="banner" src="images/banner.jpg" alt="Banner de Cuby3212" fetchpriority="high">
 
     <div class="avatar-wrap">
       <div class="avatar-wrap-clip">
-        <img class="avatar avatar--rounded" src="images/avatar_cuby.png" alt="Foto de perfil de Cuby3212">
+        <img class="avatar avatar--rounded" src="images/avatar_cuby.png" alt="Foto de perfil de Cuby3212" fetchpriority="high">
       </div>
     </div>
 
@@ -131,8 +137,25 @@
       <p>&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" target="_blank" rel="noopener noreferrer">LittleLink</a></p>
 
       <details class="info-toggle">
-        <summary>Sobre esta página</summary>
-        <p>Página personal sin fines comerciales, sin cookies ni formularios. Se recoge un contador de visitas únicas (por IP, sin identificar a nadie). La aloja <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a>, que gestiona los datos técnicos de acceso, como la IP.</p>
+        <summary>FAQs</summary>
+        <div class="faq">
+          <details class="faq-item">
+            <summary>¿Para qué sirve esta página?<span class="faq-arrow">▸</span></summary>
+            <p>Es simplemente un sitio con todos mis enlaces juntos, así no tienes que buscarlos uno por uno.</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Guarda mis datos o me rastrea?<span class="faq-arrow">▸</span></summary>
+            <p>No. No hay formularios ni cookies. Lo único que hay es un contador de visitas que no guarda nada, solo cuenta cuánta gente entra.</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Es algo oficial/de pago?<span class="faq-arrow">▸</span></summary>
+            <p>Para nada, es un proyecto personal mío sin ánimo de lucro, hecho para mi comunidad y para tener mis redes centralizadas.</p>
+          </details>
+          <details class="faq-item">
+            <summary>¿Dónde está alojada?<span class="faq-arrow">▸</span></summary>
+            <p>En GitHub Pages. Ellos gestionan cosas técnicas como la IP de quien entra, eso ya depende de su propia política.</p>
+          </details>
+        </div>
       </details>
     </footer>
 

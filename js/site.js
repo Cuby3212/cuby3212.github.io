@@ -176,18 +176,6 @@ function showToast(msg) {
   }, 2600);
 }
 
-const copyBtn = document.getElementById('copy-link');
-if (copyBtn) {
-  copyBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      showToast('🔗 ¡Enlace copiado!');
-    } catch (e) {
-      showToast('No se pudo copiar 😅');
-    }
-  });
-}
-
 function rainFlags() {
   for (let i = 0; i < 30; i++) {
     setTimeout(() => {
@@ -214,7 +202,7 @@ window.addEventListener('keydown', (e) => {
     if (konamiIndex === konamiCode.length) {
       konamiIndex = 0;
       const active = document.body.classList.toggle('secret-mode');
-      showToast(active ? '🏳️‍⚧️ ¡Código secreto activado! 🏳️‍⚧️' : 'Modo secreto desactivado');
+      showToast(active ? '🏳️‍⚧️ Easter egg activado 🏳️‍⚧️' : 'Easter egg desactivado');
       if (active && animationsOn) rainFlags();
     }
   } else {
