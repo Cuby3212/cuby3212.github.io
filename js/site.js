@@ -163,3 +163,61 @@ function attachTilt(el, maxTilt, hoverScale) {
 const avatarWrap = document.querySelector('.avatar-wrap');
 if (avatarWrap) attachTilt(avatarWrap, 12, 1.08);
 document.querySelectorAll('.container .button').forEach((btn) => attachTilt(btn, 6, 1.02));
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('is-shown'));
+  setTimeout(() => {
+    toast.classList.remove('is-shown');
+    setTimeout(() => toast.remove(), 400);
+  }, 2600);
+}
+
+const copyBtn = document.getElementById('copy-link');
+if (copyBtn) {
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast('🔗 ¡Enlace copiado!');
+    } catch (e) {
+      showToast('No se pudo copiar 😅');
+    }
+  });
+}
+
+function rainFlags() {
+  for (let i = 0; i < 30; i++) {
+    setTimeout(() => {
+      const flag = document.createElement('span');
+      flag.className = 'confetti-flag rain-flag';
+      flag.style.left = Math.random() * 100 + 'vw';
+      flag.style.top = '-2rem';
+      flag.style.setProperty('--tx', (Math.random() * 60 - 30) + 'px');
+      flag.style.setProperty('--ty', (window.innerHeight + 60) + 'px');
+      flag.style.setProperty('--r', (Math.random() * 360) + 'deg');
+      document.body.appendChild(flag);
+      setTimeout(() => flag.remove(), 2600);
+    }, i * 60);
+  }
+}
+
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiIndex = 0;
+window.addEventListener('keydown', (e) => {
+  const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+  const expected = konamiCode[konamiIndex];
+  if (key === expected) {
+    konamiIndex++;
+    if (konamiIndex === konamiCode.length) {
+      konamiIndex = 0;
+      const active = document.body.classList.toggle('secret-mode');
+      showToast(active ? '🏳️‍⚧️ ¡Código secreto activado! 🏳️‍⚧️' : 'Modo secreto desactivado');
+      if (active && animationsOn) rainFlags();
+    }
+  } else {
+    konamiIndex = key === konamiCode[0] ? 1 : 0;
+  }
+});
