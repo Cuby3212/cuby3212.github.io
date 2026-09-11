@@ -88,7 +88,6 @@ body::after {
 	outline-offset: 2px;
 }
 
-/* Botón de modo claro/oscuro */
 .theme-toggle {
 	position: fixed;
 	top: 1rem;
@@ -121,8 +120,61 @@ body::after {
 .motion-toggle {
 	right: 4rem;
 }
+.copy-link {
+	right: 6.7rem;
+}
 
-/* Estrellitas del modo oscuro */
+.toast {
+	position: fixed;
+	top: 4rem;
+	left: 50%;
+	transform: translateX(-50%) translateY(-0.5rem);
+	z-index: 30;
+	background: var(--card-bg);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	color: var(--text-strong);
+	font-weight: 600;
+	font-size: 0.85rem;
+	padding: 0.5rem 1rem;
+	border-radius: 1rem;
+	box-shadow: 0 0.4rem 1rem rgba(var(--shadow-rgb), 0.25);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.toast.is-shown {
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+body.secret-mode .bg-layer {
+	background-image: linear-gradient(180deg,
+		#5bcefa 0%, #5bcefa 20%,
+		#f5a9b8 20%, #f5a9b8 40%,
+		#ffffff 40%, #ffffff 60%,
+		#f5a9b8 60%, #f5a9b8 80%,
+		#5bcefa 80%, #5bcefa 100%) !important;
+	animation: none !important;
+}
+body.secret-mode .container {
+	background: rgba(255, 255, 255, 0.85) !important;
+}
+body.secret-mode .toast {
+	background: rgba(255, 255, 255, 0.9);
+	color: #7a2e49;
+}
+
+.rain-flag {
+	animation: rainFall 2.2s linear forwards;
+	z-index: 300;
+}
+
+@keyframes rainFall {
+	0%   { transform: translate(-50%, -50%) rotate(0deg); opacity: 1; }
+	100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) rotate(var(--r)); opacity: 0; }
+}
+
 .stars {
 	position: fixed;
 	inset: 0;
@@ -494,7 +546,6 @@ footer a {
 	font-size: 0.7rem;
 }
 
-/* Pantallas anchas y bajas: dos columnas para no tener que hacer scroll */
 @media (orientation: landscape) and (min-width: 640px) {
 	.container {
 		width: min(90vw, 46rem);
