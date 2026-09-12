@@ -35,8 +35,8 @@ function updateThemeIcon() {
 
 const badgeLight = document.getElementById('visit-badge-light');
 const badgeDark = document.getElementById('visit-badge-dark');
-if (badgeLight) badgeLight.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=e893b0&rightColor=fbdce8&type=unique&sessionExpire=1440&label=visitas&style=upper';
-if (badgeDark) badgeDark.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=2a1830&rightColor=8a4a63&type=unique&sessionExpire=1440&label=visitas&style=upper';
+if (badgeLight) badgeLight.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=f4b8cf&rightColor=f4b8cf&type=unique&sessionExpire=5256000&label=visitas&style=upper';
+if (badgeDark) badgeDark.src = 'https://views-counter.vercel.app/badge?pageId=cuby3212-github-io&leftColor=3d2438&rightColor=3d2438&type=unique&sessionExpire=5256000&label=visitas&style=upper';
 
 function updateCounterBadge() {
   const dark = isDarkActive();
