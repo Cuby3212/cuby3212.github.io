@@ -142,26 +142,18 @@ body::before {
 	top: 1rem;
 	left: 1rem;
 	z-index: 25;
-	width: 2.4rem;
-	height: 2.4rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-radius: 1.5rem;
-	background: var(--card-bg);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
-	box-shadow: 0 0.25rem 0.6rem rgba(var(--shadow-rgb), 0.25);
-	transition: transform 0.2s ease, background 0.4s ease;
+	display: block;
+	line-height: 0;
+	transition: transform 0.2s ease;
 }
 .github-link:hover {
-	transform: scale(1.08) rotate(-8deg);
+	transform: scale(1.12);
 }
 .github-link img {
-	width: 1.25rem;
+	width: 1.15rem;
 	height: auto;
 	display: block;
-	filter: none;
+	filter: drop-shadow(0 0.1rem 0.3rem rgba(0, 0, 0, 0.35));
 }
 
 .toast {
@@ -687,6 +679,7 @@ footer a {
 		max-width: none;
 		width: 100%;
 		margin-bottom: 0;
+		min-height: 4.1rem;
 	}
 }
 
