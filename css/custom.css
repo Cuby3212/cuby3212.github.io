@@ -63,7 +63,10 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	animation: bgZoom 24s ease-in-out infinite alternate;
+	animation: bgZoom 28s ease-in-out infinite alternate;
+	will-change: transform;
+	transform: translateZ(0);
+	backface-visibility: hidden;
 	opacity: 0;
 	transition: opacity 1.2s ease;
 }
