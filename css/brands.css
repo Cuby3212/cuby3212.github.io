@@ -617,10 +617,8 @@
 /* X */
 .button-x {
 	--button-text:#FFFFFF;
-	/*--button-background:#000000;
-	bg antiguo (de X)*/
-	--button-background:#1185FE;
-	--button-border:1px solid #1185FE;
+	--button-background:#000000;
+	--button-border:1px solid #FFFFFF;
 }
 
 /* YouTube */

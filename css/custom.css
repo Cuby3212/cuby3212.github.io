@@ -10,6 +10,7 @@
 	--spotlight-rgb: 255, 255, 255;
 	--star-opacity: 0;
 	--secret-opacity: 0.45;
+	--mono-text: rgba(20, 14, 20, 0.8);
 }
 
 :root.theme-dark {
@@ -22,6 +23,7 @@
 	--spotlight-rgb: 190, 160, 255;
 	--star-opacity: 1;
 	--secret-opacity: 0.25;
+	--mono-text: rgba(255, 255, 255, 0.88);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,6 +37,7 @@
 		--spotlight-rgb: 190, 160, 255;
 		--star-opacity: 1;
 		--secret-opacity: 0.25;
+		--mono-text: rgba(255, 255, 255, 0.88);
 	}
 }
 
@@ -63,20 +66,11 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	animation: bgZoom 34s ease-in-out infinite alternate;
-	will-change: transform;
-	transform: translateZ(0);
-	backface-visibility: hidden;
 	opacity: 0;
 	transition: opacity 1.2s ease;
 }
 .bg-layer.loaded {
 	opacity: 1;
-}
-
-@keyframes bgZoom {
-	from { transform: scale(1); }
-	to   { transform: scale(1.035); }
 }
 
 body::after {
@@ -87,6 +81,22 @@ body::after {
 	pointer-events: none;
 	mix-blend-mode: overlay;
 	background: radial-gradient(2.5rem circle at var(--mx, 50vw) var(--my, 30vh), rgba(var(--spotlight-rgb), 0.35), transparent 80%);
+}
+@media (hover: none) {
+	body::after {
+		display: none;
+	}
+}
+
+body::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		radial-gradient(60% 45% at 18% 8%, rgba(var(--spotlight-rgb), 0.22), transparent 70%),
+		radial-gradient(55% 40% at 88% 96%, rgba(var(--spotlight-rgb), 0.16), transparent 70%);
 }
 
 :focus-visible {
@@ -109,7 +119,7 @@ body::after {
 	justify-content: center;
 	padding: 0;
 	border: none;
-	border-radius: 50%;
+	border-radius: 1.5rem;
 	background: var(--card-bg);
 	backdrop-filter: blur(8px);
 	-webkit-backdrop-filter: blur(8px);
@@ -129,21 +139,29 @@ body::after {
 
 .github-link {
 	position: fixed;
-	top: 1.1rem;
-	left: 1.1rem;
+	top: 1rem;
+	left: 1rem;
 	z-index: 25;
-	display: block;
-	line-height: 0;
-	transition: transform 0.2s ease;
+	width: 2.4rem;
+	height: 2.4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 1.5rem;
+	background: var(--card-bg);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	box-shadow: 0 0.25rem 0.6rem rgba(var(--shadow-rgb), 0.25);
+	transition: transform 0.2s ease, background 0.4s ease;
 }
 .github-link:hover {
-	transform: scale(1.12);
+	transform: scale(1.08) rotate(-8deg);
 }
 .github-link img {
-	width: 1.5rem;
+	width: 1.25rem;
 	height: auto;
 	display: block;
-	filter: drop-shadow(0 0.1rem 0.3rem rgba(0, 0, 0, 0.35));
+	filter: none;
 }
 
 .toast {
@@ -347,6 +365,48 @@ body.secret-mode .toast {
 	opacity: 1;
 }
 
+.clock-widget {
+	position: fixed;
+	bottom: 0.9rem;
+	left: 0.9rem;
+	z-index: 15;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	padding: 0.35rem 0.6rem;
+	border-radius: 1rem;
+	background: var(--card-bg);
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	box-shadow: 0 0.2rem 0.5rem rgba(var(--shadow-rgb), 0.2);
+	color: var(--mono-text);
+	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
+	font-variant-numeric: tabular-nums;
+	font-size: 0.65rem;
+	line-height: 1.35;
+	opacity: 0.85;
+	transition: opacity 0.2s ease, transform 0.2s ease, background 0.4s ease;
+	pointer-events: none;
+}
+.clock-widget:hover {
+	opacity: 1;
+}
+.clock-row {
+	display: flex;
+	align-items: baseline;
+	gap: 0.4rem;
+	white-space: nowrap;
+}
+.clock-zone {
+	opacity: 0.7;
+	font-weight: 600;
+	min-width: 3.6rem;
+}
+.clock-row span:last-child {
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
 .confetti-flag {
 	position: fixed;
 	width: 0.8rem;
@@ -391,7 +451,21 @@ body.secret-mode .toast {
 	margin-right: auto;
 	border-radius: 50%;
 	cursor: pointer;
+	box-shadow: 0 0.25rem 0.75rem rgba(var(--shadow-rgb), 0.3);
+}
+.avatar-wrap::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: 50%;
+	box-shadow: 0 0.25rem 1.4rem rgba(var(--shadow-rgb), 0.55);
+	opacity: 0;
+	pointer-events: none;
 	animation: avatarBreathe 3.5s ease-in-out infinite;
+}
+body.motion-paused .avatar-wrap::before {
+	animation-play-state: paused;
+	opacity: 0;
 }
 .avatar-wrap-clip {
 	position: absolute;
@@ -401,8 +475,8 @@ body.secret-mode .toast {
 }
 
 @keyframes avatarBreathe {
-	0%, 100% { box-shadow: 0 0.25rem 0.75rem rgba(var(--shadow-rgb), 0.3); }
-	50%      { box-shadow: 0 0.25rem 1.4rem rgba(var(--shadow-rgb), 0.55); }
+	0%, 100% { opacity: 0; }
+	50%      { opacity: 1; }
 }
 
 .avatar-wrap-clip::after {
@@ -433,18 +507,11 @@ h1 {
 	font-weight: 600;
 	margin-top: 0.75rem;
 	margin-bottom: 0.75rem;
-	background: linear-gradient(90deg, #5bcefa, #f5a9b8, #ffffff, #f5a9b8, #5bcefa, #f5a9b8, #ffffff, #f5a9b8, #5bcefa);
-	background-size: 300% auto;
+	background: linear-gradient(90deg, #5bcefa, #f5a9b8, #ffffff, #f5a9b8, #5bcefa);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
 	-webkit-text-fill-color: transparent;
-	animation: nameShift 6s linear infinite;
-}
-
-@keyframes nameShift {
-	from { background-position: 0% center; }
-	to   { background-position: 300% center; }
 }
 
 .container .greeting {
