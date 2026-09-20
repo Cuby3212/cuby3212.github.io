@@ -3,7 +3,7 @@
 
 	--bg-image: url('../images/bg-flowers.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(255, 205, 220, 0.6) 0%, rgba(255, 170, 195, 0.35) 45%, rgba(255, 235, 235, 0.55) 100%);
-	--card-bg: rgba(255, 245, 248, 0.6);
+	--card-bg: rgba(255, 245, 248, 0.68);
 	--text-strong: #7a2e49;
 	--text-soft: #8a4a63;
 	--shadow-rgb: 150, 60, 90;
@@ -15,7 +15,7 @@
 :root.theme-dark {
 	--bg-image: url('../images/bg-flowers-dark.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(8, 6, 20, 0.75) 0%, rgba(18, 8, 28, 0.55) 45%, rgba(4, 4, 12, 0.82) 100%);
-	--card-bg: rgba(12, 10, 22, 0.55);
+	--card-bg: rgba(12, 10, 22, 0.62);
 	--text-strong: #f3d9e6;
 	--text-soft: #d9a9c2;
 	--shadow-rgb: 0, 0, 0;
@@ -28,7 +28,7 @@
 	:root.theme-auto {
 		--bg-image: url('../images/bg-flowers-dark.jpg');
 		--bg-tint: linear-gradient(160deg, rgba(8, 6, 20, 0.75) 0%, rgba(18, 8, 28, 0.55) 45%, rgba(4, 4, 12, 0.82) 100%);
-		--card-bg: rgba(12, 10, 22, 0.55);
+		--card-bg: rgba(12, 10, 22, 0.62);
 		--text-strong: #f3d9e6;
 		--text-soft: #d9a9c2;
 		--shadow-rgb: 0, 0, 0;
@@ -63,7 +63,7 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
-	animation: bgZoom 28s ease-in-out infinite alternate;
+	animation: bgZoom 34s ease-in-out infinite alternate;
 	will-change: transform;
 	transform: translateZ(0);
 	backface-visibility: hidden;
@@ -76,7 +76,7 @@ body {
 
 @keyframes bgZoom {
 	from { transform: scale(1); }
-	to   { transform: scale(1.08); }
+	to   { transform: scale(1.035); }
 }
 
 body::after {
@@ -269,8 +269,8 @@ body.secret-mode .toast {
 
 .container {
 	background: var(--card-bg);
-	backdrop-filter: blur(14px);
-	-webkit-backdrop-filter: blur(14px);
+	backdrop-filter: blur(9px);
+	-webkit-backdrop-filter: blur(9px);
 	border-radius: 1.5rem;
 	padding-top: 0;
 	padding-left: 0;
