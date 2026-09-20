@@ -1,5 +1,35 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
+const clockPeninsula = document.getElementById('clock-peninsula');
+const clockCanarias = document.getElementById('clock-canarias');
+const peninsulaFormatter = new Intl.DateTimeFormat('es-ES', {
+  timeZone: 'Europe/Madrid',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+const canariasFormatter = new Intl.DateTimeFormat('es-ES', {
+  timeZone: 'Atlantic/Canary',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
+function updateClocks() {
+  const now = new Date();
+  const peninsulaTime = peninsulaFormatter.format(now);
+  const canariasTime = canariasFormatter.format(now);
+  if (clockPeninsula && clockPeninsula.textContent !== peninsulaTime) {
+    clockPeninsula.textContent = peninsulaTime;
+  }
+  if (clockCanarias && clockCanarias.textContent !== canariasTime) {
+    clockCanarias.textContent = canariasTime;
+  }
+}
+if (clockPeninsula && clockCanarias) {
+  updateClocks();
+  setInterval(updateClocks, 1000);
+}
+
 window.addEventListener('load', () => {
   const bg = document.querySelector('.bg-layer');
   if (bg) bg.classList.add('loaded');
@@ -106,11 +136,15 @@ function setAnimations(on) {
 setAnimations(animationsOn);
 motionBtn.addEventListener('click', () => setAnimations(!animationsOn));
 
-window.addEventListener('pointermove', (e) => {
-  if (!animationsOn) return;
-  document.body.style.setProperty('--mx', e.clientX + 'px');
-  document.body.style.setProperty('--my', e.clientY + 'px');
-});
+const canHoverPrecise = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+if (canHoverPrecise) {
+  window.addEventListener('pointermove', (e) => {
+    if (!animationsOn) return;
+    document.body.style.setProperty('--mx', e.clientX + 'px');
+    document.body.style.setProperty('--my', e.clientY + 'px');
+  });
+}
 
 function burstFlags(x, y) {
   for (let i = 0; i < 8; i++) {
@@ -146,15 +180,17 @@ function attachTilt(el, maxTilt, hoverScale) {
     const s = pressed ? hoverScale * 0.94 : hoverScale;
     el.style.transform = `perspective(500px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${s})`;
   }
-  el.addEventListener('pointermove', (e) => {
-    if (!animationsOn) return;
-    const rect = el.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width;
-    const py = (e.clientY - rect.top) / rect.height;
-    rotY = (px - 0.5) * maxTilt * 2;
-    rotX = (0.5 - py) * maxTilt * 2;
-    render();
-  });
+  if (canHoverPrecise) {
+    el.addEventListener('pointermove', (e) => {
+      if (!animationsOn) return;
+      const rect = el.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;
+      const py = (e.clientY - rect.top) / rect.height;
+      rotY = (px - 0.5) * maxTilt * 2;
+      rotX = (0.5 - py) * maxTilt * 2;
+      render();
+    });
+  }
   el.addEventListener('pointerdown', () => { if (animationsOn) { pressed = true; render(); } });
   el.addEventListener('pointerup', () => { pressed = false; if (animationsOn) render(); });
   el.addEventListener('pointerleave', () => { pressed = false; rotX = 0; rotY = 0; el.style.transform = ''; });
