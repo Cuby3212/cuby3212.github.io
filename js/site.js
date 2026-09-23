@@ -37,14 +37,42 @@ window.addEventListener('load', () => {
 
 const hour = new Date().getHours();
 const greetingEl = document.getElementById('greeting');
+const greetingSets = {
+  morning: ['¡Buenos días! ☀️', '¡A por el día! ☀️', '¡Buenos días, gracias por pasarte! ☀️', '¡Hoy pinta bien! ☀️'],
+  afternoon: ['¡Buenas tardes! 🌤️', '¡Feliz tarde! 🌤️', '¡Qué alegría verte por aquí! 🌤️', '¡Buenas tardes, gracias por visitar! 🌤️'],
+  night: ['¡Buenas noches! 🌙', '¡A descansar pronto! 🌙', '¡Buenas noches, gracias por pasarte! 🌙', '¡Que tengas dulces sueños! 🌙'],
+};
 if (greetingEl) {
-  if (hour >= 6 && hour < 13) greetingEl.textContent = '¡Buenos días! ☀️';
-  else if (hour >= 13 && hour < 20) greetingEl.textContent = '¡Buenas tardes! 🌤️';
-  else greetingEl.textContent = '¡Buenas noches! 🌙';
+  const band = (hour >= 6 && hour < 13) ? 'morning' : (hour >= 13 && hour < 20) ? 'afternoon' : 'night';
+  const options = greetingSets[band];
+  const text = options[Math.floor(Math.random() * options.length)];
+
+  let reducedMotionAtLoad = false;
+  let storedMotionAtLoad = null;
+  try { reducedMotionAtLoad = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  try { storedMotionAtLoad = localStorage.getItem('cuby-motion'); } catch (e) {}
+  const animationsOnAtStart = storedMotionAtLoad ? storedMotionAtLoad === 'on' : !reducedMotionAtLoad;
+
+  if (animationsOnAtStart) {
+    let i = 0;
+    greetingEl.textContent = '';
+    greetingEl.classList.add('is-typing');
+    const typeInterval = setInterval(() => {
+      i++;
+      greetingEl.textContent = text.slice(0, i);
+      if (i >= text.length) {
+        clearInterval(typeInterval);
+        greetingEl.classList.remove('is-typing');
+      }
+    }, 38);
+  } else {
+    greetingEl.textContent = text;
+  }
 }
 
 const root = document.documentElement;
 const themeBtn = document.getElementById('theme-toggle');
+const bgLayerEl = document.querySelector('.bg-layer');
 
 function safeGet(key) {
   try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -61,6 +89,8 @@ function isDarkActive() {
 
 function updateThemeIcon() {
   themeBtn.textContent = isDarkActive() ? '☀️' : '🌙';
+  const meta = document.getElementById('theme-color-meta');
+  if (meta) meta.setAttribute('content', isDarkActive() ? '#0c0a16' : '#f7c9dd');
 }
 
 const badgeLight = document.getElementById('visit-badge-light');
@@ -94,6 +124,13 @@ themeBtn.addEventListener('click', () => {
 });
 
 applyStoredTheme();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+  if (root.classList.contains('theme-auto')) {
+    updateThemeIcon();
+    updateCounterBadge();
+  }
+});
 
 const motionBtn = document.getElementById('motion-toggle');
 const systemReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -130,6 +167,7 @@ function setAnimations(on) {
   } else {
     document.querySelectorAll('.confetti-flag').forEach((f) => f.remove());
     document.querySelectorAll('.container .button, .avatar-wrap').forEach((el) => { el.style.transform = ''; });
+    if (bgLayerEl) bgLayerEl.style.transform = '';
   }
 }
 
@@ -137,12 +175,23 @@ setAnimations(animationsOn);
 motionBtn.addEventListener('click', () => setAnimations(!animationsOn));
 
 const canHoverPrecise = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+let parallaxTicking = false;
 
 if (canHoverPrecise) {
   window.addEventListener('pointermove', (e) => {
     if (!animationsOn) return;
     document.body.style.setProperty('--mx', e.clientX + 'px');
     document.body.style.setProperty('--my', e.clientY + 'px');
+
+    if (bgLayerEl && !parallaxTicking) {
+      parallaxTicking = true;
+      const nx = e.clientX / window.innerWidth - 0.5;
+      const ny = e.clientY / window.innerHeight - 0.5;
+      requestAnimationFrame(() => {
+        bgLayerEl.style.transform = `scale(1.035) translate(${nx * -12}px, ${ny * -12}px)`;
+        parallaxTicking = false;
+      });
+    }
   });
 }
 
