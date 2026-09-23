@@ -512,6 +512,21 @@ h1 {
 	margin-top: -0.5rem;
 	margin-bottom: 0.75rem;
 	opacity: 0.85;
+	min-height: 1em;
+}
+.greeting.is-typing::after {
+	content: "";
+	display: inline-block;
+	width: 0.06rem;
+	height: 0.8em;
+	margin-left: 0.1rem;
+	vertical-align: -0.1em;
+	background: var(--text-soft);
+	animation: caretBlink 0.8s steps(1) infinite;
+}
+
+@keyframes caretBlink {
+	50% { opacity: 0; }
 }
 
 .button-grid {
