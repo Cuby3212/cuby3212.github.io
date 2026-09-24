@@ -1,9 +1,10 @@
 :root {
 	font-size: clamp(15px, 0.9vw + 0.9vh, 22px);
+	color-scheme: light dark;
 
 	--bg-image: url('../images/bg-flowers.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(255, 205, 220, 0.6) 0%, rgba(255, 170, 195, 0.35) 45%, rgba(255, 235, 235, 0.55) 100%);
-	--card-bg: rgba(255, 245, 248, 0.68);
+	--card-bg: rgba(255, 245, 248, 0.52);
 	--text-strong: #7a2e49;
 	--text-soft: #8a4a63;
 	--shadow-rgb: 150, 60, 90;
@@ -499,11 +500,14 @@ h1 {
 	font-weight: 600;
 	margin-top: 0.75rem;
 	margin-bottom: 0.75rem;
+	color: var(--text-strong);
 	background: linear-gradient(90deg, #5bcefa, #f5a9b8, #ffffff, #f5a9b8, #5bcefa);
 	-webkit-background-clip: text;
 	background-clip: text;
-	color: transparent;
 	-webkit-text-fill-color: transparent;
+}
+@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
+	h1 { color: var(--text-strong); -webkit-text-fill-color: currentColor; }
 }
 
 .container .greeting {
@@ -682,27 +686,20 @@ footer a {
 
 @media (orientation: landscape) and (min-width: 640px) {
 	.container {
-		width: min(90vw, 46rem);
+		width: min(90vw, 60rem);
 	}
 	.button-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.5rem 0.75rem;
-		justify-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: stretch;
+		gap: 0.6rem 0.75rem;
 	}
 	.button-grid .button {
-		max-width: none;
-		width: 100%;
+		flex: 1 1 12.5rem;
+		max-width: 18.75rem;
+		width: auto;
 		margin-bottom: 0;
 		min-height: 4.1rem;
-	}
-}
-
-@media (orientation: landscape) and (min-width: 1100px) {
-	.container {
-		width: min(85vw, 60rem);
-	}
-	.button-grid {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
