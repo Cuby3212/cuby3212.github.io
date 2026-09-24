@@ -4,7 +4,7 @@
 
 	--bg-image: url('../images/bg-flowers.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(255, 205, 220, 0.6) 0%, rgba(255, 170, 195, 0.35) 45%, rgba(255, 235, 235, 0.55) 100%);
-	--card-bg: rgba(255, 245, 248, 0.52);
+	--card-bg: rgba(255, 245, 248, 0.6);
 	--text-strong: #7a2e49;
 	--text-soft: #8a4a63;
 	--shadow-rgb: 150, 60, 90;
@@ -497,17 +497,14 @@ body.motion-paused .avatar-wrap::before {
 h1 {
 	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
 	font-size: 1.75rem;
-	font-weight: 600;
+	font-weight: 700;
 	margin-top: 0.75rem;
 	margin-bottom: 0.75rem;
 	color: var(--text-strong);
-	background: linear-gradient(90deg, #5bcefa, #f5a9b8, #ffffff, #f5a9b8, #5bcefa);
-	-webkit-background-clip: text;
-	background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-@supports not ((background-clip: text) or (-webkit-background-clip: text)) {
-	h1 { color: var(--text-strong); -webkit-text-fill-color: currentColor; }
+	text-shadow:
+		0 0 0.6rem rgba(91, 206, 250, 0.5),
+		0 0 1.1rem rgba(245, 169, 184, 0.4),
+		0 0.05rem 0.3rem rgba(var(--shadow-rgb), 0.35);
 }
 
 .container .greeting {
