@@ -310,9 +310,19 @@ body.secret-mode .toast {
 	to { opacity: 1; transform: translateY(0); }
 }
 
-.container > *:not(.banner):not(.avatar-wrap):not(.visit-counter) {
+.container > *:not(.banner-link):not(.avatar-link):not(.visit-counter) {
 	padding-left: var(--spacing-m);
 	padding-right: var(--spacing-m);
+}
+
+.banner-link {
+	display: block;
+}
+
+.avatar-link {
+	display: block;
+	width: fit-content;
+	margin: 0 auto;
 }
 
 .banner {
