@@ -39,49 +39,49 @@ const hour = new Date().getHours();
 const greetingEl = document.getElementById('greeting');
 const greetingSets = {
   morning: [
-    'Buenos días',
+    'Buenos días.',
     'Buenas, ¿qué tal has dormido?',
-    'Café primero, lo demás después ☕',
-    'Arriba, que el día empieza ahora',
-    'Hola, buenos días',
-    'Mañana tranquila por aquí',
-    'Un nuevo día, a ver qué trae',
-    '¡Buenos días! Que vaya bien todo',
-    'Buenas, bienvenido/a de nuevo',
-    'Hoy también puede ser un buen día',
-    'Buenas, empezamos con energía',
+    'Café primero, lo demás después. ☕',
+    'Arriba, que el día empieza ahora.',
+    'Hola, buenos días.',
+    'Mañana tranquila por aquí.',
+    'Un nuevo día, a ver qué trae.',
+    '¡Buenos días! Que vaya bien todo.',
+    'Buenas, bienvenido/a de nuevo.',
+    'Hoy también puede ser un buen día.',
+    'Buenas, empezamos con energía.',
     '¿Ya has desayunado?',
-    'Que tengas un buen día, en serio',
+    'Que tengas un buen día, en serio.',
   ],
   afternoon: [
-    'Buenas tardes',
+    'Buenas tardes.',
     '¿Qué tal la tarde?',
-    'Hola, bienvenido/a',
-    'Tarde de sofá y pantalla',
-    '¡Buenas! Qué alegría verte por aquí',
-    'Un ratito de descanso te mereces',
-    'Hola de nuevo',
+    'Hola, bienvenido/a.',
+    'Tarde de sofá y pantalla.',
+    '¡Buenas! Qué alegría verte por aquí.',
+    'Un ratito de descanso te mereces.',
+    'Hola de nuevo.',
     'Ey, ¿qué tal todo?',
-    'Tarde tranquila por aquí',
-    'Sigue así, lo estás haciendo bien',
-    'Buenas, aquí seguimos',
-    '¡Hola! Espero que tu día vaya genial',
-    'Un break está bien de vez en cuando',
+    'Tarde tranquila por aquí.',
+    'Sigue así, lo estás haciendo bien.',
+    'Buenas, aquí seguimos.',
+    '¡Hola! Espero que tu día vaya genial.',
+    'Un break está bien de vez en cuando.',
   ],
   night: [
-    'Buenas noches',
+    'Buenas noches.',
     '¿No deberías estar durmiendo?',
-    'Trasnochando por aquí',
-    'Buenas, últimas horas del día',
-    'Modo noche activado',
+    'Trasnochando por aquí.',
+    'Buenas, últimas horas del día.',
+    'Modo noche activado.',
     'Hola, ¿qué haces despierto/a a estas horas?',
-    'Buenas noches, no te desveles mucho',
-    'Otra noche más por aquí',
-    'La noche es para los que no tienen sueño',
-    '¡Buenas noches! Descansa cuando toque',
-    'Última visita del día, seguro',
-    'Que tengas dulces sueños, si es que duermes',
-    'Mañana será mejor día, ya verás',
+    'Buenas noches, no te desveles mucho.',
+    'Otra noche más por aquí.',
+    'La noche es para los que no tienen sueño.',
+    '¡Buenas noches! Descansa cuando toque.',
+    'Última visita del día, seguro.',
+    'Que tengas dulces sueños, si es que duermes.',
+    'Mañana será mejor día, ya verás.',
   ],
 };
 if (greetingEl) {
@@ -209,7 +209,6 @@ function setAnimations(on) {
   } else {
     document.querySelectorAll('.confetti-flag').forEach((f) => f.remove());
     document.querySelectorAll('.container .button, .avatar-wrap').forEach((el) => { el.style.transform = ''; });
-    if (bgLayerEl) bgLayerEl.style.transform = '';
   }
 }
 
@@ -258,8 +257,10 @@ document.querySelectorAll('.container .button').forEach((btn) => {
     if (animationsOn) {
       burstFlags(e.clientX, e.clientY);
       if (navigator.vibrate) navigator.vibrate(15);
+      setTimeout(() => { window.location.href = btn.href; }, 160);
+    } else {
+      window.location.href = btn.href;
     }
-    window.open(btn.href, '_blank', 'noopener,noreferrer');
   });
 });
 
