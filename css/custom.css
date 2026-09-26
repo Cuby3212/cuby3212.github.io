@@ -606,8 +606,14 @@ body:not(.motion-paused) .container .button:hover .icon {
 	background-image: linear-gradient(135deg, #ffd9e6, #ffc2d1);
 }
 
+.container > footer {
+	padding-left: calc(var(--spacing-m) + 0.35rem);
+	padding-right: calc(var(--spacing-m) + 0.35rem);
+}
+
 footer {
 	margin: 1.25rem 0 0 0;
+	padding-bottom: 0.5rem;
 	color: var(--text-soft);
 	opacity: 0.85;
 	transition: color 0.4s ease;
@@ -622,12 +628,14 @@ footer a {
 .info-toggle {
 	margin-top: 0.75rem;
 	font-size: 0.7rem;
+	opacity: 1;
 }
 .info-toggle summary {
 	cursor: pointer;
 	color: var(--text-soft);
 	list-style: none;
 	font-size: 0.7rem;
+	padding: 0.35rem 0;
 }
 .info-toggle summary::-webkit-details-marker {
 	display: none;
@@ -640,17 +648,23 @@ footer a {
 	margin-bottom: 0;
 	line-height: 1.4;
 	color: var(--text-soft);
-	opacity: 0.9;
 	font-size: 0.7rem;
 }
 
 .faq {
-	margin-top: 0.6rem;
+	margin-top: 0.4rem;
+	margin-bottom: 0.5rem;
+	padding: 0.3rem 0.85rem;
+	border-radius: 0.85rem;
+	background: rgba(var(--shadow-rgb), 0.05);
 	text-align: left;
 }
 .faq-item {
 	border-top: 1px solid rgba(var(--shadow-rgb), 0.15);
-	padding: 0.4rem 0;
+	padding: 0.55rem 0;
+}
+.faq-item:first-child {
+	border-top: none;
 }
 .faq-item summary {
 	display: flex;
@@ -674,10 +688,9 @@ footer a {
 	transform: rotate(90deg);
 }
 .faq-item p {
-	margin: 0.4rem 0 0 0;
-	line-height: 1.4;
+	margin: 0.5rem 0 0 0;
+	line-height: 1.45;
 	color: var(--text-soft);
-	opacity: 0.9;
 	font-size: 0.68rem;
 }
 
