@@ -38,9 +38,37 @@ window.addEventListener('load', () => {
 const hour = new Date().getHours();
 const greetingEl = document.getElementById('greeting');
 const greetingSets = {
-  morning: ['¡Buenos días! ☀️', '¡A por el día! ☀️', '¡Buenos días, gracias por pasarte! ☀️', '¡Hoy pinta bien! ☀️'],
-  afternoon: ['¡Buenas tardes! 🌤️', '¡Feliz tarde! 🌤️', '¡Qué alegría verte por aquí! 🌤️', '¡Buenas tardes, gracias por visitar! 🌤️'],
-  night: ['¡Buenas noches! 🌙', '¡A descansar pronto! 🌙', '¡Buenas noches, gracias por pasarte! 🌙', '¡Que tengas dulces sueños! 🌙'],
+  morning: [
+    '¡Buenos días! ☀️',
+    'Buenos días, qué madrugador/a ☀️',
+    'Café en mano y a por el día ☕',
+    'Arriba, que el día no se hace solo ☀️',
+    'Buenos días, gracias por pasarte por aquí',
+    'Otra mañana más por aquí 🌱',
+    '¡Hoy pinta bien el día! ☀️',
+    'Buenas, ¿ya desayunaste? 👀',
+    'Empezando el día como se debe: mirando esto',
+  ],
+  afternoon: [
+    '¡Buenas tardes! 🌤️',
+    'Qué alegría verte por aquí 🌤️',
+    'Buenas tardes, gracias por pasarte',
+    'Tarde tranquila por aquí, espero que la tuya también',
+    '¡Ey! Bienvenido/a de nuevo',
+    'Un ratito de tarde, un ratito de scroll 👍',
+    'Buenas, ¿qué tal el día?',
+    'Aquí andamos, tarde a tarde 🌸',
+  ],
+  night: [
+    '¡Buenas noches! 🌙',
+    'Buenas noches, no te desveles mucho 🌙',
+    'Modo nocturno activado 🌙',
+    'Buenas noches, gracias por pasarte',
+    'Tarde ya para andar por aquí, pero bienvenido/a igual 😅',
+    'Última visita del día, seguro 👀',
+    'Buenas, que descanses cuando toque',
+    'Otra noche más por aquí 🌌',
+  ],
 };
 if (greetingEl) {
   const band = (hour >= 6 && hour < 13) ? 'morning' : (hour >= 13 && hour < 20) ? 'afternoon' : 'night';
