@@ -564,12 +564,6 @@
 	/*--button-border:1px solid #FFFFFF;*/
 }
 
-/* PCPartPicker */
-.button-pcpartpicker {
-	--button-text:#ffffff;
-	background-image:linear-gradient(-150deg,#FFDA45,#EEA900);
-}
-
 /* Twitch */
 .button-twitch {
 	--button-text:#ffffff;
