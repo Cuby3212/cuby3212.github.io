@@ -150,6 +150,9 @@ body::before {
 .github-link:hover {
 	transform: scale(1.12);
 }
+.repo-link {
+	left: 2.1rem;
+}
 .github-link img {
 	width: 1.15rem;
 	height: auto;
