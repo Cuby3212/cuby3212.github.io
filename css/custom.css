@@ -2,7 +2,6 @@
 	font-size: clamp(15px, 0.9vw + 0.9vh, 22px);
 	color-scheme: light dark;
 
-	--bg-image: url('../images/bg-flowers.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(255, 205, 220, 0.6) 0%, rgba(255, 170, 195, 0.35) 45%, rgba(255, 235, 235, 0.55) 100%);
 	--card-bg: rgba(255, 245, 248, 0.6);
 	--text-strong: #7a2e49;
@@ -15,7 +14,6 @@
 }
 
 :root.theme-dark {
-	--bg-image: url('../images/bg-flowers-dark.jpg');
 	--bg-tint: linear-gradient(160deg, rgba(8, 6, 20, 0.75) 0%, rgba(18, 8, 28, 0.55) 45%, rgba(4, 4, 12, 0.82) 100%);
 	--card-bg: rgba(12, 10, 22, 0.62);
 	--text-strong: #f3d9e6;
@@ -29,7 +27,6 @@
 
 @media (prefers-color-scheme: dark) {
 	:root.theme-auto {
-		--bg-image: url('../images/bg-flowers-dark.jpg');
 		--bg-tint: linear-gradient(160deg, rgba(8, 6, 20, 0.75) 0%, rgba(18, 8, 28, 0.55) 45%, rgba(4, 4, 12, 0.82) 100%);
 		--card-bg: rgba(12, 10, 22, 0.62);
 		--text-strong: #f3d9e6;
@@ -63,15 +60,37 @@ body {
 	position: fixed;
 	inset: 0;
 	z-index: -2;
-	background-image: var(--bg-image);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center;
 	opacity: 0;
-	transition: opacity 1.2s ease;
+	transition: opacity 1s ease;
 }
-.bg-layer.loaded {
+.bg-layer-light {
+	background-image: url('../images/bg-flowers.jpg');
+}
+.bg-layer-dark {
+	background-image: url('../images/bg-flowers-dark.jpg');
+}
+.bg-layer.loaded.bg-layer-light {
 	opacity: 1;
+}
+.bg-layer.loaded.bg-layer-dark {
+	opacity: 0;
+}
+:root.theme-dark .bg-layer.loaded.bg-layer-light {
+	opacity: 0;
+}
+:root.theme-dark .bg-layer.loaded.bg-layer-dark {
+	opacity: 1;
+}
+@media (prefers-color-scheme: dark) {
+	:root.theme-auto .bg-layer.loaded.bg-layer-light {
+		opacity: 0;
+	}
+	:root.theme-auto .bg-layer.loaded.bg-layer-dark {
+		opacity: 1;
+	}
 }
 
 body::after {
@@ -150,8 +169,34 @@ body::before {
 .github-link:hover {
 	transform: scale(1.12);
 }
-.repo-link {
-	left: 2.1rem;
+.repo-badge {
+	position: fixed;
+	top: 1rem;
+	left: 2.9rem;
+	z-index: 25;
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.65rem;
+	border-radius: 1rem;
+	background: rgba(24, 23, 23, 0.88);
+	color: #ffffff;
+	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
+	font-size: 0.62rem;
+	font-weight: 600;
+	white-space: nowrap;
+	text-decoration: none;
+	box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.25);
+	transition: transform 0.2s ease, background 0.2s ease;
+}
+.repo-badge img {
+	width: 0.85rem;
+	height: auto;
+	display: block;
+}
+.repo-badge:hover {
+	transform: scale(1.05);
+	background: rgba(24, 23, 23, 0.98);
 }
 .github-link img {
 	width: 1.15rem;
