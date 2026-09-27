@@ -31,8 +31,7 @@ if (clockPeninsula && clockCanarias) {
 }
 
 window.addEventListener('load', () => {
-  const bg = document.querySelector('.bg-layer');
-  if (bg) bg.classList.add('loaded');
+  document.querySelectorAll('.bg-layer').forEach((bg) => bg.classList.add('loaded'));
 });
 
 const hour = new Date().getHours();
@@ -114,7 +113,7 @@ if (greetingEl) {
 
 const root = document.documentElement;
 const themeBtn = document.getElementById('theme-toggle');
-const bgLayerEl = document.querySelector('.bg-layer');
+const bgLayerEls = document.querySelectorAll('.bg-layer');
 
 function safeGet(key) {
   try { return localStorage.getItem(key); } catch (e) { return null; }
@@ -181,7 +180,7 @@ let animationsOn = storedMotion ? storedMotion === 'on' : !systemReduceMotion;
 
 function animatedElements() {
   return [
-    document.querySelector('.bg-layer'),
+    ...document.querySelectorAll('.bg-layer'),
     document.querySelector('.avatar-wrap'),
     document.querySelector('h1'),
     ...document.querySelectorAll('.petal'),
@@ -224,12 +223,13 @@ if (canHoverPrecise) {
     document.body.style.setProperty('--mx', e.clientX + 'px');
     document.body.style.setProperty('--my', e.clientY + 'px');
 
-    if (bgLayerEl && !parallaxTicking) {
+    if (bgLayerEls.length && !parallaxTicking) {
       parallaxTicking = true;
       const nx = e.clientX / window.innerWidth - 0.5;
       const ny = e.clientY / window.innerHeight - 0.5;
       requestAnimationFrame(() => {
-        bgLayerEl.style.transform = `scale(1.035) translate(${nx * -12}px, ${ny * -12}px)`;
+        const t = `scale(1.035) translate(${nx * -12}px, ${ny * -12}px)`;
+        bgLayerEls.forEach((el) => { el.style.transform = t; });
         parallaxTicking = false;
       });
     }
