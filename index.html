@@ -30,14 +30,15 @@
 
   <link rel="preload" as="image" href="images/banner.jpg">
   <link rel="preload" as="image" href="images/avatar_cuby.jpg">
-  <link rel="preload" as="image" href="images/bg-flowers.jpg" media="(prefers-color-scheme: light)">
-  <link rel="preload" as="image" href="images/bg-flowers-dark.jpg" media="(prefers-color-scheme: dark)">
+  <link rel="preload" as="image" href="images/bg-flowers.jpg">
+  <link rel="preload" as="image" href="images/bg-flowers-dark.jpg">
 
   <link rel="icon" type="image/png" href="images/avatar.png">
 </head>
 <body>
 
-  <div class="bg-layer" aria-hidden="true"></div>
+  <div class="bg-layer bg-layer-light" aria-hidden="true"></div>
+  <div class="bg-layer bg-layer-dark" aria-hidden="true"></div>
   <div class="secret-overlay" aria-hidden="true"></div>
 
   <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" title="Cambiar entre modo claro y oscuro">🌙</button>
@@ -45,8 +46,9 @@
   <a class="github-link" href="https://github.com/Cuby3212" rel="noopener noreferrer" aria-label="Mi perfil de GitHub" title="Mi perfil de GitHub">
     <img src="images/icons/github-pride.svg" alt="">
   </a>
-  <a class="github-link repo-link" href="https://github.com/Cuby3212/cuby3212.github.io" rel="noopener noreferrer" aria-label="Repositorio de esta página" title="Repositorio de esta página">
+  <a class="repo-badge" href="https://github.com/Cuby3212/cuby3212.github.io" rel="noopener noreferrer" aria-label="Repositorio de esta página" title="Repositorio de esta página">
     <img src="images/icons/github-pride.svg" alt="">
+    <span>Repositorio</span>
   </a>
 
   <div class="stars" aria-hidden="true">
