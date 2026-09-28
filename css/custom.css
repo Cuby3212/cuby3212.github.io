@@ -157,11 +157,17 @@ body::before {
 	right: 4rem;
 }
 
-.github-link {
+.corner-links {
 	position: fixed;
 	top: 1rem;
 	left: 1rem;
 	z-index: 25;
+	height: 2.4rem;
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+.github-link {
 	display: block;
 	line-height: 0;
 	transition: transform 0.2s ease;
@@ -169,40 +175,51 @@ body::before {
 .github-link:hover {
 	transform: scale(1.12);
 }
-.repo-badge {
-	position: fixed;
-	top: 1rem;
-	left: 2.9rem;
-	z-index: 25;
-	display: flex;
-	align-items: center;
-	gap: 0.35rem;
-	padding: 0.35rem 0.65rem;
-	border-radius: 1rem;
-	background: rgba(24, 23, 23, 0.88);
-	color: #ffffff;
-	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
-	font-size: 0.62rem;
-	font-weight: 600;
-	white-space: nowrap;
-	text-decoration: none;
-	box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.25);
-	transition: transform 0.2s ease, background 0.2s ease;
-}
-.repo-badge img {
-	width: 0.85rem;
-	height: auto;
-	display: block;
-}
-.repo-badge:hover {
-	transform: scale(1.05);
-	background: rgba(24, 23, 23, 0.98);
-}
 .github-link img {
 	width: 1.15rem;
 	height: auto;
 	display: block;
 	filter: drop-shadow(0 0.1rem 0.3rem rgba(0, 0, 0, 0.35));
+}
+
+/* Badge estilo "for-the-badge" (réplica del de shields.io, sin peticiones externas) */
+.repo-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.45rem;
+	height: 1.9rem;
+	padding: 0 0.75rem;
+	border-radius: 0.2rem;
+	background: #181717;
+	color: #ffffff !important;
+	font-family: Verdana, Geneva, 'DejaVu Sans', sans-serif;
+	font-size: 0.68rem;
+	font-weight: 700;
+	line-height: 1;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	text-decoration: none !important;
+	white-space: nowrap;
+	box-shadow: 0 0.15rem 0.4rem rgba(0, 0, 0, 0.3);
+	transition: transform 0.2s ease, filter 0.2s ease;
+}
+.repo-badge:hover {
+	color: #ffffff !important;
+	transform: translateY(-1px);
+	filter: brightness(1.2);
+}
+.repo-badge svg {
+	display: block;
+	flex-shrink: 0;
+}
+.repo-badge-logo {
+	width: 1rem;
+	height: 1rem;
+}
+.repo-badge-link {
+	width: 0.8rem;
+	height: 0.8rem;
+	opacity: 0.85;
 }
 
 .toast {
