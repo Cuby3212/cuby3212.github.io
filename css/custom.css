@@ -453,7 +453,7 @@ body.secret-mode .toast {
 	font-size: 0.65rem;
 	line-height: 1.35;
 	opacity: 0.85;
-	transition: opacity 0.2s ease, transform 0.2s ease, background 0.4s ease;
+	transition: opacity 0.2s ease, transform 0.2s ease, background 0.4s ease, color 0.4s ease;
 	pointer-events: none;
 }
 .clock-widget:hover {
@@ -540,6 +540,14 @@ body.motion-paused .avatar-wrap::before {
 	inset: 0;
 	border-radius: 50%;
 	overflow: hidden;
+	transition: box-shadow 0.35s ease;
+}
+/* Anillo con los colores trans al pasar el ratón (el borde blanco del avatar hace de franja blanca) */
+.avatar-wrap:hover .avatar-wrap-clip {
+	box-shadow:
+		0 0 0 0.14rem #f5a9b8,
+		0 0 0 0.28rem #5bcefa,
+		0 0 0.9rem 0.3rem rgba(91, 206, 250, 0.45);
 }
 
 @keyframes avatarBreathe {
@@ -567,6 +575,10 @@ body.motion-paused .avatar-wrap::before {
 @keyframes avatarShine {
 	from { background-position: -100% -100%; }
 	to   { background-position: 100% 100%; }
+}
+
+h1, .greeting, .faq, .faq-item summary, .faq-item p, .info-toggle summary, .info-toggle p {
+	transition: color 0.4s ease, background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 h1 {
