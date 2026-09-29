@@ -138,15 +138,18 @@ body::before {
 	align-items: center;
 	justify-content: center;
 	padding: 0;
-	border: none;
+	border: 1px solid rgba(255, 255, 255, 0.28);
 	border-radius: 1.5rem;
 	background: var(--card-bg);
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px) saturate(150%);
+	-webkit-backdrop-filter: blur(8px) saturate(150%);
 	font-size: 1.1rem;
 	line-height: 1;
 	cursor: pointer;
-	box-shadow: 0 0.25rem 0.6rem rgba(var(--shadow-rgb), 0.25);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.45),
+		inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+		0 0.25rem 0.6rem rgba(var(--shadow-rgb), 0.25);
 	transition: transform 0.2s ease, background 0.4s ease;
 }
 .theme-toggle:hover {
@@ -345,15 +348,19 @@ body.secret-mode .toast {
 
 .container {
 	background: var(--card-bg);
-	backdrop-filter: blur(9px);
-	-webkit-backdrop-filter: blur(9px);
+	backdrop-filter: blur(11px) saturate(150%);
+	-webkit-backdrop-filter: blur(11px) saturate(150%);
+	border: 1px solid rgba(255, 255, 255, 0.22);
 	border-radius: 1.5rem;
 	padding-top: 0;
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 1.75rem;
 	width: min(94vw, 32rem);
-	box-shadow: 0 1.5rem 3rem rgba(var(--shadow-rgb), 0.2);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.4),
+		inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+		0 1.5rem 3rem rgba(var(--shadow-rgb), 0.2);
 	overflow: hidden;
 	margin: 0;
 	position: relative;
@@ -368,6 +375,14 @@ body.secret-mode .toast {
 		linear-gradient(to right, transparent, black 6%, black 94%, transparent),
 		linear-gradient(to bottom, transparent, black 6%, black 94%, transparent);
 	mask-composite: intersect;
+}
+.container::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(160deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 32%, rgba(255, 255, 255, 0) 55%);
+	pointer-events: none;
 }
 
 @keyframes cardFadeIn {
@@ -451,10 +466,13 @@ body.secret-mode .toast {
 	gap: 0.1rem;
 	padding: 0.35rem 0.6rem;
 	border-radius: 1rem;
+	border: 1px solid rgba(255, 255, 255, 0.22);
 	background: var(--card-bg);
-	backdrop-filter: blur(6px);
-	-webkit-backdrop-filter: blur(6px);
-	box-shadow: 0 0.2rem 0.5rem rgba(var(--shadow-rgb), 0.2);
+	backdrop-filter: blur(6px) saturate(150%);
+	-webkit-backdrop-filter: blur(6px) saturate(150%);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.35),
+		0 0.2rem 0.5rem rgba(var(--shadow-rgb), 0.2);
 	color: var(--mono-text);
 	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
 	font-variant-numeric: tabular-nums;
@@ -605,6 +623,17 @@ h1 {
 	font-weight: 700;
 	font-family: 'Quicksand', 'Open Sans', system-ui, sans-serif;
 	position: relative;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.5),
+		inset 0 -2px 4px rgba(0, 0, 0, 0.14),
+		0 0.15rem 0.4rem rgba(var(--shadow-rgb), 0.18);
+}
+.glass-sheen {
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(165deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 38%, rgba(255, 255, 255, 0) 60%);
+	pointer-events: none;
 }
 .container .button:hover {
 	filter: brightness(97%);
