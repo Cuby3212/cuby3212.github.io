@@ -1,336 +1,72 @@
-document.getElementById('year').textContent = new Date().getFullYear();
-
-const clockPeninsula = document.getElementById('clock-peninsula');
-const clockCanarias = document.getElementById('clock-canarias');
-const peninsulaFormatter = new Intl.DateTimeFormat('es-ES', {
-  timeZone: 'Europe/Madrid',
-  hour: '2-digit',
-  minute: '2-digit',
-  hourCycle: 'h23',
-});
-const canariasFormatter = new Intl.DateTimeFormat('es-ES', {
-  timeZone: 'Atlantic/Canary',
-  hour: '2-digit',
-  minute: '2-digit',
-  hourCycle: 'h23',
-});
-
-function updateClocks() {
-  const now = new Date();
-  const peninsulaTime = peninsulaFormatter.format(now);
-  const canariasTime = canariasFormatter.format(now);
-  if (clockPeninsula && clockPeninsula.textContent !== peninsulaTime) {
-    clockPeninsula.textContent = peninsulaTime;
-  }
-  if (clockCanarias && clockCanarias.textContent !== canariasTime) {
-    clockCanarias.textContent = canariasTime;
-  }
+document.getElementById("year").textContent=new Date().getFullYear();
+const tP=document.getElementById("clock-peninsula"),tC=document.getElementById("clock-canarias");
+const fP=new Intl.DateTimeFormat("es-ES",{timeZone:"Europe/Madrid",hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
+const fC=new Intl.DateTimeFormat("es-ES",{timeZone:"Atlantic/Canary",hour:"2-digit",minute:"2-digit",hourCycle:"h23"});
+function updClk(){const n=new Date();if(tP)tP.textContent=fP.format(n);if(tC)tC.textContent=fC.format(n)}
+if(tP&&tC){updClk();setInterval(updClk,1000)}
+document.addEventListener("DOMContentLoaded",()=>document.querySelectorAll(".bg-layer").forEach(b=>b.classList.add("loaded")));
+const hr=new Date().getHours(),grEl=document.getElementById("greeting");
+const gSet={m:["Buenos días.","Café primero. ☕","Hola, buenos días.","¿Ya has desayunado?"],a:["Buenas tardes.","¿Qué tal la tarde?","Tarde de sofá.","Hola de nuevo."],n:["Buenas noches.","¿No deberías dormir?","Modo noche activado.","Descansa cuando toque."]};
+if(grEl){
+  const opts=hr<6||hr>=20?gSet.n:hr<13?gSet.m:gSet.a, txt=opts[Math.floor(Math.random()*opts.length)];
+  let aOn=true;
+  try{aOn=(localStorage.getItem("cuby-motion")||(window.matchMedia("(prefers-reduced-motion: reduce)").matches?"off":"on"))==="on"}catch(e){}
+  if(aOn){let i=0;grEl.classList.add("is-typing");const tI=setInterval(()=>{i++;grEl.textContent=txt.slice(0,i);if(i>=txt.length){clearInterval(tI);grEl.classList.remove("is-typing")}},38)}else grEl.textContent=txt;
 }
-
-if (clockPeninsula && clockCanarias) {
-  updateClocks();
-  setInterval(updateClocks, 1000);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.bg-layer').forEach((bg) => bg.classList.add('loaded'));
-});
-
-const hour = new Date().getHours();
-const greetingEl = document.getElementById('greeting');
-const greetingSets = {
-  morning: [
-    'Buenos días.',
-    'Buenas, ¿qué tal has dormido?',
-    'Café primero, lo demás después. ☕',
-    'Arriba, que el día empieza ahora.',
-    'Hola, buenos días.',
-    'Mañana tranquila por aquí.',
-    'Un nuevo día, a ver qué trae.',
-    '¡Buenos días! Que vaya bien todo.',
-    'Buenas, bienvenido/a de nuevo.',
-    'Hoy también puede ser un buen día.',
-    'Buenas, empezamos con energía.',
-    '¿Ya has desayunado?',
-    'Que tengas un buen día, en serio.',
-  ],
-  afternoon: [
-    'Buenas tardes.',
-    '¿Qué tal la tarde?',
-    'Hola, bienvenido/a.',
-    'Tarde de sofá y pantalla.',
-    '¡Buenas! Qué alegría verte por aquí.',
-    'Un ratito de descanso te mereces.',
-    'Hola de nuevo.',
-    'Ey, ¿qué tal todo?',
-    'Tarde tranquila por aquí.',
-    'Sigue así, lo estás haciendo bien.',
-    'Buenas, aquí seguimos.',
-    '¡Hola! Espero que tu día vaya genial.',
-    'Un break está bien de vez en cuando.',
-  ],
-  night: [
-    'Buenas noches.',
-    '¿No deberías estar durmiendo?',
-    'Trasnochando por aquí.',
-    'Buenas, últimas horas del día.',
-    'Modo noche activado.',
-    'Hola, ¿qué haces despierto/a a estas horas?',
-    'Buenas noches, no te desveles mucho.',
-    'Otra noche más por aquí.',
-    'La noche es para los que no tienen sueño.',
-    '¡Buenas noches! Descansa cuando toque.',
-    'Última visita del día, seguro.',
-    'Que tengas dulces sueños, si es que duermes.',
-    'Mañana será mejor día, ya verás.',
-  ],
-};
-
-if (greetingEl) {
-  const band = (hour >= 6 && hour < 13) ? 'morning' : (hour >= 13 && hour < 20) ? 'afternoon' : 'night';
-  const options = greetingSets[band];
-  const text = options[Math.floor(Math.random() * options.length)];
-
-  let reducedMotionAtLoad = false;
-  let storedMotionAtLoad = null;
-  try { reducedMotionAtLoad = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-  try { storedMotionAtLoad = localStorage.getItem('cuby-motion'); } catch (e) {}
-  const animationsOnAtStart = storedMotionAtLoad ? storedMotionAtLoad === 'on' : !reducedMotionAtLoad;
-
-  if (animationsOnAtStart) {
-    let i = 0;
-    greetingEl.textContent = '';
-    greetingEl.classList.add('is-typing');
-    const typeInterval = setInterval(() => {
-      i++;
-      greetingEl.textContent = text.slice(0, i);
-      if (i >= text.length) {
-        clearInterval(typeInterval);
-        greetingEl.classList.remove('is-typing');
-      }
-    }, 38);
-  } else {
-    greetingEl.textContent = text;
-  }
-}
-
-const root = document.documentElement;
-const themeBtn = document.getElementById('theme-toggle');
-const bgLayerEls = document.querySelectorAll('.bg-layer');
-
-function safeGet(key) {
-  try { return localStorage.getItem(key); } catch (e) { return null; }
-}
-
-function safeSet(key, value) {
-  try { localStorage.setItem(key, value); } catch (e) {}
-}
-
-function isDarkActive() {
-  if (root.classList.contains('theme-dark')) return true;
-  if (root.classList.contains('theme-light')) return false;
-  return window.matchMedia('(prefers-color-scheme: dark)').matches;
-}
-
-function updateThemeIcon() {
-  const span = themeBtn.querySelector('span');
-  if(span) {
-      span.textContent = isDarkActive() ? '☀️' : '🌙';
-  }
-  const meta = document.getElementById('theme-color-meta');
-  if (meta) meta.setAttribute('content', isDarkActive() ? '#0c0a16' : '#f7c9dd');
-}
-
-function applyStoredTheme() {
-  const saved = safeGet('cuby-theme');
-  if (saved === 'light' || saved === 'dark') {
-    root.classList.remove('theme-auto', 'theme-light', 'theme-dark');
-    root.classList.add('theme-' + saved);
-  }
-  updateThemeIcon();
-}
-
-themeBtn.addEventListener('click', () => {
-  const goingDark = !isDarkActive();
-  root.classList.remove('theme-auto', 'theme-light', 'theme-dark');
-  root.classList.add(goingDark ? 'theme-dark' : 'theme-light');
-  safeSet('cuby-theme', goingDark ? 'dark' : 'light');
-  updateThemeIcon();
-});
-
-applyStoredTheme();
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-  if (root.classList.contains('theme-auto')) {
-    updateThemeIcon();
-  }
-});
-
-const motionBtn = document.getElementById('motion-toggle');
-const systemReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const storedMotion = safeGet('cuby-motion');
-let animationsOn = storedMotion ? storedMotion === 'on' : !systemReduceMotion;
-
-function animatedElements() {
-  return [
-    ...document.querySelectorAll('.bg-layer'),
-    document.querySelector('.avatar-wrap'),
-    document.querySelector('h1'),
-    ...document.querySelectorAll('.petal'),
-    ...document.querySelectorAll('.star'),
-  ].filter(Boolean);
-}
-
-function updateMotionIcon() {
-  const span = motionBtn.querySelector('span');
-  if(span) {
-      span.textContent = animationsOn ? '⏸️' : '▶️';
-  }
-}
-
-function setAnimations(on) {
-  animationsOn = on;
-  safeSet('cuby-motion', on ? 'on' : 'off');
-  updateMotionIcon();
-
-  animatedElements().forEach((el) => {
-    el.style.animationPlayState = on ? 'running' : 'paused';
-  });
-  document.body.classList.toggle('motion-paused', !on);
-
-  if (on) {
-    document.body.style.removeProperty('--mx');
-    document.body.style.removeProperty('--my');
-  } else {
-    document.querySelectorAll('.confetti-flag').forEach((f) => f.remove());
-    document.querySelectorAll('.container .button, .avatar-wrap').forEach((el) => { el.style.transform = ''; });
-  }
-}
-
-setAnimations(animationsOn);
-motionBtn.addEventListener('click', () => setAnimations(!animationsOn));
-
-const canHoverPrecise = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-let parallaxTicking = false;
-
-if (canHoverPrecise) {
-  window.addEventListener('pointermove', (e) => {
-    if (!animationsOn) return;
-    document.body.style.setProperty('--mx', e.clientX + 'px');
-    document.body.style.setProperty('--my', e.clientY + 'px');
-
-    if (bgLayerEls.length && !parallaxTicking) {
-      parallaxTicking = true;
-      const nx = e.clientX / window.innerWidth - 0.5;
-      const ny = e.clientY / window.innerHeight - 0.5;
-      requestAnimationFrame(() => {
-        const t = `scale(1.035) translate(${nx * -12}px, ${ny * -12}px)`;
-        bgLayerEls.forEach((el) => { el.style.transform = t; });
-        parallaxTicking = false;
-      });
-    }
+const rt=document.documentElement,thmBtn=document.getElementById("theme-toggle"),bgs=document.querySelectorAll(".bg-layer");
+const get=(k)=>{try{return localStorage.getItem(k)}catch(e){return null}},set=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}};
+const isD=()=>rt.classList.contains("theme-dark")||(!rt.classList.contains("theme-light")&&window.matchMedia("(prefers-color-scheme: dark)").matches);
+const updThm=()=>{const s=thmBtn.querySelector("span"),m=document.getElementById("theme-color-meta");if(s)s.textContent=isD()?"☀️":"🌙";if(m)m.setAttribute("content",isD()?"#0c0a16":"#f7c9dd")};
+const aThm=get("cuby-theme");if(aThm==="light"||aThm==="dark"){rt.classList.remove("theme-auto","theme-light","theme-dark");rt.classList.add("theme-"+aThm)}updThm();
+thmBtn.addEventListener("click",()=>{const d=!isD();rt.classList.remove("theme-auto","theme-light","theme-dark");rt.classList.add(d?"theme-dark":"theme-light");set("cuby-theme",d?"dark":"light");updThm()});
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>{if(rt.classList.contains("theme-auto"))updThm()});
+const motBtn=document.getElementById("motion-toggle");
+let aOn=(get("cuby-motion")||(window.matchMedia("(prefers-reduced-motion: reduce)").matches?"off":"on"))==="on";
+const updMot=()=>{const s=motBtn.querySelector("span");if(s)s.textContent=aOn?"⏸️":"▶️"};
+const setMot=o=>{aOn=o;set("cuby-motion",o?"on":"off");updMot();[...bgs,document.querySelector(".avatar-wrap"),document.querySelector("h1"),...document.querySelectorAll(".petal,.star")].filter(Boolean).forEach(e=>e.style.animationPlayState=o?"running":"paused");document.body.classList.toggle("motion-paused",!o);if(o){document.body.style.removeProperty("--mx");document.body.style.removeProperty("--my")}else{document.querySelectorAll(".confetti-flag").forEach(f=>f.remove());document.querySelectorAll(".container .button,.avatar-wrap").forEach(e=>e.style.transform="")}};
+setMot(aOn);motBtn.addEventListener("click",()=>setMot(!aOn));
+if(window.matchMedia("(hover: hover) and (pointer: fine)").matches){
+  let tck=false;
+  window.addEventListener("pointermove",e=>{
+    if(!aOn)return;document.body.style.setProperty("--mx",e.clientX+"px");document.body.style.setProperty("--my",e.clientY+"px");
+    if(bgs.length&&!tck){tck=true;requestAnimationFrame(()=>{const t=`scale(1.035) translate(${(e.clientX/window.innerWidth-.5)*-12}px, ${(e.clientY/window.innerHeight-.5)*-12}px)`;bgs.forEach(el=>el.style.transform=t);tck=false})}
   });
 }
-
-function burstFlags(x, y) {
-  for (let i = 0; i < 8; i++) {
-    const flag = document.createElement('span');
-    flag.className = 'confetti-flag';
-    const angle = Math.random() * Math.PI * 2;
-    const dist = 40 + Math.random() * 40;
-    flag.style.left = x + 'px';
-    flag.style.top = y + 'px';
-    flag.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
-    flag.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
-    flag.style.setProperty('--r', (Math.random() * 180 - 90) + 'deg');
-    document.body.appendChild(flag);
-    setTimeout(() => flag.remove(), 850);
-  }
+function bFlgs(x,y){for(let i=0;i<8;i++){const f=document.createElement("span");f.className="confetti-flag";const a=Math.random()*Math.PI*2,d=40+Math.random()*40;f.style.left=x+"px";f.style.top=y+"px";f.style.setProperty("--tx",Math.cos(a)*d+"px");f.style.setProperty("--ty",Math.sin(a)*d+"px");f.style.setProperty("--r",(Math.random()*180-90)+"deg");document.body.appendChild(f);setTimeout(()=>f.remove(),850)}}
+document.querySelectorAll(".container .button").forEach(b=>b.addEventListener("click",e=>{e.preventDefault();if(aOn){bFlgs(e.clientX,e.clientY);if(navigator.vibrate)navigator.vibrate(15);setTimeout(()=>window.location.href=b.href,160)}else window.location.href=b.href}));
+function aTlt(el,mT,hS){
+  let p=false,rx=0,ry=0;
+  const r=()=>{el.style.transform=`perspective(500px) rotateX(${rx}deg) rotateY(${ry}deg) scale(${p?hS*.94:hS})`};
+  el.addEventListener("pointermove",e=>{if(!aOn)return;const rc=el.getBoundingClientRect();ry=((e.clientX-rc.left)/rc.width-.5)*mT*2;rx=(.5-(e.clientY-rc.top)/rc.height)*mT*2;r()});
+  el.addEventListener("pointerdown",()=>{if(aOn){p=true;r()}});el.addEventListener("pointerup",()=>{p=false;if(aOn)r()});el.addEventListener("pointerleave",()=>{p=false;rx=ry=0;el.style.transform=""});
 }
+const aw=document.querySelector(".avatar-wrap");if(aw)aTlt(aw,12,1.08);document.querySelectorAll(".container .button").forEach(b=>aTlt(b,6,1.02));
+const kC=["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];let kI=0;
+window.addEventListener("keydown",e=>{const k=e.key.toLowerCase();if(k===kC[kI]){kI++;if(kI===kC.length){kI=0;const a=document.body.classList.toggle("secret-mode");const t=document.createElement("div");t.className="toast";t.textContent=a?"🏳️‍⚧️ Easter egg activado 🏳️‍⚧️":"Easter egg desactivado";document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("is-shown"));setTimeout(()=>{t.classList.remove("is-shown");setTimeout(()=>t.remove(),400)},2600);if(a&&aOn){for(let i=0;i<30;i++)setTimeout(()=>{const f=document.createElement("span");f.className="confetti-flag rain-flag";f.style.left=Math.random()*100+"vw";f.style.top="-2rem";f.style.setProperty("--tx",(Math.random()*60-30)+"px");f.style.setProperty("--ty",(window.innerHeight+60)+"px");f.style.setProperty("--r",(Math.random()*360)+"deg");document.body.appendChild(f);setTimeout(()=>f.remove(),2600)},i*60)}}}else kI=k===kC[0]?1:0});
 
-document.querySelectorAll('.container .button').forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    if (animationsOn) {
-      burstFlags(e.clientX, e.clientY);
-      if (navigator.vibrate) navigator.vibrate(15);
-      setTimeout(() => { window.location.href = btn.href; }, 160);
-    } else {
-      window.location.href = btn.href;
-    }
-  });
-});
-
-function attachTilt(el, maxTilt, hoverScale) {
-  let pressed = false;
-  let rotX = 0;
-  let rotY = 0;
-  function render() {
-    const s = pressed ? hoverScale * 0.94 : hoverScale;
-    el.style.transform = `perspective(500px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${s})`;
-  }
-  if (canHoverPrecise) {
-    el.addEventListener('pointermove', (e) => {
-      if (!animationsOn) return;
-      const rect = el.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width;
-      const py = (e.clientY - rect.top) / rect.height;
-      rotY = (px - 0.5) * maxTilt * 2;
-      rotX = (0.5 - py) * maxTilt * 2;
-      render();
-    });
-  }
-  el.addEventListener('pointerdown', () => { if (animationsOn) { pressed = true; render(); } });
-  el.addEventListener('pointerup', () => { pressed = false; if (animationsOn) render(); });
-  el.addEventListener('pointerleave', () => { pressed = false; rotX = 0; rotY = 0; el.style.transform = ''; });
+const DID="214067054955855872",lW=document.getElementById("discord-widget"),lD=document.getElementById("discord-status-dot"),lA=document.getElementById("discord-avatar"),lR=document.getElementById("discord-activity-row"),lI=document.getElementById("discord-activity-icon"),lT=document.getElementById("discord-activity-text");
+if(lA)lA.onerror=function(){this.src="images/avatar_cuby.jpg"};
+let lS,lH;
+function cL(){
+  if(!lW)return;
+  lS=new WebSocket("wss://api.lanyard.rest/socket");
+  lS.onmessage=e=>{
+    const{op,d,t}=JSON.parse(e.data);
+    if(op===1){lH=setInterval(()=>lS.readyState===1&&lS.send('{"op":3}'),d.heartbeat_interval);lS.send(JSON.stringify({op:2,d:{subscribe_to_id:DID}}))}
+    if(t==="INIT_STATE"||t==="PRESENCE_UPDATE")uD(d);
+  };
+  lS.onclose=()=>{clearInterval(lH);setTimeout(cL,5000)};
 }
-
-const avatarWrap = document.querySelector('.avatar-wrap');
-if (avatarWrap) attachTilt(avatarWrap, 12, 1.08);
-document.querySelectorAll('.container .button').forEach((btn) => attachTilt(btn, 6, 1.02));
-
-function showToast(msg) {
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = msg;
-  document.body.appendChild(toast);
-  requestAnimationFrame(() => toast.classList.add('is-shown'));
-  setTimeout(() => {
-    toast.classList.remove('is-shown');
-    setTimeout(() => toast.remove(), 400);
-  }, 2600);
+function uD(d){
+  if(d.discord_user?.avatar)lA.src=`https://cdn.discordapp.com/avatars/${DID}/${d.discord_user.avatar}.${d.discord_user.avatar.startsWith("a_")?"gif":"png"}?size=128`;
+  else lA.src="images/avatar_cuby.jpg";
+  const st={online:"online",idle:"idle",dnd:"dnd"};lD.className=`discord-status-dot ${st[d.discord_status]||"offline"}`;
+  const ac=(d.activities||[]).filter(a=>a.type!==4);
+  if(ac.length){
+    let a=ac[0],ic="🎮",tx=`Jugando a ${a.name}`;
+    if(a.type===2||a.name.includes("Music")){ic="🎵";tx="Escuchando música";}
+    else if(a.type===3||a.name.includes("YouTube")){ic="📺";tx="Viendo YouTube";}
+    lI.textContent=ic;lT.textContent=tx;lR.style.display="flex";
+  }else lR.style.display="none";
 }
-
-function rainFlags() {
-  for (let i = 0; i < 30; i++) {
-    setTimeout(() => {
-      const flag = document.createElement('span');
-      flag.className = 'confetti-flag rain-flag';
-      flag.style.left = Math.random() * 100 + 'vw';
-      flag.style.top = '-2rem';
-      flag.style.setProperty('--tx', (Math.random() * 60 - 30) + 'px');
-      flag.style.setProperty('--ty', (window.innerHeight + 60) + 'px');
-      flag.style.setProperty('--r', (Math.random() * 360) + 'deg');
-      document.body.appendChild(flag);
-      setTimeout(() => flag.remove(), 2600);
-    }, i * 60);
-  }
-}
-
-const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-let konamiIndex = 0;
-window.addEventListener('keydown', (e) => {
-  const key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-  const expected = konamiCode[konamiIndex];
-  if (key === expected) {
-    konamiIndex++;
-    if (konamiIndex === konamiCode.length) {
-      konamiIndex = 0;
-      const active = document.body.classList.toggle('secret-mode');
-      showToast(active ? '🏳️‍⚧️ Easter egg activado 🏳️‍⚧️' : 'Easter egg desactivado');
-      if (active && animationsOn) rainFlags();
-    }
-  } else {
-    konamiIndex = key === konamiCode[0] ? 1 : 0;
-  }
-});
+if(lW)cL();
