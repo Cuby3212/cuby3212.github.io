@@ -1,0 +1,29 @@
+{
+  "name": "Cuby3212",
+  "short_name": "Cuby3212",
+  "description": "Enlaces de Cuby3212",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7c9dd",
+  "theme_color": "#f7c9dd",
+  "icons": [
+    {
+      "src": "images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "images/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
