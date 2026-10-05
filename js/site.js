@@ -42,31 +42,4 @@ function aTlt(el,mT,hS){
 }
 const aw=document.querySelector(".avatar-wrap");if(aw)aTlt(aw,12,1.08);document.querySelectorAll(".container .button").forEach(b=>aTlt(b,6,1.02));
 const kC=["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];let kI=0;
-window.addEventListener("keydown",e=>{const k=e.key.toLowerCase();if(k===kC[kI]){kI++;if(kI===kC.length){kI=0;const a=document.body.classList.toggle("secret-mode");const t=document.createElement("div");t.className="toast";t.textContent=a?"🏳️‍⚧️ Easter egg activado 🏳️‍⚧️":"Easter egg desactivado";document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("is-shown"));setTimeout(()=>{t.classList.remove("is-shown");setTimeout(()=>t.remove(),400)},2600);if(a&&aOn){for(let i=0;i<30;i++)setTimeout(()=>{const f=document.createElement("span");f.className="confetti-flag rain-flag";f.style.left=Math.random()*100+"vw";f.style.top="-2rem";f.style.setProperty("--tx",(Math.random()*60-30)+"px");f.style.setProperty("--ty",(window.innerHeight+60)+"px");f.style.setProperty("--r",(Math.random()*360)+"deg");document.body.appendChild(f);setTimeout(()=>f.remove(),2600)},i*60)}}}else kI=k===kC[0]?1:0});
-
-const DID="214067054955855872",lW=document.getElementById("discord-widget"),lD=document.getElementById("discord-status-dot"),lA=document.getElementById("discord-avatar"),lR=document.getElementById("discord-activity-row"),lI=document.getElementById("discord-activity-icon"),lT=document.getElementById("discord-activity-text");
-if(lA)lA.onerror=function(){this.src="images/avatar_cuby.jpg"};
-let lS,lH;
-function cL(){
-  if(!lW)return;
-  lS=new WebSocket("wss://api.lanyard.rest/socket");
-  lS.onmessage=e=>{
-    const{op,d,t}=JSON.parse(e.data);
-    if(op===1){lH=setInterval(()=>lS.readyState===1&&lS.send('{"op":3}'),d.heartbeat_interval);lS.send(JSON.stringify({op:2,d:{subscribe_to_id:DID}}))}
-    if(t==="INIT_STATE"||t==="PRESENCE_UPDATE")uD(d);
-  };
-  lS.onclose=()=>{clearInterval(lH);setTimeout(cL,5000)};
-}
-function uD(d){
-  if(d.discord_user?.avatar)lA.src=`https://cdn.discordapp.com/avatars/${DID}/${d.discord_user.avatar}.${d.discord_user.avatar.startsWith("a_")?"gif":"png"}?size=128`;
-  else lA.src="images/avatar_cuby.jpg";
-  const st={online:"online",idle:"idle",dnd:"dnd"};lD.className=`discord-status-dot ${st[d.discord_status]||"offline"}`;
-  const ac=(d.activities||[]).filter(a=>a.type!==4);
-  if(ac.length){
-    let a=ac[0],ic="🎮",tx=`Jugando a ${a.name}`;
-    if(a.type===2||a.name.includes("Music")){ic="🎵";tx="Escuchando música";}
-    else if(a.type===3||a.name.includes("YouTube")){ic="📺";tx="Viendo YouTube";}
-    lI.textContent=ic;lT.textContent=tx;lR.style.display="flex";
-  }else lR.style.display="none";
-}
-if(lW)cL();
+window.addEventListener("keydown",e=>{const k=e.key.toLowerCase();if(k===kC[kI]){kI++;if(kI===kC.length){kI=0;const a=document.body.classList.toggle("secret-mode");const t=document.createElement("div");t.className="toast";t.textContent=a?"🏳‍⚧️ Easter egg activado 🏳️‍⚧️":"Easter egg desactivado";document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("is-shown"));setTimeout(()=>{t.classList.remove("is-shown");setTimeout(()=>t.remove(),400)},2600);if(a&&aOn){for(let i=0;i<30;i++)setTimeout(()=>{const f=document.createElement("span");f.className="confetti-flag rain-flag";f.style.left=Math.random()*100+"vw";f.style.top="-2rem";f.style.setProperty("--tx",(Math.random()*60-30)+"px");f.style.setProperty("--ty",(window.innerHeight+60)+"px");f.style.setProperty("--r",(Math.random()*360)+"deg");document.body.appendChild(f);setTimeout(()=>f.remove(),2600)},i*60)}}}else kI=k===kC[0]?1:0});
