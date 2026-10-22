@@ -7,10 +7,19 @@ if(tP&&tC){updClk();setInterval(updClk,1000)}
 document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll(".bg-layer").forEach(b=>b.classList.add("loaded"));
 });
-const hr=new Date().getHours(),grEl=document.getElementById("greeting");
-const gSet={m:["Buenos días.","Café primero. ☕","Hola, buenos días.","¿Ya has desayunado?"],a:["Buenas tardes.","¿Qué tal la tarde?","Tarde de sofá.","Hola de nuevo."],n:["Buenas noches.","¿No deberías dormir?","Modo noche activado.","Descansa cuando toque."]};
+const now=new Date(),m=now.getMonth()+1,d=now.getDate(),hr=now.getHours(),grEl=document.getElementById("greeting"),h1El=document.querySelector("h1");
+let opts=["Hola.","Bienvenido/a de nuevo.","Qué tal todo.","Un placer verte por aquí.","Por aquí andamos."], holidayClass="";
+if(m===12&&d>=24&&d<=26){opts=["¡Feliz Navidad y felices fiestas!","Días de descanso y abrigo.","Disfruta de estas fechas con calma."];holidayClass="holiday-xmas"}
+else if((m===12&&d===31)||(m===1&&d===1)){opts=["¡Feliz año nuevo!","Empezando el año con todo.","Nuevos propósitos por delante."];holidayClass="holiday-newyear"}
+else if(m===10&&d===31){opts=["Noche de brujas por aquí.","Ambiente misterioso hoy.","Cuidado con los sustos."];holidayClass="holiday-halloween"}
+else{
+  const gSet={m:["Buenos días.","Café primero.","Hola, buenos días.","¿Qué tal la mañana?"],a:["Buenas tardes.","¿Qué tal la tarde?","Tarde tranquila.","Hola de nuevo."],n:["Buenas noches.","¿No deberías dormir?","Modo noche activado.","Descansa cuando toque."]};
+  const band=hr<6||hr>=20?"n":hr<13?"m":"a";
+  opts=gSet[band];
+}
+if(h1El&&holidayClass)h1El.classList.add(holidayClass);
 if(grEl){
-  const opts=hr<6||hr>=20?gSet.n:hr<13?gSet.m:gSet.a, txt=opts[Math.floor(Math.random()*opts.length)];
+  const txt=opts[Math.floor(Math.random()*opts.length)];
   let aOn=true;
   try{aOn=(localStorage.getItem("cuby-motion")||(window.matchMedia("(prefers-reduced-motion: reduce)").matches?"off":"on"))==="on"}catch(e){}
   if(aOn){let i=0;grEl.classList.add("is-typing");const tI=setInterval(()=>{i++;grEl.textContent=txt.slice(0,i);if(i>=txt.length){clearInterval(tI);grEl.classList.remove("is-typing")}},38)}else grEl.textContent=txt;
@@ -45,7 +54,6 @@ function aTlt(el,mT,hS){
 const aw=document.querySelector(".avatar-wrap");if(aw)aTlt(aw,12,1.08);document.querySelectorAll(".container .button").forEach(b=>aTlt(b,6,1.02));
 const kC=["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];let kI=0;
 window.addEventListener("keydown",e=>{const k=e.key.toLowerCase();if(k===kC[kI]){kI++;if(kI===kC.length){kI=0;const a=document.body.classList.toggle("secret-mode");const t=document.createElement("div");t.className="toast";t.textContent=a?"🏳‍⚧️ Easter egg activado 🏳️‍⚧️":"Easter egg desactivado";document.body.appendChild(t);requestAnimationFrame(()=>t.classList.add("is-shown"));setTimeout(()=>{t.classList.remove("is-shown");setTimeout(()=>t.remove(),400)},2600);if(a&&aOn){for(let i=0;i<30;i++)setTimeout(()=>{const f=document.createElement("span");f.className="confetti-flag rain-flag";f.style.left=Math.random()*100+"vw";f.style.top="-2rem";f.style.setProperty("--tx",(Math.random()*60-30)+"px");f.style.setProperty("--ty",(window.innerHeight+60)+"px");f.style.setProperty("--r",(Math.random()*360)+"deg");document.body.appendChild(f);setTimeout(()=>f.remove(),2600)},i*60)}}}else kI=k===kC[0]?1:0});
-
 const sN=document.documentElement.getAttribute('data-season')||'spring';
 const sI={spring:'🌸',summer:'☀️',autumn:'🍁',winter:'❄️'}[sN];
 const fE=document.getElementById('seasonal-fx');
