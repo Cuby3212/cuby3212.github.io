@@ -21,15 +21,13 @@
 <link rel="stylesheet" href="css/custom.css">
 <link rel="preload" as="image" href="images/banner.jpg">
 <link rel="preload" as="image" href="images/avatar_cuby.jpg">
-<link rel="preload" as="image" href="images/bg-flowers.jpg">
-<link rel="preload" as="image" href="images/bg-flowers-dark.jpg">
 <link rel="icon" type="image/png" href="images/avatar.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
+<script>const m=new Date().getMonth()+1;let s='winter';if(m>=3&&m<=5)s='spring';else if(m>=6&&m<=8)s='summer';else if(m>=9&&m<=11)s='autumn';document.documentElement.setAttribute('data-season',s);</script>
 </head>
 <body>
-<div class="bg-layer bg-layer-light" aria-hidden="true"></div>
-<div class="bg-layer bg-layer-dark" aria-hidden="true"></div>
+<div class="bg-layer" aria-hidden="true"></div>
 <div class="secret-overlay" aria-hidden="true"></div>
 <button id="theme-toggle" class="theme-toggle" aria-label="Modo" title="Modo"><span>🌙</span></button>
 <button id="motion-toggle" class="theme-toggle motion-toggle" aria-label="Animaciones" title="Animaciones"><span>⏸️</span></button>
@@ -44,10 +42,7 @@
 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
 </div>
-<div class="petals" aria-hidden="true">
-<span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
-<span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span><span class="petal">🌸</span>
-</div>
+<div class="seasonal-fx" id="seasonal-fx" aria-hidden="true"></div>
 <div class="container">
 <a class="banner-link" href="images/banner.jpg" aria-label="Banner"><img class="banner" src="images/banner.jpg" alt="Banner" fetchpriority="high"></a>
 <a class="avatar-link" href="images/avatar_cuby.jpg" aria-label="Foto">
