@@ -33,16 +33,20 @@
   const h1El = document.querySelector("h1");
   let opts = ["Hola.", "Bienvenido/a de nuevo.", "Qué tal todo.", "Un placer verte por aquí.", "Por aquí andamos."];
   let holidayClass = "";
+  let holidayIcon = "";
 
   if (currentMonth === 12 && currentDay >= 24 && currentDay <= 26) {
     opts = ["¡Feliz Navidad y felices fiestas!", "Días de descanso y abrigo.", "Disfruta de estas fechas con calma."];
     holidayClass = "holiday-xmas";
+    holidayIcon = "🎁";
   } else if ((currentMonth === 12 && currentDay === 31) || (currentMonth === 1 && currentDay === 1)) {
     opts = ["¡Feliz año nuevo!", "Empezando el año con todo.", "Nuevos propósitos por delante."];
     holidayClass = "holiday-newyear";
+    holidayIcon = "🎆";
   } else if (currentMonth === 10 && currentDay === 31) {
     opts = ["Noche de brujas por aquí.", "Ambiente misterioso hoy.", "Cuidado con los sustos."];
     holidayClass = "holiday-halloween";
+    holidayIcon = "🎃";
   } else {
     const gSet = {
       m: ["Buenos días.", "Café primero.", "Hola, buenos días.", "¿Qué tal la mañana?"],
@@ -206,12 +210,13 @@
 
   const sN = document.documentElement.getAttribute("data-season") || "spring";
   const sI = { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[sN] || "🌸";
+  const dropIcon = holidayIcon || sI;
   const fE = document.getElementById("seasonal-fx");
   if (fE) {
     for (let i = 0; i < 8; i++) {
       const sp = document.createElement("span");
       sp.className = "petal";
-      sp.textContent = sI;
+      sp.textContent = dropIcon;
       fE.appendChild(sp);
     }
   }
