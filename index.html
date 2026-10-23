@@ -24,7 +24,9 @@
 <link rel="icon" type="image/png" href="images/avatar.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
-<script>const m=new Date().getMonth()+1;let s='winter';if(m>=3&&m<=5)s='spring';else if(m>=6&&m<=8)s='summer';else if(m>=9&&m<=11)s='autumn';document.documentElement.setAttribute('data-season',s);</script>
+<script>
+(()=>{const mes=new Date().getMonth()+1;let st='winter';if(mes>=3&&mes<=5)st='spring';else if(mes>=6&&mes<=8)st='summer';else if(mes>=9&&mes<=11)st='autumn';document.documentElement.setAttribute('data-season',st);})();
+</script>
 </head>
 <body>
 <div class="bg-layer" aria-hidden="true"></div>
@@ -62,6 +64,7 @@
 <a class="button button-pronombr-es" href="https://pronombr.es/@Cuby3212" rel="me noopener noreferrer"><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/pronombr_es_white.svg" alt="">Pronombr.es</a>
 </div>
 <footer>
+<p class="copyright">&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" rel="noopener noreferrer">LittleLink</a></p>
 <details class="info-toggle">
 <summary>FAQs</summary>
 <div class="faq">
@@ -71,7 +74,6 @@
 <details class="faq-item"><summary>¿Dónde está alojada?<span class="faq-arrow"></span></summary><p>En GitHub Pages.</p></details>
 </div>
 </details>
-<p class="copyright">&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" rel="noopener noreferrer">LittleLink</a></p>
 </footer>
 </div>
 <div class="clock-widget" aria-label="Hora actual">
