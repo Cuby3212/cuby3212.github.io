@@ -387,8 +387,13 @@ h1, .greeting, .faq, .info-toggle { transition: none }
     background: var(--glass-solid) !important;
     backdrop-filter: none; -webkit-backdrop-filter: none;
   }
-  .container .button { background: var(--glass-solid) !important; border-color: var(--text-strong) !important }
-  .glass-sheen, .container .button::after { display: none }
+  .container .button::after { display: none }
+}
+@media (prefers-contrast: more) {
+  .container .button, .info-toggle > summary, .faq {
+    background: var(--glass-solid) !important; border-color: var(--text-strong) !important;
+  }
+  .glass-sheen { display: none }
 }
 body.motion-paused .glass-sheen { transition: none }
 body.motion-paused .container { animation: none }
