@@ -204,6 +204,24 @@
   syncMotion();
   syncVisibility();
 
+  const card = document.querySelector(".container");
+  if (card && motionAllowed()) {
+    card.classList.add("is-entering");
+    card.addEventListener("animationend", (event) => {
+      if (event.target === card && event.animationName === "card-enter") card.classList.remove("is-entering");
+    });
+  }
+  document.querySelectorAll(".button").forEach((button) => {
+    const glint = () => {
+      if (motionAllowed()) button.classList.add("press-glow");
+    };
+    button.addEventListener("pointerdown", glint, { passive: true });
+    button.addEventListener("keydown", (event) => { if (event.key === "Enter") glint(); });
+    button.addEventListener("animationend", (event) => {
+      if (event.animationName === "button-glint") button.classList.remove("press-glow");
+    });
+  });
+
   const secretTrigger = document.getElementById("secret-trigger");
   const easterEggIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
   function setSecretMode(enabled) {
