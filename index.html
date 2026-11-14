@@ -16,16 +16,29 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..700&amp;display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/reset.css">
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/brands.css">
-<link rel="stylesheet" href="css/custom.css?v=cloud-social-2">
+<link rel="stylesheet" href="css/style.css?v=review-1">
+<link rel="stylesheet" href="css/custom.css?v=review-1">
 <link rel="preload" as="image" href="images/banner.jpg">
 <link rel="preload" as="image" href="images/avatar_cuby.jpg">
 <link rel="icon" type="image/png" href="images/avatar.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <script>
-(()=>{const mes=new Date().getMonth()+1;let st='winter';if(mes>=3&&mes<=5)st='spring';else if(mes>=6&&mes<=8)st='summer';else if(mes>=9&&mes<=11)st='autumn';document.documentElement.setAttribute('data-season',st);})();
+(() => {
+  const root = document.documentElement;
+  const month = new Date().getMonth() + 1;
+  const season = month >= 3 && month <= 5 ? "spring" :
+    month >= 6 && month <= 8 ? "summer" : month >= 9 && month <= 11 ? "autumn" : "winter";
+  root.setAttribute("data-season", season);
+  // Aplicar el tema guardado antes de pintar evita un destello del tema contrario.
+  try {
+    const theme = localStorage.getItem("cuby-theme");
+    if (theme === "light" || theme === "dark") {
+      root.classList.remove("theme-auto");
+      root.classList.add("theme-" + theme);
+    }
+  } catch {}
+})();
 </script>
 </head>
 <body>
@@ -45,14 +58,14 @@
 <span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span>
 </div>
 <div class="seasonal-fx" id="seasonal-fx" aria-hidden="true"></div>
-<div class="container">
+<main class="container">
 <a class="banner-link" href="images/banner.jpg" aria-label="Banner"><img class="banner" src="images/banner.jpg" alt="Banner" fetchpriority="high"></a>
 <a class="avatar-link" href="images/avatar_cuby.jpg" aria-label="Foto">
 <div class="avatar-wrap"><div class="avatar-wrap-clip"><img class="avatar avatar--rounded" src="images/avatar_cuby.jpg" alt="Perfil" fetchpriority="high"></div></div>
 </a>
 <h1>Cuby3212</h1>
 <p class="greeting" id="greeting"></p>
-<div class="button-grid">
+<nav class="button-grid" aria-label="Redes sociales">
 <a class="button button-twitch" href="https://www.twitch.tv/cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/twitch.svg" alt="">Twitch</a>
 <a class="button button-kick" href="https://kick.com/Cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/kick.svg" alt="">Kick</a>
 <a class="button button-yt" href="https://youtube.com/@Cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/youtube.svg" alt="">YouTube</a>
@@ -62,24 +75,24 @@
 <a class="button button-tiktok" href="https://www.tiktok.com/@cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/tiktok.svg" alt="">TikTok</a>
 <a class="button button-instagram" href="https://www.instagram.com/cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/instagram.svg" alt="">Instagram</a>
 <a class="button button-pronombr-es" href="https://pronombr.es/@Cuby3212" rel="me noopener noreferrer"><i class="trans-border" aria-hidden="true"></i><span class="glass-sheen" aria-hidden="true"></span><img class="icon" src="images/icons/pronombr_es_white.svg" alt="">Pronombr.es</a>
-</div>
+</nav>
 <footer>
 <p class="copyright">&copy; <span id="year">2026</span> Cuby3212 · Hecho con <a href="https://littlelink.io" rel="noopener noreferrer">LittleLink</a></p>
 <details class="info-toggle">
 <summary><i class="trans-border" aria-hidden="true"></i>FAQs</summary>
-<div class="faq">
-<details class="faq-item"><summary>¿Para qué sirve esta página?<span class="faq-arrow"></span></summary><p>Es una web simple (open source) con todas mis redes sociales unificadas.</p></details>
-<details class="faq-item"><summary>¿Guarda mis datos o me rastrea?<span class="faq-arrow"></span></summary><p>No. No hay formularios ni cookies en esta página.</p></details>
-<details class="faq-item"><summary>¿Es algo de pago?<span class="faq-arrow"></span></summary><p>Para nada, es un proyecto personal mío sin ánimo de lucro, hecho para mi comunidad.</p></details>
-<details class="faq-item"><summary>¿Dónde está alojada?<span class="faq-arrow"></span></summary><p>En GitHub Pages.</p></details>
+<div class="faq disclosure-content" id="faq-content">
+<details class="faq-item"><summary>¿Para qué sirve esta página?<span class="faq-arrow" aria-hidden="true"></span></summary><div class="disclosure-content" id="faq-answer-1"><p>Es una web simple (open source) con todas mis redes sociales unificadas.</p></div></details>
+<details class="faq-item"><summary>¿Guarda mis datos o me rastrea?<span class="faq-arrow" aria-hidden="true"></span></summary><div class="disclosure-content" id="faq-answer-2"><p>No. No hay formularios ni cookies en esta página.</p></div></details>
+<details class="faq-item"><summary>¿Es algo de pago?<span class="faq-arrow" aria-hidden="true"></span></summary><div class="disclosure-content" id="faq-answer-3"><p>Para nada, es un proyecto personal mío sin ánimo de lucro, hecho para mi comunidad.</p></div></details>
+<details class="faq-item"><summary>¿Dónde está alojada?<span class="faq-arrow" aria-hidden="true"></span></summary><div class="disclosure-content" id="faq-answer-4"><p>En GitHub Pages.</p></div></details>
 </div>
 </details>
 </footer>
-</div>
+</main>
 <div class="clock-widget" aria-label="Hora actual">
 <span class="clock-row"><span class="clock-zone">🇪🇸 Península</span><span id="clock-peninsula">--:--</span></span>
 <span class="clock-row"><span class="clock-zone">🇮🇨 Canarias</span><span id="clock-canarias">--:--</span></span>
 </div>
-<script src="js/site.js"></script>
+<script src="js/site.js?v=review-1"></script>
 </body>
 </html>

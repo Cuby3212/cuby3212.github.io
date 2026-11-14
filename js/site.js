@@ -1,263 +1,342 @@
 (() => {
-  const yearEl = document.getElementById("year");
-  if (yearEl) yearEl.textContent = new Date().getFullYear();
+  "use strict";
 
-  const clockPeninsula = document.getElementById("clock-peninsula");
-  const clockCanarias = document.getElementById("clock-canarias");
-  const makeClockFormatter = (timeZone) => {
-    try {
-      return new Intl.DateTimeFormat("es-ES", { timeZone, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
-    } catch (e) {
-      return null;
-    }
+  // Preferencias compartidas. El almacenamiento bloqueado no impide usar la web.
+  const root = document.documentElement;
+  const body = document.body;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const darkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+  const readPreference = (key) => {
+    try { return localStorage.getItem(key); } catch { return null; }
   };
-  const peninsulaFormatter = makeClockFormatter("Europe/Madrid");
-  const canariasFormatter = makeClockFormatter("Atlantic/Canary");
-  let clockTimer;
+  const writePreference = (key, value) => {
+    try { localStorage.setItem(key, value); } catch {}
+  };
+  const observeMedia = (query, listener) => {
+    if (query.addEventListener) query.addEventListener("change", listener);
+    else if (query.addListener) query.addListener(listener);
+  };
+  const storedMotion = readPreference("cuby-motion");
+  let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
+  const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
 
-  function updClk() {
-    const n = new Date();
-    const tP = clockPeninsula;
-    const tC = clockCanarias;
-    if (tP) {
-      try {
-        tP.textContent = peninsulaFormatter.format(n);
-      } catch (e) {
-        tP.textContent = n.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-      }
+  const year = document.getElementById("year");
+  if (year) year.textContent = new Date().getFullYear();
+
+  // Relojes: dos formateadores reutilizados y una sola actualización por minuto.
+  const clocks = [
+    { element: document.getElementById("clock-peninsula"), zone: "Europe/Madrid" },
+    { element: document.getElementById("clock-canarias"), zone: "Atlantic/Canary" }
+  ].map((clock) => {
+    try {
+      clock.formatter = new Intl.DateTimeFormat("es-ES", {
+        timeZone: clock.zone, hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+      });
+    } catch {
+      clock.formatter = null;
     }
-    if (tC) {
-      try {
-        tC.textContent = canariasFormatter.format(n);
-      } catch (e) {
-        const cDate = new Date(n.getTime() - 3600000);
-        tC.textContent = cDate.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-      }
-    }
-  }
+    return clock;
+  });
+  let clockTimer;
   function scheduleClock() {
     clearTimeout(clockTimer);
-    if (document.hidden) return;
-    updClk();
+    if (document.hidden || !clocks.some((clock) => clock.element)) return;
+    const now = new Date();
+    clocks.forEach(({ element, formatter }) => {
+      if (!element) return;
+      // Si el navegador no admite zonas horarias, no mostrar una hora local incorrecta.
+      try { element.textContent = formatter ? formatter.format(now) : "--:--"; }
+      catch { element.textContent = "--:--"; }
+    });
     clockTimer = setTimeout(scheduleClock, 60000 - (Date.now() % 60000));
   }
-  scheduleClock();
-  document.addEventListener("visibilitychange", () => {
-    document.body.classList.toggle("page-hidden", document.hidden);
-    scheduleClock();
-  });
-  document.body.classList.toggle("page-hidden", document.hidden);
 
+  // Tema y nombres accesibles de los controles.
+  const themeButton = document.getElementById("theme-toggle");
+  const themeMeta = document.getElementById("theme-color-meta");
+  const isDark = () => root.classList.contains("theme-dark") ||
+    (!root.classList.contains("theme-light") && darkScheme.matches);
+  function updateTheme() {
+    const dark = isDark();
+    if (themeButton) {
+      const icon = themeButton.querySelector("span");
+      if (icon) icon.textContent = dark ? "☀️" : "🌙";
+      const label = dark ? "Activar modo claro" : "Activar modo oscuro";
+      themeButton.setAttribute("aria-label", label);
+      themeButton.title = label;
+      themeButton.setAttribute("aria-pressed", String(dark));
+    }
+    if (themeMeta) themeMeta.setAttribute("content", dark ? "#0c0a16" : "#f7c9dd");
+  }
+  const storedTheme = readPreference("cuby-theme");
+  if (storedTheme === "light" || storedTheme === "dark") {
+    root.classList.remove("theme-auto", "theme-light", "theme-dark");
+    root.classList.add("theme-" + storedTheme);
+  }
+  updateTheme();
+  if (themeButton) themeButton.addEventListener("click", () => {
+    const theme = isDark() ? "light" : "dark";
+    root.classList.remove("theme-auto", "theme-light", "theme-dark");
+    root.classList.add("theme-" + theme);
+    writePreference("cuby-theme", theme);
+    updateTheme();
+  });
+  observeMedia(darkScheme, () => {
+    if (root.classList.contains("theme-auto")) updateTheme();
+  });
+
+  // Saludo y partículas: se conservan las estaciones y los días especiales.
   const now = new Date();
-  const currentMonth = now.getMonth() + 1;
-  const currentDay = now.getDate();
-  const currentHour = now.getHours();
-  const grEl = document.getElementById("greeting");
-  const h1El = document.querySelector("h1");
-  let opts = ["Hola.", "Bienvenido/a de nuevo.", "Qué tal todo.", "Un placer verte por aquí.", "Por aquí andamos."];
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const hour = now.getHours();
+  let greetings;
   let holidayClass = "";
   let holidayIcon = "";
-
-  if (currentMonth === 12 && currentDay >= 24 && currentDay <= 26) {
-    opts = ["¡Feliz Navidad y felices fiestas!", "Días de descanso y abrigo.", "Disfruta de estas fechas con calma."];
-    holidayClass = "holiday-xmas";
-    holidayIcon = "🎁";
-  } else if ((currentMonth === 12 && currentDay === 31) || (currentMonth === 1 && currentDay === 1)) {
-    opts = ["¡Feliz año nuevo!", "Empezando el año con todo.", "Nuevos propósitos por delante."];
-    holidayClass = "holiday-newyear";
-    holidayIcon = "🎆";
-  } else if (currentMonth === 10 && currentDay === 31) {
-    opts = ["Noche de brujas por aquí.", "Ambiente misterioso hoy.", "Cuidado con los sustos."];
-    holidayClass = "holiday-halloween";
-    holidayIcon = "🎃";
+  if (month === 12 && day >= 24 && day <= 26) {
+    greetings = ["¡Feliz Navidad y felices fiestas!", "Días de descanso y abrigo.", "Disfruta de estas fechas con calma."];
+    holidayClass = "holiday-xmas"; holidayIcon = "🎁";
+  } else if ((month === 12 && day === 31) || (month === 1 && day === 1)) {
+    greetings = ["¡Feliz año nuevo!", "Empezando el año con todo.", "Nuevos propósitos por delante."];
+    holidayClass = "holiday-newyear"; holidayIcon = "🎆";
+  } else if (month === 10 && day === 31) {
+    greetings = ["Noche de brujas por aquí.", "Ambiente misterioso hoy.", "Cuidado con los sustos."];
+    holidayClass = "holiday-halloween"; holidayIcon = "🎃";
   } else {
-    const gSet = {
-      m: ["Buenos días.", "Café primero.", "Hola, buenos días.", "¿Qué tal la mañana?"],
-      a: ["Buenas tardes.", "¿Qué tal la tarde?", "Tarde tranquila.", "Hola de nuevo."],
-      n: ["Buenas noches.", "¿No deberías dormir?", "Modo noche activado.", "Descansa cuando toque."]
+    const byHour = {
+      morning: ["Buenos días.", "Café primero.", "Hola, buenos días.", "¿Qué tal la mañana?"],
+      afternoon: ["Buenas tardes.", "¿Qué tal la tarde?", "Tarde tranquila.", "Hola de nuevo."],
+      night: ["Buenas noches.", "¿No deberías dormir?", "Modo noche activado.", "Descansa cuando toque."]
     };
-    const band = (currentHour < 6 || currentHour >= 20) ? "n" : (currentHour < 13 ? "m" : "a");
-    opts = gSet[band];
+    greetings = byHour[(hour < 6 || hour >= 20) ? "night" : (hour < 13 ? "morning" : "afternoon")];
+  }
+  const heading = document.querySelector("h1");
+  if (heading && holidayClass) heading.classList.add(holidayClass);
+  const season = root.getAttribute("data-season") || "spring";
+  const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
+  const particles = document.getElementById("seasonal-fx");
+  if (particles) {
+    const fragment = document.createDocumentFragment();
+    for (let index = 0; index < 8; index++) {
+      const particle = document.createElement("span");
+      particle.className = "petal";
+      particle.textContent = particleIcon;
+      fragment.appendChild(particle);
+    }
+    particles.appendChild(fragment);
   }
 
-  if (h1El && holidayClass) {
-    h1El.classList.add(holidayClass);
-  }
-
-  if (grEl) {
-    const txt = opts[Math.floor(Math.random() * opts.length)];
-    let aOn = true;
-    try {
-      aOn = (localStorage.getItem("cuby-motion") || (window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "off" : "on")) === "on";
-    } catch (e) {}
-    if (aOn) {
-      let i = 0;
-      grEl.classList.add("is-typing");
-      const tI = setInterval(() => {
-        i++;
-        grEl.textContent = txt.slice(0, i);
-        if (i >= txt.length) {
-          clearInterval(tI);
-          grEl.classList.remove("is-typing");
-        }
-      }, 38);
-    } else {
-      grEl.textContent = txt;
+  const greeting = document.getElementById("greeting");
+  const greetingText = greetings[Math.floor(Math.random() * greetings.length)];
+  let greetingIndex = 0;
+  let greetingTimer;
+  function finishGreeting() {
+    clearTimeout(greetingTimer);
+    greetingTimer = undefined;
+    greetingIndex = greetingText.length;
+    if (greeting) {
+      greeting.textContent = greetingText;
+      greeting.classList.remove("is-typing");
     }
   }
-
-  const rt = document.documentElement;
-  const thmBtn = document.getElementById("theme-toggle");
-  const bgs = document.querySelectorAll(".bg-layer");
-  const getVal = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
-  const setVal = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
-  const isD = () => rt.classList.contains("theme-dark") || (!rt.classList.contains("theme-light") && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-  const updThm = () => {
-    const s = thmBtn ? thmBtn.querySelector("span") : null;
-    const meta = document.getElementById("theme-color-meta");
-    if (s) s.textContent = isD() ? "☀️" : "🌙";
-    if (meta) meta.setAttribute("content", isD() ? "#0c0a16" : "#f7c9dd");
-  };
-
-  const aThm = getVal("cuby-theme");
-  if (aThm === "light" || aThm === "dark") {
-    rt.classList.remove("theme-auto", "theme-light", "theme-dark");
-    rt.classList.add("theme-" + aThm);
+  function typeGreeting() {
+    clearTimeout(greetingTimer);
+    greetingTimer = undefined;
+    if (!greeting || greetingIndex >= greetingText.length) return;
+    if (!animationsEnabled || reducedMotion.matches) { finishGreeting(); return; }
+    if (document.hidden) return;
+    greeting.classList.add("is-typing");
+    greetingIndex++;
+    greeting.textContent = greetingText.slice(0, greetingIndex);
+    if (greetingIndex === greetingText.length) finishGreeting();
+    else greetingTimer = setTimeout(typeGreeting, 38);
   }
-  updThm();
 
-  if (thmBtn) {
-    thmBtn.addEventListener("click", () => {
-      const d = !isD();
-      rt.classList.remove("theme-auto", "theme-light", "theme-dark");
-      rt.classList.add(d ? "theme-dark" : "theme-light");
-      setVal("cuby-theme", d ? "dark" : "light");
-      updThm();
+  // Desplegables nativos con apertura y cierre gradual. No se mide el contenido
+  // en cada fotograma; solo al pulsar. Sin JavaScript siguen funcionando.
+  const activeDisclosures = new Set();
+  function finishDisclosures() {
+    Array.from(activeDisclosures).forEach((finish) => finish());
+  }
+  document.querySelectorAll(".info-toggle, .faq-item").forEach((details) => {
+    const summary = details.querySelector("summary");
+    if (!summary) return;
+    let expanded = details.open;
+    let animation = null;
+    details.dataset.disclosure = "";
+    function updateDisclosure() {
+      details.dataset.expanded = String(expanded);
+      summary.setAttribute("aria-expanded", String(expanded));
+    }
+    function finish() {
+      if (animation) {
+        animation.onfinish = null;
+        animation.cancel();
+        animation = null;
+      }
+      activeDisclosures.delete(finish);
+      details.open = expanded;
+      details.style.height = "";
+      details.style.overflow = "";
+      updateDisclosure();
+    }
+    updateDisclosure();
+    summary.addEventListener("click", (event) => {
+      if (typeof details.animate !== "function") return;
+      event.preventDefault();
+      // Un desplegable padre vuelve a altura automática antes de medir al hijo.
+      Array.from(activeDisclosures).forEach((settle) => {
+        if (settle !== finish) settle();
+      });
+      const startHeight = details.getBoundingClientRect().height;
+      if (animation) { animation.onfinish = null; animation.cancel(); animation = null; }
+      expanded = !expanded;
+      updateDisclosure();
+      if (!motionAllowed()) { finish(); return; }
+      details.style.height = "";
+      details.open = true;
+      const style = getComputedStyle(details);
+      const extraHeight = ["paddingTop", "paddingBottom", "borderTopWidth", "borderBottomWidth"]
+        .reduce((sum, property) => sum + (parseFloat(style[property]) || 0), 0);
+      const endHeight = expanded ? details.getBoundingClientRect().height :
+        summary.getBoundingClientRect().height + extraHeight;
+      details.style.overflow = "hidden";
+      details.style.height = startHeight + "px";
+      animation = details.animate(
+        [{ height: startHeight + "px" }, { height: endHeight + "px" }],
+        { duration: expanded ? 360 : 280, easing: "cubic-bezier(.2,.8,.2,1)" }
+      );
+      activeDisclosures.add(finish);
+      animation.onfinish = finish;
     });
-  }
-
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
-    if (rt.classList.contains("theme-auto")) updThm();
+    details.addEventListener("toggle", () => {
+      if (!animation) { expanded = details.open; updateDisclosure(); }
+    });
   });
-
-  const motBtn = document.getElementById("motion-toggle");
-  let aOn = (getVal("cuby-motion") || (window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "off" : "on")) === "on";
-
-  const updMot = () => {
-    const s = motBtn ? motBtn.querySelector("span") : null;
-    if (s) s.textContent = aOn ? "⏸️" : "▶️";
-  };
-
-  const setMot = (o) => {
-    aOn = o;
-    setVal("cuby-motion", o ? "on" : "off");
-    updMot();
-    const animEls = [...document.querySelectorAll(".bg-layer"), document.querySelector(".avatar-wrap"), document.querySelector("h1"), ...document.querySelectorAll(".petal, .star")].filter(Boolean);
-    animEls.forEach((e) => { e.style.animationPlayState = o ? "running" : "paused"; });
-    document.body.classList.toggle("motion-paused", !o);
-    if (!o) {
-      document.querySelectorAll(".container .button, .avatar-wrap").forEach((e) => { e.style.transform = ""; });
-    }
-  };
-  setMot(aOn);
-
-  if (motBtn) {
-    motBtn.addEventListener("click", () => setMot(!aOn));
+  // Solo se recorren las animaciones activas; el diseño general sigue siendo CSS.
+  window.addEventListener("resize", finishDisclosures, { passive: true });
+  if (document.fonts && document.fonts.addEventListener) {
+    document.fonts.addEventListener("loadingdone", finishDisclosures);
   }
 
+  // Puntero: un fotograma pendiente como máximo y limpieza al pausar o cancelar.
+  const backgrounds = document.querySelectorAll(".bg-layer");
+  const tiltResets = [];
+  let pointerFrame = null;
+  let pointerX = 0;
+  let pointerY = 0;
+  function resetPointerEffects() {
+    if (pointerFrame !== null) cancelAnimationFrame(pointerFrame);
+    pointerFrame = null;
+    tiltResets.forEach((reset) => reset());
+  }
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    let tck = false, pointerX = 0, pointerY = 0;
-    window.addEventListener("pointermove", (e) => {
-      if (!aOn || document.hidden) return;
-      pointerX = e.clientX;
-      pointerY = e.clientY;
-      if (!tck) {
-        tck = true;
-        requestAnimationFrame(() => {
-          tck = false;
-          if (!aOn || document.hidden) return;
-          document.body.style.setProperty("--mx", pointerX + "px");
-          document.body.style.setProperty("--my", pointerY + "px");
-          const nx = (pointerX / window.innerWidth - 0.5) * -12;
-          const ny = (pointerY / window.innerHeight - 0.5) * -12;
-          bgs.forEach((el) => {
-            el.style.transform = "scale(1.035) translate(" + nx + "px, " + ny + "px)";
-          });
+    window.addEventListener("pointermove", (event) => {
+      if (!motionAllowed()) return;
+      pointerX = event.clientX; pointerY = event.clientY;
+      if (pointerFrame !== null) return;
+      pointerFrame = requestAnimationFrame(() => {
+        pointerFrame = null;
+        if (!motionAllowed()) return;
+        body.style.setProperty("--mx", pointerX + "px");
+        body.style.setProperty("--my", pointerY + "px");
+        const x = (pointerX / window.innerWidth - 0.5) * -12;
+        const y = (pointerY / window.innerHeight - 0.5) * -12;
+        backgrounds.forEach((background) => {
+          background.style.transform = "scale(1.035) translate(" + x + "px, " + y + "px)";
         });
-      }
-    });
-
-    function aTlt(el, mT, hS) {
-      let p = false, rx = 0, ry = 0, tiltFrame = 0, tiltX = 0, tiltY = 0;
-      const r = () => {
-        el.style.transform = "perspective(500px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) scale(" + (p ? hS * 0.94 : hS) + ")";
+      });
+    }, { passive: true });
+    function addTilt(element, maxTilt, scale) {
+      let pressed = false, rotationX = 0, rotationY = 0, frame = null, x = 0, y = 0;
+      const render = () => {
+        element.style.transform = "perspective(500px) rotateX(" + rotationX +
+          "deg) rotateY(" + rotationY + "deg) scale(" + (pressed ? scale * 0.94 : scale) + ")";
       };
-      el.addEventListener("pointermove", (e) => {
-        if (!aOn || document.hidden) return;
-        tiltX = e.clientX;
-        tiltY = e.clientY;
-        if (!tiltFrame) {
-          tiltFrame = requestAnimationFrame(() => {
-            tiltFrame = 0;
-            if (!aOn || document.hidden) return;
-            const rc = el.getBoundingClientRect();
-            ry = ((tiltX - rc.left) / rc.width - 0.5) * mT * 2;
-            rx = (0.5 - (tiltY - rc.top) / rc.height) * mT * 2;
-            r();
-          });
-        }
-      });
-      el.addEventListener("pointerdown", () => { if (aOn) { p = true; r(); } });
-      el.addEventListener("pointerup", () => { p = false; if (aOn) r(); });
-      el.addEventListener("pointerleave", () => {
-        cancelAnimationFrame(tiltFrame);
-        tiltFrame = 0;
-        p = false;
-        rx = ry = 0;
-        el.style.transform = "";
-      });
+      const reset = () => {
+        if (frame !== null) cancelAnimationFrame(frame);
+        frame = null; pressed = false; rotationX = rotationY = 0;
+        element.style.transform = "";
+      };
+      tiltResets.push(reset);
+      element.addEventListener("pointermove", (event) => {
+        if (!motionAllowed()) return;
+        x = event.clientX; y = event.clientY;
+        if (frame !== null) return;
+        frame = requestAnimationFrame(() => {
+          frame = null;
+          if (!motionAllowed()) return;
+          const rect = element.getBoundingClientRect();
+          if (!rect.width || !rect.height) return;
+          rotationY = ((x - rect.left) / rect.width - 0.5) * maxTilt * 2;
+          rotationX = (0.5 - (y - rect.top) / rect.height) * maxTilt * 2;
+          render();
+        });
+      }, { passive: true });
+      element.addEventListener("pointerdown", () => { if (motionAllowed()) { pressed = true; render(); } });
+      element.addEventListener("pointerup", () => { pressed = false; if (motionAllowed()) render(); });
+      element.addEventListener("pointerleave", reset);
+      element.addEventListener("pointercancel", reset);
     }
-
-    const aw = document.querySelector(".avatar-wrap");
-    if (aw) aTlt(aw, 12, 1.08);
-    document.querySelectorAll(".container .button").forEach((b) => aTlt(b, 6, 1.02));
+    const avatar = document.querySelector(".avatar-wrap");
+    if (avatar) addTilt(avatar, 12, 1.08);
+    document.querySelectorAll(".container .button").forEach((button) => addTilt(button, 6, 1.02));
   }
+  window.addEventListener("blur", resetPointerEffects);
 
-  const kC = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
-  let kI = 0;
-  window.addEventListener("keydown", (e) => {
-    const k = e.key.toLowerCase();
-    if (k === kC[kI]) {
-      kI++;
-      if (kI === kC.length) {
-        kI = 0;
-        const a = document.body.classList.toggle("secret-mode");
-        const t = document.createElement("div");
-        t.className = "toast";
-        t.textContent = a ? "Easter egg activado" : "Easter egg desactivado";
-        document.body.appendChild(t);
-        requestAnimationFrame(() => t.classList.add("is-shown"));
-        setTimeout(() => {
-          t.classList.remove("is-shown");
-          setTimeout(() => t.remove(), 400);
-        }, 2600);
-      }
-    } else {
-      kI = (k === kC[0]) ? 1 : 0;
+  const motionButton = document.getElementById("motion-toggle");
+  function syncMotion() {
+    const enabled = animationsEnabled && !reducedMotion.matches;
+    body.classList.toggle("motion-paused", !enabled);
+    if (motionButton) {
+      const icon = motionButton.querySelector("span");
+      if (icon) icon.textContent = enabled ? "⏸️" : "▶️";
+      const label = enabled ? "Pausar animaciones" : "Activar animaciones";
+      motionButton.setAttribute("aria-label", label);
+      motionButton.setAttribute("aria-pressed", String(enabled));
+      motionButton.disabled = reducedMotion.matches;
+      motionButton.title = reducedMotion.matches ? "Movimiento reducido por preferencia del sistema" : label;
     }
+    if (!enabled) { finishGreeting(); finishDisclosures(); resetPointerEffects(); }
+  }
+  if (motionButton) motionButton.addEventListener("click", () => {
+    animationsEnabled = !animationsEnabled;
+    writePreference("cuby-motion", animationsEnabled ? "on" : "off");
+    syncMotion();
   });
-
-  const sN = document.documentElement.getAttribute("data-season") || "spring";
-  const sI = { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[sN] || "🌸";
-  const dropIcon = holidayIcon || sI;
-  const fE = document.getElementById("seasonal-fx");
-  if (fE) {
-    for (let i = 0; i < 8; i++) {
-      const sp = document.createElement("span");
-      sp.className = "petal";
-      sp.textContent = dropIcon;
-      fE.appendChild(sp);
-    }
+  observeMedia(reducedMotion, syncMotion);
+  function syncVisibility() {
+    body.classList.toggle("page-hidden", document.hidden);
+    scheduleClock();
+    clearTimeout(greetingTimer);
+    if (document.hidden) { resetPointerEffects(); finishDisclosures(); }
+    else typeGreeting();
   }
+  document.addEventListener("visibilitychange", syncVisibility);
+  syncMotion();
+  syncVisibility();
+
+  // Se conserva el modo secreto y se ignoran pulsaciones dentro de campos de texto.
+  const secretSequence = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
+  let secretIndex = 0;
+  window.addEventListener("keydown", (event) => {
+    if (event.target && event.target.closest && event.target.closest("input, textarea, select, [contenteditable]")) return;
+    const key = (event.key || "").toLowerCase();
+    secretIndex = key === secretSequence[secretIndex] ? secretIndex + 1 : (key === secretSequence[0] ? 1 : 0);
+    if (secretIndex !== secretSequence.length) return;
+    secretIndex = 0;
+    const enabled = body.classList.toggle("secret-mode");
+    const previousToast = document.querySelector(".toast");
+    if (previousToast) previousToast.remove();
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.setAttribute("role", "status");
+    toast.textContent = enabled ? "Easter egg activado" : "Easter egg desactivado";
+    body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add("is-shown"));
+    setTimeout(() => {
+      toast.classList.remove("is-shown");
+      setTimeout(() => toast.remove(), 400);
+    }, 2600);
+  });
 })();
