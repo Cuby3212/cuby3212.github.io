@@ -20,9 +20,6 @@
   let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
   const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
 
-  const year = document.getElementById("year");
-  if (year) year.textContent = new Date().getFullYear();
-
   // Relojes: dos formateadores reutilizados y una sola actualización por minuto.
   const clocks = [
     { element: document.getElementById("clock-peninsula"), zone: "Europe/Madrid" },
@@ -85,30 +82,9 @@
     if (root.classList.contains("theme-auto")) updateTheme();
   });
 
-  // Saludo y partículas: se conservan las estaciones y los días especiales.
-  const now = new Date();
-  const month = now.getMonth() + 1;
-  const day = now.getDate();
-  const hour = now.getHours();
-  let greetings;
-  let holidayIcon = "";
-  if (month === 12 && day >= 24 && day <= 26) {
-    greetings = ["¡Feliz Navidad y felices fiestas!", "Días de descanso y abrigo.", "Disfruta de estas fechas con calma."];
-    holidayIcon = "🎁";
-  } else if ((month === 12 && day === 31) || (month === 1 && day === 1)) {
-    greetings = ["¡Feliz año nuevo!", "Empezando el año con todo.", "Nuevos propósitos por delante."];
-    holidayIcon = "🎆";
-  } else if (month === 10 && day === 31) {
-    greetings = ["Noche de brujas por aquí.", "Ambiente misterioso hoy.", "Cuidado con los sustos."];
-    holidayIcon = "🎃";
-  } else {
-    const byHour = {
-      morning: ["Buenos días.", "Café primero.", "Hola, buenos días.", "¿Qué tal la mañana?"],
-      afternoon: ["Buenas tardes.", "¿Qué tal la tarde?", "Tarde tranquila.", "Hola de nuevo."],
-      night: ["Buenas noches.", "¿No deberías dormir?", "Hola, ¿sigues por aquí?", "Una más y a dormir."]
-    };
-    greetings = byHour[(hour < 6 || hour >= 20) ? "night" : (hour < 13 ? "morning" : "afternoon")];
-  }
+  // Partículas estacionales; se omiten en pantallas táctiles.
+  const event = root.getAttribute("data-event");
+  const holidayIcon = { xmas: "🎁", newyear: "🎆", halloween: "🎃" }[event] || "";
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
@@ -122,30 +98,6 @@
       fragment.appendChild(particle);
     }
     particles.appendChild(fragment);
-  }
-
-  const greeting = document.getElementById("greeting");
-  const greetingText = greetings[Math.floor(Math.random() * greetings.length)];
-  let greetingIndex = 0;
-  let greetingTimer;
-  function finishGreeting() {
-    clearTimeout(greetingTimer);
-    greetingTimer = undefined;
-    greetingIndex = greetingText.length;
-    if (greeting) {
-      greeting.textContent = greetingText;
-    }
-  }
-  function typeGreeting() {
-    clearTimeout(greetingTimer);
-    greetingTimer = undefined;
-    if (!greeting || greetingIndex >= greetingText.length) return;
-    if (!animationsEnabled || reducedMotion.matches) { finishGreeting(); return; }
-    if (document.hidden) return;
-    greetingIndex++;
-    greeting.textContent = greetingText.slice(0, greetingIndex);
-    if (greetingIndex === greetingText.length) finishGreeting();
-    else greetingTimer = setTimeout(typeGreeting, 38);
   }
 
   // Desplegables nativos con apertura y cierre gradual. No se mide el contenido
@@ -259,7 +211,7 @@
       motionButton.disabled = reducedMotion.matches;
       motionButton.title = reducedMotion.matches ? "Movimiento reducido por preferencia del sistema" : label;
     }
-    if (!enabled) { finishGreeting(); finishDisclosures(); }
+    if (!enabled) finishDisclosures();
     syncMascots();
   }
   if (motionButton) motionButton.addEventListener("click", () => {
@@ -272,9 +224,7 @@
     body.classList.toggle("page-hidden", document.hidden);
     scheduleClock();
     syncMascots();
-    clearTimeout(greetingTimer);
     if (document.hidden) { finishDisclosures(); }
-    else typeGreeting();
   }
   document.addEventListener("visibilitychange", syncVisibility);
   syncMotion();
