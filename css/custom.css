@@ -110,58 +110,58 @@ footer a{color:var(--text-soft);font-weight:600}
    comparten el material de la tarjeta; no apilan filtros de desenfoque.
    La refracción se sugiere con luz de borde, sin distorsionar las fotografías. */
 :root {
-  --glass-rgb: 255, 250, 253;
-  --glass-alpha: .80;
-  --glass-widget-alpha: .86;
-  --glass-solid: #fffafd;
-  --glass-edge: rgba(255,255,255,.72);
-  --glass-rim: rgba(93,63,83,.22);
+  --glass-rgb: 250, 252, 255;
+  --glass-alpha: .72;
+  --glass-widget-alpha: .84;
+  --glass-solid: #f9fbff;
+  --glass-edge: rgba(255,255,255,.82);
+  --glass-rim: rgba(45,54,70,.19);
   --glass-light: rgba(255,255,255,.9);
   --glass-sheen-light: rgba(255,255,255,.9);
-  --glass-shade: rgba(72,42,64,.10);
-  --glass-button: rgba(255,255,255,.24);
-  --glass-brand-alpha: .10;
+  --glass-shade: rgba(27,39,60,.07);
+  --glass-button: rgba(255,255,255,.18);
+  --glass-brand-alpha: .035;
   --glass-icon: brightness(0) saturate(100%);
-  --text-strong: #492038;
-  --text-soft: #593548;
-  --mono-text: #372330;
+  --text-strong: #191d26;
+  --text-soft: #343b47;
+  --mono-text: #191d26;
   --btn-text: var(--text-strong);
 }
 :root.theme-dark {
-  --glass-rgb: 18, 16, 27;
-  --glass-alpha: .84;
-  --glass-widget-alpha: .89;
-  --glass-solid: #191620;
-  --glass-edge: rgba(255,255,255,.26);
+  --glass-rgb: 17, 21, 29;
+  --glass-alpha: .76;
+  --glass-widget-alpha: .86;
+  --glass-solid: #171c25;
+  --glass-edge: rgba(255,255,255,.34);
   --glass-rim: rgba(0,0,0,.48);
   --glass-light: rgba(255,255,255,.46);
   --glass-sheen-light: rgba(255,255,255,.12);
-  --glass-shade: rgba(0,0,0,.28);
+  --glass-shade: rgba(0,0,0,.22);
   --glass-button: rgba(255,255,255,.06);
-  --glass-brand-alpha: .12;
+  --glass-brand-alpha: .035;
   --glass-icon: brightness(0) invert(1);
-  --text-strong: #fff2f9;
-  --text-soft: #eed8e5;
-  --mono-text: #fff2f9;
+  --text-strong: #f8faff;
+  --text-soft: #e0e6ef;
+  --mono-text: #f8faff;
   --btn-text: var(--text-strong);
 }
 @media (prefers-color-scheme: dark) {
   :root.theme-auto {
-    --glass-rgb: 18, 16, 27;
-    --glass-alpha: .84;
-    --glass-widget-alpha: .89;
-    --glass-solid: #191620;
-    --glass-edge: rgba(255,255,255,.26);
+    --glass-rgb: 17, 21, 29;
+    --glass-alpha: .76;
+    --glass-widget-alpha: .86;
+    --glass-solid: #171c25;
+    --glass-edge: rgba(255,255,255,.34);
     --glass-rim: rgba(0,0,0,.48);
     --glass-light: rgba(255,255,255,.46);
     --glass-sheen-light: rgba(255,255,255,.12);
-    --glass-shade: rgba(0,0,0,.28);
+    --glass-shade: rgba(0,0,0,.22);
     --glass-button: rgba(255,255,255,.06);
-    --glass-brand-alpha: .12;
+    --glass-brand-alpha: .035;
     --glass-icon: brightness(0) invert(1);
-    --text-strong: #fff2f9;
-    --text-soft: #eed8e5;
-    --mono-text: #fff2f9;
+    --text-strong: #f8faff;
+    --text-soft: #e0e6ef;
+    --mono-text: #f8faff;
     --btn-text: var(--text-strong);
   }
 }
@@ -252,11 +252,112 @@ footer a{color:var(--text-soft);font-weight:600}
 .toast { backdrop-filter: none; -webkit-backdrop-filter: none }
 /* El contenido conserva su propia tinta, sin heredar el azul de enlaces del tema. */
 .container footer a { color: var(--text-soft) !important }
+/* Un mismo lenguaje visual: tipografía del sistema, superficies neutras y
+   radios concéntricos. El color procede del fondo y de los logotipos. */
+:root {
+  font-size: 100%;
+  --spacing-m: 1.25rem;
+  --theme-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 15.2A8.5 8.5 0 0 1 8.8 4a8.5 8.5 0 1 0 11.2 11.2Z' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --sun-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='none' stroke='black' stroke-width='1.8' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5'/%3E%3C/g%3E%3C/svg%3E");
+  --motion-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14M16 5v14' stroke='black' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+:root.theme-dark { --theme-symbol: var(--sun-symbol) }
+@media (prefers-color-scheme: dark) { :root.theme-auto { --theme-symbol: var(--sun-symbol) } }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  box-sizing: border-box;
+  padding: 5rem 1rem 5.5rem;
+  -webkit-tap-highlight-color: transparent;
+}
+body::after { opacity: .35 }
+.container {
+  max-width: 58rem;
+  border-radius: 2rem;
+  padding-bottom: 1.25rem;
+  box-shadow: inset 0 1px 0 var(--glass-light), inset 0 -1px 0 var(--glass-shade),
+    0 12px 32px rgba(0,0,0,.14), 0 2px 6px rgba(0,0,0,.08);
+}
+.banner { height: 12rem; border-radius: 2rem 2rem 0 0 }
+.avatar-wrap { width: 6rem; height: 6rem; margin-top: -3rem }
+.avatar { border-width: 3px; border-color: var(--glass-edge) }
+.avatar-wrap::before { inset: -.18rem; filter: blur(.18rem); opacity: .48 }
+.container h1 { margin: .8rem 0 .35rem; font-size: 1.85rem; line-height: 1.15; letter-spacing: -.045em; text-shadow: none }
+.container .greeting { margin: 0 0 1.65rem; font-size: .92rem; line-height: 1.5; font-weight: 500; min-height: 1.5em }
+.button-grid { gap: .75rem }
+.container .button {
+  border-radius: 1rem; min-height: 3.25rem; padding: .85rem .7rem;
+  font-size: .94rem; line-height: 1.25; font-weight: 600;
+  letter-spacing: -.015em; hyphens: none; white-space: nowrap;
+  box-shadow: inset 0 1px 0 var(--glass-light), inset 0 -1px 0 var(--glass-shade),
+    0 2px 5px rgba(0,0,0,.06);
+}
+.glass-sheen {
+  opacity: .44;
+  background: linear-gradient(155deg,var(--glass-sheen-light),transparent 24%,
+    transparent 76%,var(--glass-edge));
+}
+body:not(.motion-paused) .container .button:hover .icon { animation: none }
+.container .button .icon { width: 1.15rem; height: 1.15rem; margin-right: .6rem }
+.theme-toggle, .clock-widget, .repo-badge { border-radius: 999px }
+.theme-toggle {
+  width: 44px; height: 44px; top: .75rem; right: .75rem;
+  transition: transform .18s ease;
+}
+.theme-toggle:hover { transform: translateY(-1px) }
+.motion-toggle { right: 4rem }
+.theme-toggle span { font-size: 0; transform: none; color: var(--mono-text) }
+.theme-toggle span::before {
+  content: ""; width: 1.2rem; height: 1.2rem; background: currentColor;
+  -webkit-mask: var(--theme-symbol) center / contain no-repeat;
+  mask: var(--theme-symbol) center / contain no-repeat;
+}
+.motion-toggle span::before { -webkit-mask-image: var(--motion-symbol); mask-image: var(--motion-symbol) }
+body.motion-paused .motion-toggle {
+  --motion-symbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m8 5 11 7-11 7Z' fill='none' stroke='black' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.corner-links { top: .75rem; left: .75rem; gap: .5rem }
+.github-link {
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--glass-edge); border-radius: 50%;
+  background: rgba(var(--glass-rgb),var(--glass-widget-alpha));
+  box-shadow: inset 0 1px 0 var(--glass-light),0 4px 12px rgba(0,0,0,.10);
+}
+.github-link img { width: 1.65rem; filter: none }
+.github-link:hover { transform: translateY(-1px) }
+.repo-badge { height: 44px; padding: 0 .75rem; gap: .35rem; font-size: .72rem; font-weight: 600; text-transform: none; letter-spacing: 0 }
+.repo-badge-logo { width: 1rem; height: 1rem }
+.repo-badge-link { width: .8rem; height: .8rem }
+.clock-widget { left: .75rem; bottom: .75rem; height: 3rem; padding: .35rem .85rem; font-size: .75rem; line-height: 1.35; box-sizing: border-box }
+.clock-zone { min-width: 4.8rem; font-weight: 500 }
+.clock-row span:last-child { font-weight: 600 }
+.toast { border-radius: 999px; font-weight: 500 }
+.container footer { margin-top: 1.4rem }
+.container .copyright { font-size: .72rem; line-height: 1.6; font-weight: 400; margin: 0 0 .9rem; letter-spacing: 0 }
+.info-toggle { margin: 0; font-size: .85rem }
+.info-toggle > summary {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px;
+  border-radius: 999px; padding: .3rem 1.1rem; box-sizing: border-box;
+  border: 1px solid var(--glass-edge); background: var(--glass-button);
+  box-shadow: inset 0 1px 0 var(--glass-light); font-weight: 500;
+}
+.info-toggle > summary::after {
+  content: ""; width: .35rem; height: .35rem; border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg);
+}
+.info-toggle[open] > summary::after { transform: translateY(1px) rotate(225deg) }
+.info-toggle > summary:hover { text-decoration: none }
+.faq { border-color: var(--glass-edge); background: var(--glass-button); box-shadow: inset 0 1px 0 var(--glass-light); border-radius: 1.25rem }
+.faq-item { border-color: var(--glass-rim); padding: .8rem 0 }
+.faq-item summary { font-size: .88rem; font-weight: 600; line-height: 1.4; padding: 0; min-height: 2rem }
+.container .faq-item p { font-size: .85rem; line-height: 1.6; font-weight: 400; margin: .6rem 0 0 }
+.faq-arrow, .faq-item[open] .faq-arrow { background: var(--glass-button); border: 1px solid var(--glass-edge) }
+/* Cambio de tema inmediato para que texto y soporte mantengan su contraste. */
+h1, .greeting, .faq, .info-toggle { transition: none }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .container {
     background: rgba(var(--glass-rgb),var(--glass-alpha));
-    backdrop-filter: blur(16px) saturate(125%);
-    -webkit-backdrop-filter: blur(16px) saturate(125%);
+    backdrop-filter: blur(14px) saturate(115%);
+    -webkit-backdrop-filter: blur(14px) saturate(115%);
   }
   .theme-toggle, .clock-widget, .repo-badge {
     background: linear-gradient(145deg,var(--glass-edge),transparent 48%),
@@ -281,7 +382,8 @@ footer a{color:var(--text-soft);font-weight:600}
   .theme-toggle { min-width: 44px; min-height: 44px }
 }
 @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-  .container, .theme-toggle, .clock-widget, .repo-badge, .toast {
+  .container, .theme-toggle, .clock-widget, .repo-badge, .github-link, .toast,
+  .info-toggle > summary, .faq {
     background: var(--glass-solid) !important;
     backdrop-filter: none; -webkit-backdrop-filter: none;
   }
@@ -295,7 +397,8 @@ body.motion-paused .container { animation: none }
   .container .button, .glass-sheen, .theme-toggle, .repo-badge { transition: none !important }
 }
 @media (forced-colors: active) {
-  .container, .theme-toggle, .clock-widget, .repo-badge, .container .button {
+  .container, .theme-toggle, .clock-widget, .repo-badge, .github-link, .container .button,
+  .info-toggle > summary, .faq {
     background: Canvas !important; color: CanvasText !important;
     border: 1px solid CanvasText !important;
     backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none;
