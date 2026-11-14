@@ -43,7 +43,7 @@
       }
       return;
     }
-    // Fotogramas precalculados: sin canvas ni descarga en cada cambio.
+    // Los fotogramas se han preparado de antemano para no dibujarlos ni descargarlos en cada cambio.
     favicon.href = faviconFrames[faviconIndex];
     faviconIndex = (faviconIndex + 1) % faviconFrames.length;
     faviconTimer = setTimeout(syncFavicon, 180);
@@ -132,7 +132,7 @@
         context.textBaseline = "middle";
         context.fillText(icon + (icon.includes("\ufe0f") ? "" : "\ufe0f"), 64, 68);
         const pixels = context.getImageData(0, 0, 128, 128).data;
-        // Letras regionales y glifos ausentes son monocromos. Solo se comprueba una vez.
+        // El color se comprueba una sola vez por emoji; si no se detecta, se usa el SVG local.
         for (let i = 0; i < pixels.length; i += 4) {
           if (pixels[i + 3] > 128 && Math.max(pixels[i], pixels[i + 1], pixels[i + 2]) -
               Math.min(pixels[i], pixels[i + 1], pixels[i + 2]) > 32) {
@@ -165,7 +165,7 @@
     if (!element) return;
     element.textContent = icon;
     if (!icon) return;
-    // Mostrar el mismo dibujo comprobado evita diferencias entre canvas y las fuentes del texto.
+    // Se usa el dibujo comprobado para evitar diferencias con las fuentes del texto.
     element.replaceChildren(emojiImage(getEmojiSource(icon), "emoji-image"));
   }
   document.querySelectorAll(".emoji").forEach((element) => setInlineEmoji(element, element.textContent));

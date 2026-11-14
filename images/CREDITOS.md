@@ -4,7 +4,7 @@
 
 ## Fondos
 
-Fotografías de [Unsplash](https://unsplash.com/license), adaptadas a WebP.
+Los fondos se han obtenido de [Unsplash](https://unsplash.com/license) y se han convertido a WebP.
 
 | Fondo | Autor y fuente |
 | --- | --- |
@@ -24,8 +24,8 @@ Fotografías de [Unsplash](https://unsplash.com/license), adaptadas a WebP.
 - [Kagamine Len — Sorry](https://myemotes.io/stickers/kagaminelen_sorry): black_saphir.
 - [Megurine Luka — Sparkle](https://myemotes.io/stickers/megurineluka_sparkle): black_saphir.
 
-De myEmotes, para uso personal y no monetizado. Convertidos a tiras de fotogramas WebP. No están cubiertos por la licencia MIT del código.
+Los personajes proceden de myEmotes, para uso personal y no monetizado. Se han convertido a tiras de fotogramas WebP y no están cubiertos por la licencia MIT del código.
 
 ## Emojis
 
-SVG de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji, sin modificaciones. Licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); [texto completo](emoji/LICENSE-GRAPHICS).
+Se han usado los SVG de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji, sin modificarlos. Se distribuyen bajo [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Puedes consultar el [texto completo de la licencia](emoji/LICENSE-GRAPHICS).
