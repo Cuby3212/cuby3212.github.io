@@ -1,5 +1,5 @@
 <p align="center">
-<img src="logo.png" alt="Cuby socials Logo" width="200"/>
+<img src="images/avatar.png" alt="Cuby socials Logo" width="200"/>
 </p>
 
 # Cuby socials
@@ -55,3 +55,13 @@ Thanks to [2Duoble](https://twitter.com/2Duoble) for helping me with some design
 ### **License**
 
 Based on LittleLink, licensed under the MIT License. Check the [LICENSE.md](LICENSE.md) file for more details.
+## Copia local
+
+La carpeta contiene el HTML, los estilos, el código y todos los fondos, iconos y
+fotogramas de los personajes. Las animaciones están en `images/characters/` y sus
+secuencias se definen en `css/custom.css`; no dependen de myEmotes ni de Tenor.
+Se pueden abrir los archivos o servir esta carpeta con cualquier servidor estático
+y volver a publicarla en GitHub Pages, conservando `.nojekyll` y `LICENSE.md`.
+
+La tipografía Baloo 2 se solicita a Google Fonts; si no hay conexión se usa la
+fuente de reserva del sistema. No es necesaria para el funcionamiento de la web.

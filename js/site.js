@@ -165,37 +165,6 @@
     document.fonts.addEventListener("loadingdone", finishDisclosures);
   }
 
-  // Los GIF solo se decodifican mientras están visibles y hay movimiento permitido.
-  const mascots = Array.from(document.querySelectorAll(".footer-mascots img"));
-  const visibleMascots = new Set();
-  const failedMascots = new WeakSet();
-  const emptyImage = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
-  function syncMascots() {
-    mascots.forEach((image) => {
-      const active = visibleMascots.has(image) && motionAllowed() && !failedMascots.has(image);
-      const source = active ? image.dataset.animatedSrc : emptyImage;
-      image.hidden = !active;
-      if (image.getAttribute("src") !== source) image.setAttribute("src", source);
-    });
-  }
-  if (mascots.length) {
-    if (typeof IntersectionObserver === "function") {
-      // Observar el hueco reservado evita un bucle al ocultar las imágenes.
-      const container = document.querySelector(".footer-mascots");
-      if (container) {
-        const wrapperObserver = new IntersectionObserver(([entry]) => {
-          mascots.forEach(image => entry.isIntersecting ? visibleMascots.add(image) : visibleMascots.delete(image));
-          syncMascots();
-        });
-        wrapperObserver.observe(container);
-      }
-    } else mascots.forEach(image => visibleMascots.add(image));
-    mascots.forEach(image => image.addEventListener("error", () => {
-      failedMascots.add(image);
-      syncMascots();
-    }));
-  }
-
   const motionButton = document.getElementById("motion-toggle");
   function syncMotion() {
     const enabled = animationsEnabled && !reducedMotion.matches;
@@ -208,7 +177,6 @@
       motionButton.title = reducedMotion.matches ? "Movimiento reducido por preferencia del sistema" : label;
     }
     if (!enabled) finishDisclosures();
-    syncMascots();
   }
   if (motionButton) motionButton.addEventListener("click", () => {
     animationsEnabled = !animationsEnabled;
@@ -219,7 +187,6 @@
   function syncVisibility() {
     body.classList.toggle("page-hidden", document.hidden);
     scheduleClock();
-    syncMascots();
     if (document.hidden) { finishDisclosures(); }
   }
   document.addEventListener("visibilitychange", syncVisibility);

@@ -28,20 +28,16 @@ y se recortan con `cover`, sin deformación ni filtros de desenfoque.
 
 ## Animaciones decorativas
 
-- [MikuDance](https://myemotes.io/emotes/mikudance), subida por clovercutie (88 × 71).
-- [teto_dance](https://myemotes.io/stickers/teto_dance), subida por mnkq (400 × 301).
+Los personajes se guardan localmente como tiras de fotogramas WebP transparentes.
+CSS conserva los tiempos de los originales y permite pausar y reanudar el mismo
+fotograma. Cada tira usa un lienzo uniforme de 112 × 112 píxeles por fotograma.
+No se descargan animaciones desde servicios externos al visitar la página.
 
-myEmotes las ofrece para uso personal y no monetizado. Se cargan desde su CDN,
-no forman parte del código bajo MIT y se ocultan al pausar o reducir el movimiento.
-
-### Personajes adicionales
-
+- [Hatsune Miku — Happy](https://myemotes.io/es/stickers/hatsunemiku_happy), black_saphir.
+- [Kasane Teto — Dance](https://myemotes.io/stickers/teto_dance), mnkq.
 - [Kagamine Rin — Heart](https://myemotes.io/es/stickers/kagaminerin_heart), black_saphir.
 - [Kagamine Len — Sorry](https://myemotes.io/stickers/kagaminelen_sorry), black_saphir.
 - [Megurine Luka — Sparkle](https://myemotes.io/stickers/megurineluka_sparkle), black_saphir.
 
-Los tres stickers de myEmotes se ofrecen para uso personal y no monetizado.
-
-- [GUMI — Animation Bounce](https://tenor.com/view/animation-bounce-gumi-gumi-megpoid-lost-gif-9118905735352172794), compartido por M0NS en Tenor. Se muestra desde su CDN.
-
-Las animaciones de personajes son obras de sus autores y no se incluyen bajo MIT.
+myEmotes las ofrece para uso personal y no monetizado. Son obras de sus autores,
+no forman parte del código bajo MIT. Se conserva su atribución y procedencia.
