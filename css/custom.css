@@ -65,8 +65,9 @@ summary::-webkit-details-marker { display:none; }
 body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,footer,.faq-item,.profile-description,.clock-zone,.network-arrow,.avatar { transition:background-color .35s ease,color .35s ease,border-color .35s ease,transform .18s ease; }
 @media(hover:hover) { .button:hover,.theme-toggle:not(:disabled):hover,.repo-badge:hover,.github-link:hover { background-color:var(--hover); transform:translateY(-2px); } }
 .button:active,.theme-toggle:active { transform:translateY(0); }
-.seasonal-fx { position:fixed; inset:0; z-index:15; pointer-events:none; overflow:hidden; contain:strict; }
+.seasonal-fx { position:fixed; inset:0; height:100lvh; bottom:auto; z-index:15; pointer-events:none; overflow:hidden; contain:strict; }
 .petal { will-change:transform,opacity; position:absolute; top:-4rem; left:var(--x); opacity:0; font-size:clamp(1.5rem,2.2vw,2rem); line-height:1.2; animation:fall var(--duration) linear var(--delay) 1 both; }
+.petal-image { display:block; width:1.2em; height:1.2em; }
 @keyframes fall {
   0% { transform:translate3d(0,-4rem,0) rotate(var(--rotation-start)) scale(var(--scale)); opacity:0; }
   8%,85% { opacity:var(--alpha); }
@@ -99,7 +100,7 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  :root[data-season='autumn'] { --scene-position:60% center; }
 }
 @media(max-width:760px), (orientation:portrait) {
- body { justify-content:flex-start; padding-top:5.25rem; padding-bottom:calc(6rem + env(safe-area-inset-bottom)); }
+ body { justify-content:flex-start; padding-top:5.25rem; padding-bottom:max(6rem,env(safe-area-inset-bottom)); }
  .container { width:min(100%,32rem); display:block; padding:.6rem; border-radius:1.5rem; }
  .profile-header { padding-bottom:.5rem; }
  .banner { height:clamp(10rem,35vw,14rem); }
@@ -242,4 +243,8 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 @media(forced-colors:active) {
  .container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,.info-toggle > summary { background:Canvas; color:CanvasText; border-color:CanvasText; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
+
+@media(hover:none), (pointer:coarse) {
+ .firefox-android .footer-mascots { bottom:.65rem; }
 }

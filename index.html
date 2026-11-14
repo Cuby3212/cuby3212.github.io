@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/custom.css?v=scroll-background-16">
+<link rel="stylesheet" href="css/custom.css?v=stable-mobile-18">
 <link rel="preload" as="image" href="images/banner.jpg">
 <link rel="preload" as="image" href="images/avatar_cuby.jpg">
 <link rel="icon" type="image/png" href="images/avatar.png">
@@ -25,6 +25,7 @@
 <script>
 (() => {
   const root = document.documentElement;
+  if (/Android/.test(navigator.userAgent) && /Firefox\//.test(navigator.userAgent)) root.classList.add("firefox-android");
   const today = new Date();
   const month = today.getMonth() + 1;
   const day = today.getDate();
@@ -106,6 +107,6 @@
 <span class="clock-row"><span class="clock-zone"><span aria-hidden="true">🇪🇸</span> Península</span><span id="clock-peninsula">--:--</span></span>
 <span class="clock-row"><span class="clock-zone"><span aria-hidden="true">🇮🇨</span> Canarias</span><span id="clock-canarias">--:--</span></span>
 </div>
-<script src="js/site.js?v=scroll-background-16"></script>
+<script src="js/site.js?v=stable-mobile-18"></script>
 </body>
 </html>

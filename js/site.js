@@ -81,6 +81,33 @@
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
+  const particleImages = new Map();
+  function setParticleIcon(particle, icon) {
+    if (!particleImages.has(icon)) {
+      let source = null;
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 128;
+        const context = canvas.getContext("2d");
+        if (context) {
+          context.font = '96px "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", sans-serif';
+          context.textAlign = "center";
+          context.textBaseline = "middle";
+          context.fillText(icon, 64, 68);
+          source = canvas.toDataURL("image/png");
+        }
+      } catch {}
+      particleImages.set(icon, source);
+    }
+    const source = particleImages.get(icon);
+    if (!source) { particle.textContent = icon; return; }
+    const image = document.createElement("img");
+    image.className = "petal-image";
+    image.alt = "";
+    image.width = image.height = 128;
+    image.src = source;
+    particle.replaceChildren(image);
+  }
   const randomBetween = (min, max) => min + Math.random() * (max - min);
   function randomizeParticle(particle, initial = false) {
     const duration = randomBetween(14, 27);
@@ -107,7 +134,7 @@
       particle.className = "petal";
       randomizeParticle(particle, true);
       particle.addEventListener("animationend", () => randomizeParticle(particle));
-      particle.textContent = particleIcon;
+      setParticleIcon(particle, particleIcon);
       fragment.appendChild(particle);
     }
     particles.appendChild(fragment);
@@ -227,7 +254,7 @@
   function setSecretMode(enabled) {
     body.classList.toggle("secret-mode", enabled);
     if (particles) Array.from(particles.children).forEach((particle, index) => {
-      particle.textContent = enabled ? easterEggIcons[index % easterEggIcons.length] : particleIcon;
+      setParticleIcon(particle, enabled ? easterEggIcons[index % easterEggIcons.length] : particleIcon);
     });
     const previousToast = document.querySelector(".toast");
     if (previousToast) previousToast.remove();
