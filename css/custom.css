@@ -119,8 +119,8 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 @media(forced-colors:active) { .bg-layer,.seasonal-fx,.secret-overlay { display:none; } body,.container,.button,.theme-toggle,.repo-badge,.github-link,.clock-widget { background:Canvas; color:CanvasText; border-color:CanvasText; box-shadow:none; } }
 
 .button,.theme-toggle,.github-link,.repo-badge,.clock-widget,.info-toggle > summary {
- background-image:linear-gradient(120deg,#ffffff22,transparent 40%,#ffffff08 65%,#ffffff20);
- box-shadow:inset 0 1px 0 #ffffff66,inset 0 -1px 0 #00000024,0 3px 10px #00000014;
+ background-image:radial-gradient(ellipse at 0 0,#ffffff24,transparent 58%),radial-gradient(ellipse at 100% 100%,#ffffff12,transparent 58%),linear-gradient(120deg,#ffffff0d,transparent 42%,#ffffff05 65%,#ffffff10);
+ box-shadow:inset 0 1px 1px #ffffff70,inset 1px 0 0 #ffffff20,inset -1px 0 0 #ffffff12,inset 0 -1px 1px #00000024,0 3px 10px #00000014;
 }
 .info-toggle > summary { border:1px solid var(--line); border-radius:999px; background-color:var(--control); }
 .button { border-radius:1rem; }
@@ -222,3 +222,21 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 .container.is-entering { animation:card-enter .42s cubic-bezier(.2,.8,.2,1) both; }
 .motion-paused .container.is-entering { animation:none; }
 @media(forced-colors:active) { .button.press-glow::after { display:none; } }
+
+.container { background-image:linear-gradient(135deg,#ffffff0d,transparent 35%,transparent 70%,#ffffff05); box-shadow:inset 0 1px 1px #ffffff66,inset 0 -1px 0 #00000014,0 16px 60px var(--shade); }
+@supports ((backdrop-filter:blur(8px)) or (-webkit-backdrop-filter:blur(8px))) {
+ .theme-toggle,.github-link,.repo-badge,.clock-widget { -webkit-backdrop-filter:blur(10px) saturate(140%); backdrop-filter:blur(10px) saturate(140%); }
+ @supports (background-color:color-mix(in srgb,white,transparent)) {
+  .theme-toggle,.github-link,.repo-badge { background-color:color-mix(in srgb,var(--surface) 90%,transparent); }
+ }
+ .clock-widget { background-color:var(--mobile-surface); }
+}
+@media(hover:none), (pointer:coarse) {
+ .container { box-shadow:inset 0 1px 1px #ffffff66,inset 0 -1px 0 #00000014,0 8px 28px #00000026; }
+}
+@media(prefers-reduced-transparency:reduce), (prefers-contrast:more) {
+ .container,.theme-toggle,.github-link,.repo-badge,.clock-widget { background-color:var(--mobile-surface); -webkit-backdrop-filter:none; backdrop-filter:none; background-image:none; }
+}
+@media(forced-colors:active) {
+ .container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,.info-toggle > summary { background:Canvas; color:CanvasText; border-color:CanvasText; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; }
+}
