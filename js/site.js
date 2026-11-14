@@ -2,28 +2,51 @@
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
+  const clockPeninsula = document.getElementById("clock-peninsula");
+  const clockCanarias = document.getElementById("clock-canarias");
+  const makeClockFormatter = (timeZone) => {
+    try {
+      return new Intl.DateTimeFormat("es-ES", { timeZone, hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+    } catch (e) {
+      return null;
+    }
+  };
+  const peninsulaFormatter = makeClockFormatter("Europe/Madrid");
+  const canariasFormatter = makeClockFormatter("Atlantic/Canary");
+  let clockTimer;
+
   function updClk() {
     const n = new Date();
-    const tP = document.getElementById("clock-peninsula");
-    const tC = document.getElementById("clock-canarias");
+    const tP = clockPeninsula;
+    const tC = clockCanarias;
     if (tP) {
       try {
-        tP.textContent = new Intl.DateTimeFormat("es-ES", { timeZone: "Europe/Madrid", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(n);
+        tP.textContent = peninsulaFormatter.format(n);
       } catch (e) {
         tP.textContent = n.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
       }
     }
     if (tC) {
       try {
-        tC.textContent = new Intl.DateTimeFormat("es-ES", { timeZone: "Atlantic/Canary", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(n);
+        tC.textContent = canariasFormatter.format(n);
       } catch (e) {
         const cDate = new Date(n.getTime() - 3600000);
         tC.textContent = cDate.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
       }
     }
   }
-  updClk();
-  setInterval(updClk, 1000);
+  function scheduleClock() {
+    clearTimeout(clockTimer);
+    if (document.hidden) return;
+    updClk();
+    clockTimer = setTimeout(scheduleClock, 60000 - (Date.now() % 60000));
+  }
+  scheduleClock();
+  document.addEventListener("visibilitychange", () => {
+    document.body.classList.toggle("page-hidden", document.hidden);
+    scheduleClock();
+  });
+  document.body.classList.toggle("page-hidden", document.hidden);
 
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
@@ -144,39 +167,56 @@
   }
 
   if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    let tck = false;
+    let tck = false, pointerX = 0, pointerY = 0;
     window.addEventListener("pointermove", (e) => {
-      if (!aOn) return;
-      document.body.style.setProperty("--mx", e.clientX + "px");
-      document.body.style.setProperty("--my", e.clientY + "px");
-      if (bgs.length && !tck) {
+      if (!aOn || document.hidden) return;
+      pointerX = e.clientX;
+      pointerY = e.clientY;
+      if (!tck) {
         tck = true;
         requestAnimationFrame(() => {
-          const nx = (e.clientX / window.innerWidth - 0.5) * -12;
-          const ny = (e.clientY / window.innerHeight - 0.5) * -12;
+          tck = false;
+          if (!aOn || document.hidden) return;
+          document.body.style.setProperty("--mx", pointerX + "px");
+          document.body.style.setProperty("--my", pointerY + "px");
+          const nx = (pointerX / window.innerWidth - 0.5) * -12;
+          const ny = (pointerY / window.innerHeight - 0.5) * -12;
           bgs.forEach((el) => {
             el.style.transform = "scale(1.035) translate(" + nx + "px, " + ny + "px)";
           });
-          tck = false;
         });
       }
     });
 
     function aTlt(el, mT, hS) {
-      let p = false, rx = 0, ry = 0;
+      let p = false, rx = 0, ry = 0, tiltFrame = 0, tiltX = 0, tiltY = 0;
       const r = () => {
         el.style.transform = "perspective(500px) rotateX(" + rx + "deg) rotateY(" + ry + "deg) scale(" + (p ? hS * 0.94 : hS) + ")";
       };
       el.addEventListener("pointermove", (e) => {
-        if (!aOn) return;
-        const rc = el.getBoundingClientRect();
-        ry = ((e.clientX - rc.left) / rc.width - 0.5) * mT * 2;
-        rx = (0.5 - (e.clientY - rc.top) / rc.height) * mT * 2;
-        r();
+        if (!aOn || document.hidden) return;
+        tiltX = e.clientX;
+        tiltY = e.clientY;
+        if (!tiltFrame) {
+          tiltFrame = requestAnimationFrame(() => {
+            tiltFrame = 0;
+            if (!aOn || document.hidden) return;
+            const rc = el.getBoundingClientRect();
+            ry = ((tiltX - rc.left) / rc.width - 0.5) * mT * 2;
+            rx = (0.5 - (tiltY - rc.top) / rc.height) * mT * 2;
+            r();
+          });
+        }
       });
       el.addEventListener("pointerdown", () => { if (aOn) { p = true; r(); } });
       el.addEventListener("pointerup", () => { p = false; if (aOn) r(); });
-      el.addEventListener("pointerleave", () => { p = false; rx = ry = 0; el.style.transform = ""; });
+      el.addEventListener("pointerleave", () => {
+        cancelAnimationFrame(tiltFrame);
+        tiltFrame = 0;
+        p = false;
+        rx = ry = 0;
+        el.style.transform = "";
+      });
     }
 
     const aw = document.querySelector(".avatar-wrap");
