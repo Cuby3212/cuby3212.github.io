@@ -412,6 +412,95 @@ body.motion-paused .container { animation: none }
   .container .button .icon { filter: none; forced-color-adjust: auto }
   .repo-badge svg { fill: CanvasText !important }
 }
-@media(min-width:640px){.container{width:min(92vw,42rem)}.button-grid{grid-template-columns:repeat(2,1fr);max-width:36rem;margin:0 auto}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:17.5rem;justify-self:center}}
-@media(min-width:900px){.container{width:min(94vw,56rem)}.button-grid{grid-template-columns:repeat(3,1fr);max-width:50rem}.button-grid .button-pronombr-es{grid-column:2;max-width:100%}}
-@media(min-width:1200px){.container{width:min(96vw,68rem)}.button-grid{grid-template-columns:repeat(4,1fr);max-width:62rem}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:15rem;justify-self:center}}
+/* Distribución fluida: se calcula con el espacio disponible, sin escuchar
+   eventos resize ni animar dimensiones que obliguen a recalcular el diseño. */
+:root {
+  font-size: clamp(1rem,calc(.875rem + .15vw),1.375rem);
+  --layout-padding: clamp(.75rem,3vw,3rem);
+  --spacing-m: clamp(1rem,2.6vw,2rem);
+  --edge-gap: clamp(.65rem,1vw,1.25rem);
+  --control-size: clamp(2.75rem,2.4vw,3.25rem);
+  --links-gap: clamp(.65rem,1vw,1rem);
+}
+html {
+  scroll-padding-block: calc(var(--control-size) + 2rem);
+}
+body {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-block-size: 100svh; min-block-size: 100dvh;
+  padding-inline: max(var(--layout-padding),env(safe-area-inset-left))
+    max(var(--layout-padding),env(safe-area-inset-right));
+  padding-block-start: calc(max(var(--edge-gap),env(safe-area-inset-top)) + var(--control-size) + 1.25rem);
+  padding-block-end: calc(max(var(--edge-gap),env(safe-area-inset-bottom)) + 4.5rem);
+}
+.container {
+  width: min(100%,clamp(52rem,70vw,84rem)); max-width: 84rem;
+  min-inline-size: 0; flex-shrink: 0;
+  border-radius: clamp(1.4rem,2.5vw,2rem);
+}
+.banner {
+  height: clamp(9rem,16vw,16rem);
+  border-start-start-radius: inherit; border-start-end-radius: inherit;
+}
+.banner-link { border-start-start-radius: inherit; border-start-end-radius: inherit }
+.avatar-wrap {
+  width: clamp(5rem,8vw,7rem); height: clamp(5rem,8vw,7rem);
+  margin-block-start: clamp(-3.5rem,-4vw,-2.5rem);
+}
+.button-grid {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: var(--links-gap); max-width: 100%; margin-inline: auto;
+}
+.container .button-grid .button {
+  flex: 1 1 clamp(13rem,22vw,18rem);
+  width: auto; min-inline-size: 0; max-inline-size: 22rem;
+  min-block-size: max(44px,3.25rem);
+  padding: .85rem clamp(.7rem,1.5vw,1.25rem);
+  white-space: normal; overflow-wrap: anywhere; hyphens: none;
+  scroll-margin-block: calc(var(--control-size) + 2rem);
+}
+.container .button-grid .button .icon { flex: 0 0 auto }
+.container .greeting { overflow-wrap: anywhere }
+.theme-toggle {
+  width: var(--control-size); height: var(--control-size);
+  top: max(var(--edge-gap),env(safe-area-inset-top));
+  right: max(var(--edge-gap),env(safe-area-inset-right));
+}
+.motion-toggle {
+  right: calc(max(var(--edge-gap),env(safe-area-inset-right)) + var(--control-size) + .5rem);
+}
+.corner-links {
+  top: max(var(--edge-gap),env(safe-area-inset-top));
+  left: max(var(--edge-gap),env(safe-area-inset-left));
+}
+.github-link { width: var(--control-size); height: var(--control-size) }
+.repo-badge { height: var(--control-size) }
+.clock-widget {
+  left: max(var(--edge-gap),env(safe-area-inset-left));
+  bottom: max(var(--edge-gap),env(safe-area-inset-bottom));
+  height: auto; min-height: 3rem; padding: .45rem .9rem; font-size: .8rem;
+}
+.toast { max-inline-size: calc(100% - 2rem); text-align: center }
+@media (orientation: portrait) {
+  .container { width: min(100%,56rem); max-width: 56rem }
+}
+/* En móviles y ventanas bajas, el reloj pasa bajo la tarjeta para no tapar
+   los enlaces mientras se desplaza el contenido. Todo sigue accesible. */
+@media (max-width: 639px), (max-height: 600px) {
+  body { padding-block-end: max(1rem,env(safe-area-inset-bottom)) }
+  .clock-widget {
+    position: relative; inset: auto; margin-block-start: 1rem;
+    max-inline-size: 100%; flex-shrink: 0;
+  }
+}
+@media (max-height: 600px) and (orientation: landscape) {
+  .banner { height: 8rem }
+  .avatar-wrap { width: 4.5rem; height: 4.5rem; margin-block-start: -2.25rem }
+  .container h1 { font-size: 1.5rem }
+  .container .greeting { margin-block-end: 1rem }
+}
+@media (max-width: 359px) {
+  .repo-badge { padding-inline: .55rem; font-size: .68rem; gap: .25rem }
+  .repo-badge-link { display: none }
+  .corner-links { gap: .4rem }
+}
