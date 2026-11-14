@@ -35,7 +35,6 @@
     (month === 12 && day === 31) || (month === 1 && day === 1) ? "newyear" :
     month === 10 && day === 31 ? "halloween" : "none";
   root.setAttribute("data-event", event);
-  // Aplicar el tema guardado antes de pintar evita un destello del tema contrario.
   try {
     const theme = localStorage.getItem("cuby-theme");
     if (theme === "light" || theme === "dark") {
