@@ -139,3 +139,12 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 @media(prefers-reduced-motion:reduce) { .footer-mascots { display:none; } }
 @media(forced-colors:active) { .button,.theme-toggle,.github-link,.repo-badge,.clock-widget,.info-toggle > summary { background:Canvas; box-shadow:none; } }
+
+/* Dejar el pie libre en portátiles de poca altura sin reducir toda la página. */
+@media(max-height:800px) and (min-width:1051px) and (orientation:landscape) {
+ .banner { height:10rem; }
+ .button { min-height:3.5rem; padding:.7rem 1rem; }
+ .button-grid { gap:.55rem; }
+ .links-panel { margin:1rem 2rem; }
+ .profile-header { padding-bottom:1.25rem; }
+}
