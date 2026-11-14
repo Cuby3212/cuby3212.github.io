@@ -1,7 +1,6 @@
 (() => {
   "use strict";
 
-  // Preferencias compartidas. El almacenamiento bloqueado no impide usar la web.
   const root = document.documentElement;
   const body = document.body;
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,7 +19,6 @@
   let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
   const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
 
-  // Relojes: dos formateadores reutilizados y una sola actualización por minuto.
   const clocks = [
     { element: document.getElementById("clock-peninsula"), zone: "Europe/Madrid" },
     { element: document.getElementById("clock-canarias"), zone: "Atlantic/Canary" }
@@ -41,14 +39,12 @@
     const now = new Date();
     clocks.forEach(({ element, formatter }) => {
       if (!element) return;
-      // Si el navegador no admite zonas horarias, no mostrar una hora local incorrecta.
       try { element.textContent = formatter ? formatter.format(now) : "--:--"; }
       catch { element.textContent = "--:--"; }
     });
     clockTimer = setTimeout(scheduleClock, 60000 - (Date.now() % 60000));
   }
 
-  // Tema y nombres accesibles de los controles.
   const themeButton = document.getElementById("theme-toggle");
   const themeMeta = document.getElementById("theme-color-meta");
   const isDark = () => root.classList.contains("theme-dark") ||
@@ -80,7 +76,6 @@
     if (root.classList.contains("theme-auto")) updateTheme();
   });
 
-  // Partículas estacionales; se omiten en pantallas táctiles.
   const event = root.getAttribute("data-event");
   const holidayIcon = { xmas: "🎁", newyear: "🎆", halloween: "🎃" }[event] || "";
   const season = root.getAttribute("data-season") || "spring";
@@ -98,8 +93,6 @@
     particles.appendChild(fragment);
   }
 
-  // Desplegables nativos con apertura y cierre gradual. No se mide el contenido
-  // en cada fotograma; solo al pulsar. Sin JavaScript siguen funcionando.
   const activeDisclosures = new Set();
   function finishDisclosures() {
     Array.from(activeDisclosures).forEach((finish) => finish());
@@ -130,7 +123,6 @@
     summary.addEventListener("click", (event) => {
       if (typeof details.animate !== "function") return;
       event.preventDefault();
-      // Un desplegable padre vuelve a altura automática antes de medir al hijo.
       Array.from(activeDisclosures).forEach((settle) => {
         if (settle !== finish) settle();
       });
@@ -159,7 +151,6 @@
       if (!animation) { expanded = details.open; updateDisclosure(); }
     });
   });
-  // Solo se recorren las animaciones activas; el diseño general sigue siendo CSS.
   window.addEventListener("resize", finishDisclosures, { passive: true });
   if (document.fonts && document.fonts.addEventListener) {
     document.fonts.addEventListener("loadingdone", finishDisclosures);
@@ -193,8 +184,6 @@
   syncMotion();
   syncVisibility();
 
-  // Modo aurora: conserva el código secreto y también se descubre con tres
-  // pulsaciones en el nombre. No añade partículas: cambia las ocho existentes.
   const secretTrigger = document.getElementById("secret-trigger");
   const auroraIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
   function setSecretMode(enabled) {
