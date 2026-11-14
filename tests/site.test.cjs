@@ -59,7 +59,8 @@ function boot(options = {}) {
   const document = new Events(), window = new Events();
   const body = new Element(), root = new Element('html');
   root.classList.add('theme-auto'); root.setAttribute('data-season', 'autumn');
-  const nodes = Object.fromEntries(['year','clock-peninsula','clock-canarias','theme-toggle','motion-toggle','theme-color-meta','greeting','seasonal-fx'].map(id => [id, new Element()]));
+  const nodes = Object.fromEntries(['year','clock-peninsula','clock-canarias','theme-toggle','motion-toggle','theme-color-meta','greeting','seasonal-fx','secret-panel','secret-trigger','secret-close'].map(id => [id, new Element()]));
+  nodes['secret-panel'].hidden = true;
   nodes['theme-toggle'].icon = new Element('span'); nodes['motion-toggle'].icon = new Element('span');
   const heading = new Element('h1'), avatar = new Element(), button = new Element('a'), background = new Element();
   const outer = new Element('details'), inner = new Element('details');
@@ -185,4 +186,24 @@ test('el código secreto conserva su función y no intercepta campos de texto', 
   assert.equal(app.body.classList.contains('secret-mode'), false);
   keys.forEach(key => app.window.fire('keydown', {key})); assert.equal(app.body.classList.contains('secret-mode'), true);
   assert.equal(app.body.children[0].attributes.role, 'status');
+});
+test('tres pulsaciones revelan la aurora y Escape recupera las ocho partículas originales', () => {
+  const app = boot();
+  for(let i=0;i<3;i++) app.nodes['secret-trigger'].fire('click');
+  assert.equal(app.nodes['secret-panel'].hidden, false);
+  assert.equal(app.body.classList.contains('secret-mode'), true);
+  assert.equal(app.nodes['seasonal-fx'].children.length, 8);
+  assert.equal(app.nodes['seasonal-fx'].children[0].textContent, '🦋');
+  app.window.fire('keydown', {key:'Escape'});
+  assert.equal(app.nodes['secret-panel'].hidden, true);
+  assert.equal(app.body.classList.contains('secret-mode'), false);
+  assert.equal(app.nodes['seasonal-fx'].children[0].textContent, '🍁');
+});
+test('la sorpresa funciona con movimiento reducido y se puede cerrar con su botón', () => {
+  const app = boot({reduced:true});
+  for(let i=0;i<3;i++) app.nodes['secret-trigger'].fire('click');
+  assert.equal(app.nodes['secret-panel'].hidden, false);
+  assert.equal(app.body.classList.contains('motion-paused'), true);
+  app.nodes['secret-close'].fire('click');
+  assert.equal(app.nodes['secret-panel'].hidden, true);
 });

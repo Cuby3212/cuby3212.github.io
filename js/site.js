@@ -316,27 +316,60 @@
   syncMotion();
   syncVisibility();
 
-  // Se conserva el modo secreto y se ignoran pulsaciones dentro de campos de texto.
-  const secretSequence = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
-  let secretIndex = 0;
-  window.addEventListener("keydown", (event) => {
-    if (event.target && event.target.closest && event.target.closest("input, textarea, select, [contenteditable]")) return;
-    const key = (event.key || "").toLowerCase();
-    secretIndex = key === secretSequence[secretIndex] ? secretIndex + 1 : (key === secretSequence[0] ? 1 : 0);
-    if (secretIndex !== secretSequence.length) return;
-    secretIndex = 0;
-    const enabled = body.classList.toggle("secret-mode");
+  // Modo aurora: conserva el código secreto y también se descubre con tres
+  // pulsaciones en el nombre. No añade partículas: cambia las ocho existentes.
+  const secretPanel = document.getElementById("secret-panel");
+  const secretTrigger = document.getElementById("secret-trigger");
+  const secretClose = document.getElementById("secret-close");
+  const auroraIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
+  function setSecretMode(enabled) {
+    body.classList.toggle("secret-mode", enabled);
+    if (secretPanel) secretPanel.hidden = !enabled;
+    if (particles) Array.from(particles.children).forEach((particle, index) => {
+      particle.textContent = enabled ? auroraIcons[index % auroraIcons.length] : particleIcon;
+    });
     const previousToast = document.querySelector(".toast");
     if (previousToast) previousToast.remove();
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.setAttribute("role", "status");
-    toast.textContent = enabled ? "Easter egg activado" : "Easter egg desactivado";
+    toast.textContent = enabled ? "Modo aurora activado ✨" : "Has vuelto al modo habitual";
     body.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add("is-shown"));
     setTimeout(() => {
       toast.classList.remove("is-shown");
       setTimeout(() => toast.remove(), 400);
     }, 2600);
+  }
+  if (secretClose) secretClose.addEventListener("click", () => {
+    setSecretMode(false);
+    if (secretTrigger && secretTrigger.focus) secretTrigger.focus({ preventScroll: true });
+  });
+  if (secretTrigger) {
+    let taps = 0, lastTap = 0;
+    secretTrigger.addEventListener("click", () => {
+      const timestamp = Date.now();
+      if (timestamp - lastTap > 900) taps = 0;
+      lastTap = timestamp;
+      if (++taps < 3) return;
+      taps = 0;
+      setSecretMode(!body.classList.contains("secret-mode"));
+    });
+  }
+  const secretSequence = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
+  let secretIndex = 0;
+  window.addEventListener("keydown", (event) => {
+    if (event.target && event.target.closest && event.target.closest("input, textarea, select, [contenteditable]")) return;
+    const key = (event.key || "").toLowerCase();
+    if (key === "escape" && body.classList.contains("secret-mode")) {
+      setSecretMode(false);
+      if (secretTrigger && secretTrigger.focus) secretTrigger.focus({ preventScroll: true });
+      secretIndex = 0;
+      return;
+    }
+    secretIndex = key === secretSequence[secretIndex] ? secretIndex + 1 : (key === secretSequence[0] ? 1 : 0);
+    if (secretIndex !== secretSequence.length) return;
+    secretIndex = 0;
+    setSecretMode(!body.classList.contains("secret-mode"));
   });
 })();

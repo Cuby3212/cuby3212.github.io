@@ -7,9 +7,9 @@ node --test tests/site.test.cjs
 python tests/validate_site.py
 ```
 
-Las once pruebas de comportamiento comprueban relojes, visibilidad de la pestaña,
+Las trece pruebas de comportamiento comprueban relojes, visibilidad de la pestaña,
 preferencias, pausa del saludo, desplegables, pulsaciones rápidas, redimensionado,
-cancelación del puntero, días especiales y modo secreto. Se ejecutan sobre un DOM
+cancelación del puntero, días especiales y modo aurora (código, pulsaciones y cierre). Se ejecutan sobre un DOM
 simulado, sin navegador ni dependencias externas.
 
 La validación estática comprueba estructura HTML, IDs únicos, sintaxis JavaScript,
