@@ -18,6 +18,15 @@
   const storedMotion = readPreference("cuby-motion");
   let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
   const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
+  const favicon = document.getElementById("site-favicon");
+  function syncFavicon() {
+    if (!favicon) return;
+    const animated = motionAllowed();
+    const href = animated ? "images/favicon.gif?v=20" : "images/avatar.png";
+    if (favicon.getAttribute("href") === href) return;
+    favicon.type = animated ? "image/gif" : "image/png";
+    favicon.href = href;
+  }
 
   const clocks = [
     { element: document.getElementById("clock-peninsula"), zone: "Europe/Madrid" },
@@ -135,7 +144,8 @@
     if (!element) return;
     element.textContent = icon;
     if (!icon) return;
-    if (!getEmoji(icon).native) element.replaceChildren(emojiImage(emojiAsset(icon), "emoji-image"));
+    // Mostrar el mismo dibujo comprobado evita diferencias entre canvas y las fuentes del texto.
+    element.replaceChildren(emojiImage(getEmoji(icon).source, "emoji-image"));
   }
   document.querySelectorAll(".emoji").forEach((element) => setInlineEmoji(element, element.textContent));
   setInlineEmoji(document.querySelector(".event-decoration"),
@@ -240,6 +250,7 @@
 
   const motionButton = document.getElementById("motion-toggle");
   function syncMotion() {
+    syncFavicon();
     const enabled = animationsEnabled && !reducedMotion.matches;
     body.classList.toggle("motion-paused", !enabled);
     if (motionButton) {
@@ -258,6 +269,7 @@
   });
   observeMedia(reducedMotion, syncMotion);
   function syncVisibility() {
+    syncFavicon();
     body.classList.toggle("page-hidden", document.hidden);
     scheduleClock();
     if (document.hidden) { finishDisclosures(); }
