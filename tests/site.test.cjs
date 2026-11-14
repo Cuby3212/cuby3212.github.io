@@ -59,8 +59,7 @@ function boot(options = {}) {
   const document = new Events(), window = new Events();
   const body = new Element(), root = new Element('html');
   root.classList.add('theme-auto'); root.setAttribute('data-season', 'autumn');
-  const nodes = Object.fromEntries(['year','clock-peninsula','clock-canarias','theme-toggle','motion-toggle','theme-color-meta','greeting','seasonal-fx','secret-panel','secret-trigger','secret-close'].map(id => [id, new Element()]));
-  nodes['secret-panel'].hidden = true;
+  const nodes = Object.fromEntries(['year','clock-peninsula','clock-canarias','theme-toggle','motion-toggle','theme-color-meta','greeting','seasonal-fx','secret-trigger'].map(id => [id, new Element()]));
   nodes['theme-toggle'].icon = new Element('span'); nodes['motion-toggle'].icon = new Element('span');
   const heading = new Element('h1'), avatar = new Element(), button = new Element('a'), background = new Element();
   const outer = new Element('details'), inner = new Element('details');
@@ -190,20 +189,47 @@ test('el código secreto conserva su función y no intercepta campos de texto', 
 test('tres pulsaciones revelan la aurora y Escape recupera las ocho partículas originales', () => {
   const app = boot();
   for(let i=0;i<3;i++) app.nodes['secret-trigger'].fire('click');
-  assert.equal(app.nodes['secret-panel'].hidden, false);
   assert.equal(app.body.classList.contains('secret-mode'), true);
   assert.equal(app.nodes['seasonal-fx'].children.length, 8);
   assert.equal(app.nodes['seasonal-fx'].children[0].textContent, '🦋');
   app.window.fire('keydown', {key:'Escape'});
-  assert.equal(app.nodes['secret-panel'].hidden, true);
   assert.equal(app.body.classList.contains('secret-mode'), false);
   assert.equal(app.nodes['seasonal-fx'].children[0].textContent, '🍁');
 });
-test('la sorpresa funciona con movimiento reducido y se puede cerrar con su botón', () => {
+test('la sorpresa funciona con movimiento reducido y se desactiva con otras tres pulsaciones', () => {
   const app = boot({reduced:true});
   for(let i=0;i<3;i++) app.nodes['secret-trigger'].fire('click');
-  assert.equal(app.nodes['secret-panel'].hidden, false);
   assert.equal(app.body.classList.contains('motion-paused'), true);
-  app.nodes['secret-close'].fire('click');
-  assert.equal(app.nodes['secret-panel'].hidden, true);
+  for(let i=0;i<3;i++) app.nodes['secret-trigger'].fire('click');
+  assert.equal(app.body.classList.contains('secret-mode'), false);
+});
+
+test('pausar y reanudar no vuelve a lanzar una entrada de la tarjeta', () => {
+  const app = boot();
+  const heading = app.nodes.greeting.textContent;
+  for (let i = 0; i < 4; i++) app.nodes['motion-toggle'].fire('click');
+  assert.equal(app.body.classList.contains('motion-paused'), false);
+  assert.ok(app.nodes.greeting.textContent.length >= heading.length);
+  const css = fs.readFileSync(path.join(__dirname, '../css/custom.css'), 'utf8');
+  assert.doesNotMatch(css, /glassEnter/);
+  assert.doesNotMatch(css, /body\.motion-paused \.container\s*\{[^}]*animation:/);
+});
+
+test('el fondo estacional y los eventos se seleccionan antes del primer pintado', () => {
+  const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+  const bootstrap = html.match(/<script>([\s\S]*?)<\/script>/)[1];
+  for (const [date, season, event] of [
+    ['2026-04-15', 'spring', 'none'], ['2026-07-15', 'summer', 'none'],
+    ['2026-11-14', 'autumn', 'none'], ['2026-02-15', 'winter', 'none'],
+    ['2026-12-23', 'winter', 'none'], ['2026-12-24', 'winter', 'xmas'],
+    ['2026-12-26', 'winter', 'xmas'], ['2026-12-27', 'winter', 'none'],
+    ['2026-12-31', 'winter', 'newyear'], ['2027-01-01', 'winter', 'newyear'],
+    ['2027-01-02', 'winter', 'none'], ['2026-10-31', 'autumn', 'halloween']
+  ]) {
+    const root = new Element();
+    class CalendarDate extends Date { constructor() { super(date + 'T12:00:00'); } }
+    vm.runInNewContext(bootstrap, {document:{documentElement:root}, Date:CalendarDate, localStorage:{getItem:()=>null}});
+    assert.equal(root.getAttribute('data-season'), season, date);
+    assert.equal(root.getAttribute('data-event'), event, date);
+  }
 });

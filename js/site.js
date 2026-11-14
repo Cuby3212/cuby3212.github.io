@@ -220,7 +220,6 @@
   }
 
   // Puntero: un fotograma pendiente como máximo y limpieza al pausar o cancelar.
-  const backgrounds = document.querySelectorAll(".bg-layer");
   const tiltResets = [];
   let pointerFrame = null;
   let pointerX = 0;
@@ -240,11 +239,6 @@
         if (!motionAllowed()) return;
         body.style.setProperty("--mx", pointerX + "px");
         body.style.setProperty("--my", pointerY + "px");
-        const x = (pointerX / window.innerWidth - 0.5) * -12;
-        const y = (pointerY / window.innerHeight - 0.5) * -12;
-        backgrounds.forEach((background) => {
-          background.style.transform = "scale(1.035) translate(" + x + "px, " + y + "px)";
-        });
       });
     }, { passive: true });
     function addTilt(element, maxTilt, scale) {
@@ -318,13 +312,10 @@
 
   // Modo aurora: conserva el código secreto y también se descubre con tres
   // pulsaciones en el nombre. No añade partículas: cambia las ocho existentes.
-  const secretPanel = document.getElementById("secret-panel");
   const secretTrigger = document.getElementById("secret-trigger");
-  const secretClose = document.getElementById("secret-close");
   const auroraIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
   function setSecretMode(enabled) {
     body.classList.toggle("secret-mode", enabled);
-    if (secretPanel) secretPanel.hidden = !enabled;
     if (particles) Array.from(particles.children).forEach((particle, index) => {
       particle.textContent = enabled ? auroraIcons[index % auroraIcons.length] : particleIcon;
     });
@@ -341,10 +332,6 @@
       setTimeout(() => toast.remove(), 400);
     }, 2600);
   }
-  if (secretClose) secretClose.addEventListener("click", () => {
-    setSecretMode(false);
-    if (secretTrigger && secretTrigger.focus) secretTrigger.focus({ preventScroll: true });
-  });
   if (secretTrigger) {
     let taps = 0, lastTap = 0;
     secretTrigger.addEventListener("click", () => {
