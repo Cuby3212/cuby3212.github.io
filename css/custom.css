@@ -211,11 +211,8 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 @media(prefers-contrast:more) { :root[data-event] { --line:currentColor; } }
 
 .event-decoration { display:none; margin-left:.3em; font-size:.55em; vertical-align:.12em; line-height:1; }
-:root[data-event='halloween'] { --event-decoration:'🎃'; }
-:root[data-event='xmas'] { --event-decoration:'🎄'; }
-:root[data-event='newyear'] { --event-decoration:'🎆'; }
 :root:is([data-event='halloween'],[data-event='xmas'],[data-event='newyear']) .event-decoration { display:inline-block; }
-.event-decoration::before { content:var(--event-decoration); }
+
 @keyframes button-glint { 0%,100% { opacity:0; } 35% { opacity:.22; } }
 .button.press-glow::after { content:''; position:absolute; inset:1px; border-radius:inherit; pointer-events:none; background:linear-gradient(110deg,transparent 10%,#fff 50%,transparent 90%); opacity:0; animation:button-glint .32s ease-out; }
 @keyframes card-enter { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
@@ -248,3 +245,6 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 @media(hover:none), (pointer:coarse) {
  .firefox-android .footer-mascots { bottom:.65rem; }
 }
+
+.emoji,.event-decoration { font-family:"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif; }
+.emoji-image { display:inline-block; width:1em; height:1em; vertical-align:-.12em; object-fit:contain; }

@@ -81,32 +81,67 @@
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
-  const particleImages = new Map();
-  function setParticleIcon(particle, icon) {
-    if (!particleImages.has(icon)) {
-      let source = null;
-      try {
-        const canvas = document.createElement("canvas");
-        canvas.width = canvas.height = 128;
-        const context = canvas.getContext("2d");
-        if (context) {
-          context.font = '96px "Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", sans-serif';
-          context.textAlign = "center";
-          context.textBaseline = "middle";
-          context.fillText(icon, 64, 68);
-          source = canvas.toDataURL("image/png");
+  const emojiFont = '"Apple Color Emoji", "Noto Color Emoji", "Segoe UI Emoji", sans-serif';
+  const emojiCache = new Map();
+  function emojiAsset(icon) {
+    const code = Array.from(icon).filter((char) => char !== "\ufe0f" || icon.includes("\u200d"))
+      .map((char) => char.codePointAt(0).toString(16)).join("-");
+    return "images/emoji/" + code + ".svg";
+  }
+  function getEmoji(icon) {
+    if (emojiCache.has(icon)) return emojiCache.get(icon);
+    let native = false;
+    let source = emojiAsset(icon);
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 128;
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      if (context) {
+        context.font = "96px " + emojiFont;
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText(icon + (icon.includes("\ufe0f") ? "" : "\ufe0f"), 64, 68);
+        const pixels = context.getImageData(0, 0, 128, 128).data;
+        // Letras regionales y glifos ausentes son monocromos. Solo se comprueba una vez.
+        for (let i = 0; i < pixels.length; i += 4) {
+          if (pixels[i + 3] > 128 && Math.max(pixels[i], pixels[i + 1], pixels[i + 2]) -
+              Math.min(pixels[i], pixels[i + 1], pixels[i + 2]) > 32) {
+            native = true;
+            break;
+          }
         }
-      } catch {}
-      particleImages.set(icon, source);
-    }
-    const source = particleImages.get(icon);
-    if (!source) { particle.textContent = icon; return; }
+        if (native && icon.includes("\u200d")) {
+          const joined = canvas.toDataURL("image/png");
+          context.clearRect(0, 0, 128, 128);
+          context.fillText(icon.replace(/\u200d/g, "\u200b"), 64, 68);
+          native = joined !== canvas.toDataURL("image/png");
+          if (native) source = joined;
+        } else if (native) source = canvas.toDataURL("image/png");
+      }
+    } catch { native = false; }
+    const result = { native, source: native ? source : emojiAsset(icon) };
+    emojiCache.set(icon, result);
+    return result;
+  }
+  function emojiImage(source, className) {
     const image = document.createElement("img");
-    image.className = "petal-image";
+    image.className = className;
     image.alt = "";
     image.width = image.height = 128;
     image.src = source;
-    particle.replaceChildren(image);
+    return image;
+  }
+  function setInlineEmoji(element, icon) {
+    if (!element) return;
+    element.textContent = icon;
+    if (!icon) return;
+    if (!getEmoji(icon).native) element.replaceChildren(emojiImage(emojiAsset(icon), "emoji-image"));
+  }
+  document.querySelectorAll(".emoji").forEach((element) => setInlineEmoji(element, element.textContent));
+  setInlineEmoji(document.querySelector(".event-decoration"),
+    { xmas: "🎄", newyear: "🎆", halloween: "🎃" }[event] || "");
+  function setParticleIcon(particle, icon) {
+    particle.replaceChildren(emojiImage(getEmoji(icon).source, "petal-image"));
   }
   const randomBetween = (min, max) => min + Math.random() * (max - min);
   function randomizeParticle(particle, initial = false) {
@@ -261,7 +296,14 @@
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.setAttribute("role", "status");
-    toast.textContent = enabled ? "Modo easter egg activado ✨" : "Has vuelto al modo habitual";
+    toast.textContent = enabled ? "Modo easter egg activado " : "Has vuelto al modo habitual";
+    if (enabled) {
+      const sparkle = document.createElement("span");
+      sparkle.className = "emoji";
+      sparkle.setAttribute("aria-hidden", "true");
+      setInlineEmoji(sparkle, "✨");
+      toast.appendChild(sparkle);
+    }
     body.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add("is-shown"));
     setTimeout(() => {
