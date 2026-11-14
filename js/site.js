@@ -81,7 +81,7 @@
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
-  if (particles && !window.matchMedia("(pointer: coarse)").matches) {
+  if (particles) {
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < 8; index++) {
       const particle = document.createElement("span");
@@ -185,18 +185,18 @@
   syncVisibility();
 
   const secretTrigger = document.getElementById("secret-trigger");
-  const auroraIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
+  const easterEggIcons = ["🦋", "✨", "💖", "🏳️‍⚧️", "🌸", "💙", "🤍", "💗"];
   function setSecretMode(enabled) {
     body.classList.toggle("secret-mode", enabled);
     if (particles) Array.from(particles.children).forEach((particle, index) => {
-      particle.textContent = enabled ? auroraIcons[index % auroraIcons.length] : particleIcon;
+      particle.textContent = enabled ? easterEggIcons[index % easterEggIcons.length] : particleIcon;
     });
     const previousToast = document.querySelector(".toast");
     if (previousToast) previousToast.remove();
     const toast = document.createElement("div");
     toast.className = "toast";
     toast.setAttribute("role", "status");
-    toast.textContent = enabled ? "Modo aurora activado ✨" : "Has vuelto al modo habitual";
+    toast.textContent = enabled ? "Modo easter egg activado ✨" : "Has vuelto al modo habitual";
     body.appendChild(toast);
     requestAnimationFrame(() => toast.classList.add("is-shown"));
     setTimeout(() => {
