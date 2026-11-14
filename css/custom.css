@@ -66,13 +66,20 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 @media(hover:hover) { .button:hover,.theme-toggle:not(:disabled):hover,.repo-badge:hover,.github-link:hover { background-color:var(--hover); transform:translateY(-2px); } }
 .button:active,.theme-toggle:active { transform:translateY(0); }
 .seasonal-fx { position:fixed; inset:0; z-index:15; pointer-events:none; overflow:hidden; contain:strict; }
- .petal { will-change:transform,opacity; position:absolute; top:-4rem; left:calc(3% + var(--i) * 12%); opacity:0; font-size:clamp(1.5rem,2.2vw,2rem); line-height:1.2; animation:fall 22s linear infinite; animation-delay:calc(var(--i) * -2.75s); }
+.petal { will-change:transform,opacity; position:absolute; top:-4rem; left:var(--x); opacity:0; font-size:clamp(1.5rem,2.2vw,2rem); line-height:1.2; animation:fall var(--duration) linear var(--delay) 1 both; }
 @keyframes fall {
-  0% { transform:translate3d(-1rem,-4rem,0) rotate(-20deg); opacity:0; }
-  8%,85% { opacity:.7; }
-  35% { transform:translate3d(1.2rem,38vh,0) rotate(35deg); }
-  65% { transform:translate3d(-.7rem,72vh,0) rotate(-15deg); }
-  100% { transform:translate3d(1rem,calc(100vh + 8rem),0) rotate(70deg); opacity:0; }
+  0% { transform:translate3d(0,-4rem,0) rotate(var(--rotation-start)) scale(var(--scale)); opacity:0; }
+  8%,85% { opacity:var(--alpha); }
+  35% { transform:translate3d(var(--drift-a),38vh,0) rotate(var(--rotation-mid)) scale(var(--scale)); }
+  65% { transform:translate3d(var(--drift-b),72vh,0) rotate(var(--rotation-start)) scale(var(--scale)); }
+  100% { transform:translate3d(var(--drift-end),calc(100vh + 8rem),0) rotate(var(--rotation-end)) scale(var(--scale)); opacity:0; }
+}
+@keyframes fall-next {
+  0% { transform:translate3d(0,-4rem,0) rotate(var(--rotation-start)) scale(var(--scale)); opacity:0; }
+  8%,85% { opacity:var(--alpha); }
+  35% { transform:translate3d(var(--drift-a),38vh,0) rotate(var(--rotation-mid)) scale(var(--scale)); }
+  65% { transform:translate3d(var(--drift-b),72vh,0) rotate(var(--rotation-start)) scale(var(--scale)); }
+  100% { transform:translate3d(var(--drift-end),calc(100vh + 8rem),0) rotate(var(--rotation-end)) scale(var(--scale)); opacity:0; }
 }
 .secret-overlay { position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:0; background:linear-gradient(125deg,#5bcefa66,transparent 50%,#f5a9b866); transition:opacity .6s ease; }
 .secret-mode .secret-overlay { opacity:1; }

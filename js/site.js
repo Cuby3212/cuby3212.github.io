@@ -81,12 +81,32 @@
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
+  const randomBetween = (min, max) => min + Math.random() * (max - min);
+  function randomizeParticle(particle, initial = false) {
+    const duration = randomBetween(14, 27);
+    const values = {
+      "--x": randomBetween(3, 97) + "%",
+      "--duration": duration + "s",
+      "--delay": (initial ? -Math.random() * duration : randomBetween(0, 3)) + "s",
+      "--drift-a": randomBetween(-3, 3) + "rem",
+      "--drift-b": randomBetween(-3, 3) + "rem",
+      "--drift-end": randomBetween(-3, 3) + "rem",
+      "--rotation-start": randomBetween(-90, 90) + "deg",
+      "--rotation-mid": randomBetween(-120, 120) + "deg",
+      "--rotation-end": randomBetween(-180, 180) + "deg",
+      "--scale": randomBetween(.85, 1.25),
+      "--alpha": randomBetween(.55, .85)
+    };
+    Object.entries(values).forEach(([key, value]) => particle.style.setProperty(key, value));
+    particle.style.animationName = particle.style.animationName === "fall" ? "fall-next" : "fall";
+  }
   if (particles) {
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < 8; index++) {
       const particle = document.createElement("span");
       particle.className = "petal";
-      particle.style.setProperty("--i", index);
+      randomizeParticle(particle, true);
+      particle.addEventListener("animationend", () => randomizeParticle(particle));
       particle.textContent = particleIcon;
       fragment.appendChild(particle);
     }
