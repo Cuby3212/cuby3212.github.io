@@ -531,40 +531,35 @@ body { font-family: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif }
 .github-link, .info-toggle > summary { position: relative }
 /* Se anima únicamente el reborde del control activo. Ningún desenfoque ni
    sombra cambia por fotograma; al salir del control se detiene la animación. */
-@property --trans-turn {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
+@keyframes transBorder {
+  to { transform: translate(-50%,-50%) rotate(360deg) }
 }
-@keyframes transBorder { to { --trans-turn: 360deg } }
+.trans-border { display: none }
 @supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
-  :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit;
-    padding: 1px; pointer-events: none;
-    background: conic-gradient(from 155deg,transparent 8%,var(--glass-light) 22%,
-      transparent 40%,var(--glass-edge) 55%,var(--glass-light) 72%,transparent 88%);
+  .trans-border {
+    position: absolute; inset: 0; border-radius: inherit;
+    padding: 2.5px; pointer-events: none; overflow: hidden; z-index: 3;
     -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor; mask-composite: exclude;
   }
-  :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):focus-visible::before {
-    padding: 2.5px;
-    background: conic-gradient(from var(--trans-turn,0deg),#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%,#5bcefa);
+  .trans-border::before {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 150%; aspect-ratio: 1;
+    background: conic-gradient(#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%,#5bcefa);
+    transform: translate(-50%,-50%);
     animation: transBorder 4s linear infinite;
   }
+  :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):focus-visible .trans-border { display: block }
   @media (hover: hover) and (pointer: fine) {
-    :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):hover::before {
-      padding: 2.5px;
-      background: conic-gradient(from var(--trans-turn,0deg),#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%,#5bcefa);
-      animation: transBorder 4s linear infinite;
-    }
+    :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):hover .trans-border { display: block }
   }
-  .container .button:active::before {
-    padding: 2.5px;
-    background: conic-gradient(#5bcefa,#f5a9b8,#fff,#f5a9b8,#5bcefa);
+  .container .button:active .trans-border { display: block }
+  .container .button:active .trans-border::before {
+    animation: none; transform: translate(-50%,-50%);
   }
 }
-body.motion-paused :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before {
+body.motion-paused .trans-border::before {
   animation-play-state: paused !important;
 }
 @media (orientation: portrait) and (min-width: 480px) and (max-width: 900px) {
@@ -580,8 +575,9 @@ body.motion-paused :is(.button,.theme-toggle,.repo-badge,.github-link,.info-togg
   .repo-badge { font-size: .72rem }
 }
 @media (prefers-reduced-motion: reduce) {
-  :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before { animation: none !important }
+  .trans-border::before { animation: none !important }
 }
 @media (forced-colors: active) {
+  .trans-border { display: none !important }
   :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before { display: none }
 }
