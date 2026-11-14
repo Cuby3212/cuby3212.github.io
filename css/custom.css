@@ -1163,7 +1163,7 @@ body.motion-paused .container {
   .container .button::after, .glass-sheen, .container::before {
     display: none;
   }
-  
+
   .repo-badge svg {
     fill: CanvasText !important;
   }
@@ -1427,7 +1427,7 @@ body.motion-paused .trans-border::before {
     max-inline-size: 100%;
     min-block-size: 3.25rem;
   }
-  
+
   .container h1 {
     font-size: 2rem;
   }
