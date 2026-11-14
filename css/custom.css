@@ -8,13 +8,13 @@
 :root[data-event='newyear'] { --scene:url('../images/scene-newyear.webp'); }
 :root[data-event='halloween'] { --scene:url('../images/scene-halloween.webp'); }
 *,*::before,*::after { box-sizing:border-box; }
-body { margin:0; min-height:100svh; padding:6rem max(1rem,env(safe-area-inset-right)) max(5rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left)); display:flex; flex-direction:column; align-items:center; justify-content:center; background:#283c35; color:var(--text); font:400 1rem/1.5 'Baloo 2',system-ui,sans-serif; -webkit-tap-highlight-color:transparent; }
+body { position:relative; isolation:isolate; margin:0; min-height:100svh; padding:6rem max(1rem,env(safe-area-inset-right)) max(5rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left)); display:flex; flex-direction:column; align-items:center; justify-content:center; background:#283c35; color:var(--text); font:400 1rem/1.5 'Baloo 2',system-ui,sans-serif; -webkit-tap-highlight-color:transparent; }
 button,a,summary { touch-action:manipulation; }
 button { font:inherit; cursor:pointer; }
 a { color:inherit; text-underline-offset:.2em; }
 img { display:block; max-width:100%; }
 :focus-visible { outline:3px solid #b86298; outline-offset:4px; }
-.bg-layer { position:fixed; inset:0; z-index:-2; pointer-events:none; background:#283c35 var(--scene) var(--scene-position,center) / cover no-repeat; }
+.bg-layer { position:absolute; inset:0; z-index:-2; pointer-events:none; background:#283c35 var(--scene) var(--scene-position,center) / cover no-repeat; }
 .bg-layer::after { transition:background-color .35s ease; content:''; position:absolute; inset:0; background:var(--veil); }
 .container { position:relative; width:min(100%,82rem); display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr); padding:1rem; border:1px solid var(--line); border-radius:1.5rem; background:var(--surface); box-shadow:0 16px 60px var(--shade); }
 .profile-header { min-width:0; text-align:center; align-self:stretch; padding-bottom:2rem; border:1px solid var(--line); border-radius:1rem; overflow:hidden; background:linear-gradient(145deg,#ffffff0a,transparent); }
@@ -140,7 +140,6 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 
 @media(hover:none), (pointer:coarse) {
  .petal { font-size:1.65rem; }
- .bg-layer { height:100lvh; bottom:auto; }
  .container { background:var(--mobile-surface); box-shadow:0 8px 28px #00000026; }
  .button { transition:background-color .25s ease,color .25s ease,border-color .25s ease,transform .18s ease; }
 }
@@ -233,6 +232,10 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 @media(hover:none), (pointer:coarse) {
  .container { box-shadow:inset 0 1px 1px #ffffff66,inset 0 -1px 0 #00000014,0 8px 28px #00000026; }
+}
+@media(hover:none), (pointer:coarse), (max-width:1050px) {
+ .container,.theme-toggle,.github-link,.repo-badge,.clock-widget { -webkit-backdrop-filter:none; backdrop-filter:none; }
+ .theme-toggle,.github-link,.repo-badge,.clock-widget { background-color:var(--mobile-surface); }
 }
 @media(prefers-reduced-transparency:reduce), (prefers-contrast:more) {
  .container,.theme-toggle,.github-link,.repo-badge,.clock-widget { background-color:var(--mobile-surface); -webkit-backdrop-filter:none; backdrop-filter:none; background-image:none; }
