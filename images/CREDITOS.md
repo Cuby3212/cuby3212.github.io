@@ -12,8 +12,24 @@ Fotografías seleccionadas en Unsplash, bajo su [licencia gratuita](https://unsp
 | Año Nuevo | [Fuegos artificiales — Anne Nygård](https://unsplash.com/photos/jrBwmFbIRFw) |
 | Halloween | [Calabazas iluminadas — Alex Dadukin](https://unsplash.com/photos/ov2w7IuNjnE) |
 
-## Entrega de imágenes
+## Imágenes utilizadas
 
-Las imágenes `scene-*.webp` tienen hasta 3200 píxeles de ancho; las variantes `-small` tienen hasta 1600. WebP, calidad 82–84, sin metadatos. En las fotografías verticales, la variante grande utiliza un encuadre horizontal de 3200 × 2000 para evitar decodificar píxeles fuera de la pantalla. La selección se realiza con CSS según el ancho y la densidad de la pantalla; solo se descarga el fondo correspondiente a la fecha y al tamaño inicial. Cambiar de tema no sustituye ni vuelve a descargar la fotografía.
+Los fondos `scene-*.webp` conservan su resolución de hasta 3200 píxeles de ancho.
+Se muestran con recorte centrado, sin estirarlos ni cambiar sus proporciones.
+La foto del perfil tiene 512 × 512 píxeles y el banner 1200 × 400; se conservan
+los originales. El cambio de tema no descarga otra fotografía.
 
-El día especial se calcula antes del primer pintado. Navidad: 24–26 de diciembre; Año Nuevo: 31 de diciembre y 1 de enero; Halloween: 31 de octubre. El resto del año se utiliza la estación correspondiente a España, sin añadir solicitudes a servicios de imágenes externos.
+Navidad: 24–26 de diciembre. Año Nuevo: 31 de diciembre y 1 de enero.
+Halloween: 31 de octubre. El resto del año se usa la estación correspondiente.
+
+Las variantes `*-portrait.webp` se usan en pantallas verticales para primavera,
+Halloween y Año Nuevo. Los demás fondos mantienen el original de 3200 píxeles
+y se recortan con `cover`, sin deformación ni filtros de desenfoque.
+
+## Animaciones decorativas
+
+- [MikuDance](https://myemotes.io/emotes/mikudance), subida por clovercutie (88 × 71).
+- [teto_dance](https://myemotes.io/stickers/teto_dance), subida por mnkq (400 × 301).
+
+myEmotes las ofrece para uso personal y no monetizado. Se cargan desde su CDN,
+no forman parte del código bajo MIT y se ocultan al pausar o reducir el movimiento.

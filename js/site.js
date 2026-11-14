@@ -60,13 +60,13 @@
     const dark = isDark();
     if (themeButton) {
       const icon = themeButton.querySelector("span");
-      if (icon) icon.textContent = dark ? "☀️" : "🌙";
+      if (icon) icon.textContent = dark ? "☀" : "☾";
       const label = dark ? "Activar modo claro" : "Activar modo oscuro";
       themeButton.setAttribute("aria-label", label);
       themeButton.title = label;
       themeButton.setAttribute("aria-pressed", String(dark));
     }
-    if (themeMeta) themeMeta.setAttribute("content", dark ? "#0c0a16" : "#f7c9dd");
+    if (themeMeta) themeMeta.setAttribute("content", dark ? "#1c2026" : "#faf9f7");
   }
   const storedTheme = readPreference("cuby-theme");
   if (storedTheme === "light" || storedTheme === "dark") {
@@ -91,35 +91,33 @@
   const day = now.getDate();
   const hour = now.getHours();
   let greetings;
-  let holidayClass = "";
   let holidayIcon = "";
   if (month === 12 && day >= 24 && day <= 26) {
     greetings = ["¡Feliz Navidad y felices fiestas!", "Días de descanso y abrigo.", "Disfruta de estas fechas con calma."];
-    holidayClass = "holiday-xmas"; holidayIcon = "🎁";
+    holidayIcon = "🎁";
   } else if ((month === 12 && day === 31) || (month === 1 && day === 1)) {
     greetings = ["¡Feliz año nuevo!", "Empezando el año con todo.", "Nuevos propósitos por delante."];
-    holidayClass = "holiday-newyear"; holidayIcon = "🎆";
+    holidayIcon = "🎆";
   } else if (month === 10 && day === 31) {
     greetings = ["Noche de brujas por aquí.", "Ambiente misterioso hoy.", "Cuidado con los sustos."];
-    holidayClass = "holiday-halloween"; holidayIcon = "🎃";
+    holidayIcon = "🎃";
   } else {
     const byHour = {
       morning: ["Buenos días.", "Café primero.", "Hola, buenos días.", "¿Qué tal la mañana?"],
       afternoon: ["Buenas tardes.", "¿Qué tal la tarde?", "Tarde tranquila.", "Hola de nuevo."],
-      night: ["Buenas noches.", "¿No deberías dormir?", "Modo noche activado.", "Descansa cuando toque."]
+      night: ["Buenas noches.", "¿No deberías dormir?", "Hola, ¿sigues por aquí?", "Una más y a dormir."]
     };
     greetings = byHour[(hour < 6 || hour >= 20) ? "night" : (hour < 13 ? "morning" : "afternoon")];
   }
-  const heading = document.querySelector("h1");
-  if (heading && holidayClass) heading.classList.add(holidayClass);
   const season = root.getAttribute("data-season") || "spring";
   const particleIcon = holidayIcon || { spring: "🌸", summer: "☀️", autumn: "🍁", winter: "❄️" }[season] || "🌸";
   const particles = document.getElementById("seasonal-fx");
-  if (particles) {
+  if (particles && !window.matchMedia("(pointer: coarse)").matches) {
     const fragment = document.createDocumentFragment();
     for (let index = 0; index < 8; index++) {
       const particle = document.createElement("span");
       particle.className = "petal";
+      particle.style.setProperty("--i", index);
       particle.textContent = particleIcon;
       fragment.appendChild(particle);
     }
@@ -136,7 +134,6 @@
     greetingIndex = greetingText.length;
     if (greeting) {
       greeting.textContent = greetingText;
-      greeting.classList.remove("is-typing");
     }
   }
   function typeGreeting() {
@@ -145,7 +142,6 @@
     if (!greeting || greetingIndex >= greetingText.length) return;
     if (!animationsEnabled || reducedMotion.matches) { finishGreeting(); return; }
     if (document.hidden) return;
-    greeting.classList.add("is-typing");
     greetingIndex++;
     greeting.textContent = greetingText.slice(0, greetingIndex);
     if (greetingIndex === greetingText.length) finishGreeting();
@@ -219,64 +215,36 @@
     document.fonts.addEventListener("loadingdone", finishDisclosures);
   }
 
-  // Puntero: un fotograma pendiente como máximo y limpieza al pausar o cancelar.
-  const tiltResets = [];
-  let pointerFrame = null;
-  let pointerX = 0;
-  let pointerY = 0;
-  function resetPointerEffects() {
-    if (pointerFrame !== null) cancelAnimationFrame(pointerFrame);
-    pointerFrame = null;
-    tiltResets.forEach((reset) => reset());
+  // Los GIF solo se decodifican mientras están visibles y hay movimiento permitido.
+  const mascots = Array.from(document.querySelectorAll(".footer-mascots img"));
+  const visibleMascots = new Set();
+  const failedMascots = new WeakSet();
+  const emptyImage = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+  function syncMascots() {
+    mascots.forEach((image) => {
+      const active = visibleMascots.has(image) && motionAllowed() && !failedMascots.has(image);
+      const source = active ? image.dataset.animatedSrc : emptyImage;
+      image.hidden = !active;
+      if (image.getAttribute("src") !== source) image.setAttribute("src", source);
+    });
   }
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    window.addEventListener("pointermove", (event) => {
-      if (!motionAllowed()) return;
-      pointerX = event.clientX; pointerY = event.clientY;
-      if (pointerFrame !== null) return;
-      pointerFrame = requestAnimationFrame(() => {
-        pointerFrame = null;
-        if (!motionAllowed()) return;
-        body.style.setProperty("--mx", pointerX + "px");
-        body.style.setProperty("--my", pointerY + "px");
-      });
-    }, { passive: true });
-    function addTilt(element, maxTilt, scale) {
-      let pressed = false, rotationX = 0, rotationY = 0, frame = null, x = 0, y = 0;
-      const render = () => {
-        element.style.transform = "perspective(500px) rotateX(" + rotationX +
-          "deg) rotateY(" + rotationY + "deg) scale(" + (pressed ? scale * 0.94 : scale) + ")";
-      };
-      const reset = () => {
-        if (frame !== null) cancelAnimationFrame(frame);
-        frame = null; pressed = false; rotationX = rotationY = 0;
-        element.style.transform = "";
-      };
-      tiltResets.push(reset);
-      element.addEventListener("pointermove", (event) => {
-        if (!motionAllowed()) return;
-        x = event.clientX; y = event.clientY;
-        if (frame !== null) return;
-        frame = requestAnimationFrame(() => {
-          frame = null;
-          if (!motionAllowed()) return;
-          const rect = element.getBoundingClientRect();
-          if (!rect.width || !rect.height) return;
-          rotationY = ((x - rect.left) / rect.width - 0.5) * maxTilt * 2;
-          rotationX = (0.5 - (y - rect.top) / rect.height) * maxTilt * 2;
-          render();
+  if (mascots.length) {
+    if (typeof IntersectionObserver === "function") {
+      // Observar el hueco reservado evita un bucle al ocultar las imágenes.
+      const container = document.querySelector(".footer-mascots");
+      if (container) {
+        const wrapperObserver = new IntersectionObserver(([entry]) => {
+          mascots.forEach(image => entry.isIntersecting ? visibleMascots.add(image) : visibleMascots.delete(image));
+          syncMascots();
         });
-      }, { passive: true });
-      element.addEventListener("pointerdown", () => { if (motionAllowed()) { pressed = true; render(); } });
-      element.addEventListener("pointerup", () => { pressed = false; if (motionAllowed()) render(); });
-      element.addEventListener("pointerleave", reset);
-      element.addEventListener("pointercancel", reset);
-    }
-    const avatar = document.querySelector(".avatar-wrap");
-    if (avatar) addTilt(avatar, 12, 1.08);
-    document.querySelectorAll(".container .button").forEach((button) => addTilt(button, 6, 1.02));
+        wrapperObserver.observe(container);
+      }
+    } else mascots.forEach(image => visibleMascots.add(image));
+    mascots.forEach(image => image.addEventListener("error", () => {
+      failedMascots.add(image);
+      syncMascots();
+    }));
   }
-  window.addEventListener("blur", resetPointerEffects);
 
   const motionButton = document.getElementById("motion-toggle");
   function syncMotion() {
@@ -284,14 +252,15 @@
     body.classList.toggle("motion-paused", !enabled);
     if (motionButton) {
       const icon = motionButton.querySelector("span");
-      if (icon) icon.textContent = enabled ? "⏸️" : "▶️";
+      if (icon) icon.textContent = enabled ? "Ⅱ" : "▷";
       const label = enabled ? "Pausar animaciones" : "Activar animaciones";
       motionButton.setAttribute("aria-label", label);
       motionButton.setAttribute("aria-pressed", String(enabled));
       motionButton.disabled = reducedMotion.matches;
       motionButton.title = reducedMotion.matches ? "Movimiento reducido por preferencia del sistema" : label;
     }
-    if (!enabled) { finishGreeting(); finishDisclosures(); resetPointerEffects(); }
+    if (!enabled) { finishGreeting(); finishDisclosures(); }
+    syncMascots();
   }
   if (motionButton) motionButton.addEventListener("click", () => {
     animationsEnabled = !animationsEnabled;
@@ -302,8 +271,9 @@
   function syncVisibility() {
     body.classList.toggle("page-hidden", document.hidden);
     scheduleClock();
+    syncMascots();
     clearTimeout(greetingTimer);
-    if (document.hidden) { resetPointerEffects(); finishDisclosures(); }
+    if (document.hidden) { finishDisclosures(); }
     else typeGreeting();
   }
   document.addEventListener("visibilitychange", syncVisibility);

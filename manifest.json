@@ -4,8 +4,8 @@
   "description": "Enlaces de Cuby3212",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f7c9dd",
-  "theme_color": "#f7c9dd",
+  "background_color": "#faf9f7",
+  "theme_color": "#faf9f7",
   "icons": [
     {
       "src": "images/icon-192.png",
