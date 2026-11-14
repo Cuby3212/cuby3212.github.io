@@ -504,3 +504,84 @@ body {
   .repo-badge-link { display: none }
   .corner-links { gap: .4rem }
 }
+/* Letras suaves y redondeadas; la fuente de reserva aparece inmediatamente. */
+body { font-family: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif }
+.container h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -.025em }
+.container .greeting { font-size: 1rem; font-weight: 500 }
+.container .button-grid .button {
+  flex-basis: clamp(13.5rem,24vw,19rem);
+  min-block-size: 3.5rem;
+  font-size: clamp(1.15rem,calc(1rem + .3vw),1.4rem);
+  line-height: 1.2; font-weight: 700; letter-spacing: 0;
+  padding-block: .65rem;
+}
+/* Los SVG se muestran sin convertir sus colores. La base oscura permite
+   distinguir también los logotipos originales blancos en el tema claro. */
+.container .button-grid .button .icon {
+  filter: none; opacity: 1; width: 2rem; height: 2rem; margin-right: .65rem;
+  padding: .3rem; border-radius: .55rem;
+  background: #19202c; border: 1px solid rgba(255,255,255,.22);
+}
+.container .copyright { font-size: .8rem }
+.info-toggle > summary { font-size: .95rem }
+.faq-item summary { font-size: 1rem }
+.container .faq-item p { font-size: .95rem }
+.clock-widget { font-size: .85rem }
+.repo-badge { font-size: .8rem }
+.github-link, .info-toggle > summary { position: relative }
+/* Se anima únicamente el reborde del control activo. Ningún desenfoque ni
+   sombra cambia por fotograma; al salir del control se detiene la animación. */
+@property --trans-turn {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes transBorder { to { --trans-turn: 360deg } }
+@supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
+  :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    padding: 1px; pointer-events: none;
+    background: conic-gradient(from 155deg,transparent 8%,var(--glass-light) 22%,
+      transparent 40%,var(--glass-edge) 55%,var(--glass-light) 72%,transparent 88%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):focus-visible::before {
+    padding: 2.5px;
+    background: conic-gradient(from var(--trans-turn,0deg),#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%,#5bcefa);
+    animation: transBorder 4s linear infinite;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    :is(.container .button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary):hover::before {
+      padding: 2.5px;
+      background: conic-gradient(from var(--trans-turn,0deg),#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%,#5bcefa);
+      animation: transBorder 4s linear infinite;
+    }
+  }
+  .container .button:active::before {
+    padding: 2.5px;
+    background: conic-gradient(#5bcefa,#f5a9b8,#fff,#f5a9b8,#5bcefa);
+  }
+}
+body.motion-paused :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before {
+  animation-play-state: paused !important;
+}
+@media (orientation: portrait) and (min-width: 480px) and (max-width: 900px) {
+  .container .button-grid .button {
+    flex-basis: calc((100% - var(--links-gap)) / 2);
+    max-inline-size: calc((100% - var(--links-gap)) / 2);
+  }
+}
+@media (max-width: 479px) {
+  .container .button-grid .button { flex-basis: 100%; max-inline-size: 100%; min-block-size: 3.25rem }
+  .container .button-grid .button .icon { width: 1.9rem; height: 1.9rem }
+  .container h1 { font-size: 2rem }
+  .repo-badge { font-size: .72rem }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before { animation: none !important }
+}
+@media (forced-colors: active) {
+  :is(.button,.theme-toggle,.repo-badge,.github-link,.info-toggle > summary)::before { display: none }
+}
