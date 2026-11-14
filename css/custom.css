@@ -27,7 +27,7 @@ h1 { margin:1rem .5rem .4rem; font-size:clamp(2rem,3vw,3.4rem); font-weight:700;
 .profile-description { margin:.4rem 1.25rem 0; color:var(--muted); font-size:1.1rem; text-wrap:balance; }
 .links-panel { min-width:0; margin:1.5rem 1rem 1.5rem 2rem; align-self:center; }
 .button-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
-.button { display:flex; align-items:center; gap:.75rem; min-width:0; min-height:4.1rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius:.65rem; background:var(--control); color:var(--text); font-size:clamp(1.25rem,1.7vw,1.9rem); font-weight:600; line-height:1.3; text-decoration:none; }
+.button { display:flex; align-items:center; gap:.75rem; min-width:0; min-height:4.1rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius:1rem; background:var(--control); color:var(--text); font-size:clamp(1.25rem,1.7vw,1.9rem); font-weight:600; line-height:1.3; text-decoration:none; }
 .icon { width:1em; height:1em; flex-shrink:0; object-fit:contain; }
 .button-tiktok .icon,.button-reddit .icon { filter:drop-shadow(0 0 .6px #60646c); }
 .button-pronombr-es { grid-column:1/-1; }
@@ -124,7 +124,6 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  box-shadow:inset 0 1px 1px #ffffff70,inset 1px 0 0 #ffffff20,inset -1px 0 0 #ffffff12,inset 0 -1px 1px #00000024,0 3px 10px #00000014;
 }
 .info-toggle > summary { border:1px solid var(--line); border-radius:999px; background-color:var(--control); }
-.button { border-radius:1rem; }
 .footer-mascots { position:fixed; z-index:5; bottom:max(.65rem,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); align-items:end; gap:.5rem; width:min(19.5rem,calc(100% - 2rem)); height:4rem; contain:layout paint; pointer-events:none; }
 .mascot-sprite { display:block; justify-self:center; width:min(100%,3.5rem); aspect-ratio:1; background-repeat:no-repeat; }
 @media(min-width:1051px) and (orientation:landscape) {
@@ -132,7 +131,6 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  .container { grid-template-columns:minmax(0,.85fr) minmax(0,1.65fr); }
  .links-panel { margin:1.75rem 2rem; }
  .profile-header { display:flex; flex-direction:column; justify-content:flex-start; }
- .banner-link { margin-top:0; }
 }
 @media(hover:hover) and (pointer:fine) and (min-width:1051px) {
  .container { -webkit-backdrop-filter:blur(18px) saturate(135%); backdrop-filter:blur(18px) saturate(135%); }
@@ -183,8 +181,6 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  footer { margin-top:auto; }
 }
 @media(forced-colors:active) { .trans-border { display:none !important; } }
-
-.motion-paused .trans-border::before,.page-hidden .trans-border::before { animation-play-state:paused !important; }
 
 .mascot-miku { --frames:frames-miku; --frame-duration:1600ms; background-image:url('../images/characters/miku.webp'); background-size:2000% 100%; animation:frames-miku 1600ms step-end infinite; }
 @keyframes frames-miku { 0.00000% { background-position:0.00000% 0; } 5.00000% { background-position:5.26316% 0; } 10.00000% { background-position:10.52632% 0; } 15.00000% { background-position:15.78947% 0; } 20.00000% { background-position:21.05263% 0; } 25.00000% { background-position:26.31579% 0; } 30.00000% { background-position:31.57895% 0; } 35.00000% { background-position:36.84211% 0; } 40.00000% { background-position:42.10526% 0; } 45.00000% { background-position:47.36842% 0; } 50.00000% { background-position:52.63158% 0; } 55.00000% { background-position:57.89474% 0; } 60.00000% { background-position:63.15789% 0; } 65.00000% { background-position:68.42105% 0; } 70.00000% { background-position:73.68421% 0; } 75.00000% { background-position:78.94737% 0; } 80.00000% { background-position:84.21053% 0; } 85.00000% { background-position:89.47368% 0; } 90.00000% { background-position:94.73684% 0; } 95.00000% { background-position:100.00000% 0; } 100% { background-position:100% 0; } }
@@ -246,5 +242,4 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  .firefox-android .footer-mascots { bottom:.65rem; }
 }
 
-.emoji,.event-decoration { font-family:"Apple Color Emoji","Noto Color Emoji","Segoe UI Emoji",sans-serif; }
 .emoji-image { display:inline-block; width:1em; height:1em; vertical-align:-.12em; object-fit:contain; }

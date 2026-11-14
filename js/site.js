@@ -97,7 +97,7 @@
       .map((char) => char.codePointAt(0).toString(16)).join("-");
     return "images/emoji/" + code + ".svg";
   }
-  function getEmoji(icon) {
+  function getEmojiSource(icon) {
     if (emojiCache.has(icon)) return emojiCache.get(icon);
     let native = false;
     let source = emojiAsset(icon);
@@ -128,7 +128,7 @@
         } else if (native) source = canvas.toDataURL("image/png");
       }
     } catch { native = false; }
-    const result = { native, source: native ? source : emojiAsset(icon) };
+    const result = native ? source : emojiAsset(icon);
     emojiCache.set(icon, result);
     return result;
   }
@@ -145,13 +145,13 @@
     element.textContent = icon;
     if (!icon) return;
     // Mostrar el mismo dibujo comprobado evita diferencias entre canvas y las fuentes del texto.
-    element.replaceChildren(emojiImage(getEmoji(icon).source, "emoji-image"));
+    element.replaceChildren(emojiImage(getEmojiSource(icon), "emoji-image"));
   }
   document.querySelectorAll(".emoji").forEach((element) => setInlineEmoji(element, element.textContent));
   setInlineEmoji(document.querySelector(".event-decoration"),
     { xmas: "🎄", newyear: "🎆", halloween: "🎃" }[event] || "");
   function setParticleIcon(particle, icon) {
-    particle.replaceChildren(emojiImage(getEmoji(icon).source, "petal-image"));
+    particle.replaceChildren(emojiImage(getEmojiSource(icon), "petal-image"));
   }
   const randomBetween = (min, max) => min + Math.random() * (max - min);
   function randomizeParticle(particle, initial = false) {

@@ -1,5 +1,5 @@
 <p align="center">
-<img src="images/avatar.png" alt="Cuby socials Logo" width="200"/>
+<img src="images/avatar.gif" alt="Cuby socials Logo" width="200"/>
 </p>
 
 # Cuby socials
