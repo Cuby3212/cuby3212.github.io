@@ -21,7 +21,6 @@ body::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;ba
 @media(hover:none){body::after{display:none}}
 body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(60% 45% at 18% 8%,rgba(var(--spotlight-rgb),.22),transparent 70%),radial-gradient(55% 40% at 88% 96%,rgba(var(--spotlight-rgb),.16),transparent 70%)}
 :focus-visible{outline:2px solid var(--text-strong);outline-offset:2px}
-.theme-toggle,.clock-widget,.repo-badge{border:1px solid rgba(255,255,255,.15);border-top-color:rgba(255,255,255,.4);border-left-color:rgba(255,255,255,.4);background:var(--card-bg)!important;backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 8px 16px rgba(0,0,0,.15);transition:background .4s ease,color .4s ease,opacity .2s ease}
 .theme-toggle{position:fixed;top:.6rem;right:.6rem;z-index:25;width:2.8rem;height:2.8rem;display:flex;align-items:center;justify-content:center;padding:0;border-radius:1.4rem;font-size:1.25rem;cursor:pointer;overflow:hidden;transition:transform .2s ease,background .4s ease}
 .theme-toggle span{display:flex;align-items:center;justify-content:center;width:100%;height:100%;transform:translateY(-.05rem)}
 .theme-toggle:hover{transform:scale(1.08) rotate(-8deg)}
@@ -49,7 +48,6 @@ body.secret-mode .toast{background:rgba(255,255,255,.9);color:#7a2e49}
 .petal{position:absolute;top:-10%;opacity:0;animation:petalFall linear infinite}
 .petal:nth-child(1){left:4%;font-size:1.05rem;animation-duration:16s}.petal:nth-child(2){left:16%;font-size:1.35rem;animation-duration:21s;animation-delay:2s}.petal:nth-child(3){left:30%;font-size:.95rem;animation-duration:18s;animation-delay:5s}.petal:nth-child(4){left:45%;font-size:1.25rem;animation-duration:24s;animation-delay:1s}.petal:nth-child(5){left:58%;font-size:1.05rem;animation-duration:19s;animation-delay:7s}.petal:nth-child(6){left:71%;font-size:1.4rem;animation-duration:22s;animation-delay:3s}.petal:nth-child(7){left:84%;font-size:1rem;animation-duration:17s;animation-delay:6s}.petal:nth-child(8){left:93%;font-size:1.2rem;animation-duration:20s;animation-delay:4s}
 @keyframes petalFall{0%{transform:translateY(-10vh) translateX(0) rotate(0);opacity:0}8%,92%{opacity:.85}50%{transform:translateY(50vh) translateX(18px) rotate(180deg)}100%{transform:translateY(110vh) translateX(-18px) rotate(360deg);opacity:0}}
-.container{background:var(--card-bg);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);border:1px solid rgba(255,255,255,.15);border-top-color:rgba(255,255,255,.4);border-left-color:rgba(255,255,255,.4);border-radius:1.5rem;padding:0 0 1.75rem 0;width:min(92vw,32rem);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 32px 64px rgba(0,0,0,.15);position:relative;z-index:1;animation:cardFadeIn .9s ease both;transition:background .4s ease}
 @keyframes cardFadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .container > *:not(.banner-link):not(.avatar-link){padding-left:var(--spacing-m);padding-right:var(--spacing-m)}
 .banner-link{display:block;position:relative}
@@ -80,17 +78,7 @@ h1.holiday-halloween{background:linear-gradient(135deg,#d35400 0%,#5c2c16 55%,#e
 .greeting.is-typing::after{content:"";display:inline-block;width:.06rem;height:.8em;margin-left:.1rem;vertical-align:-.1em;background:var(--text-soft);animation:caretBlink .8s steps(1) infinite}
 @keyframes caretBlink{50%{opacity:0}}
 .button-grid{display:grid;grid-template-columns:1fr;gap:.7rem;width:100%}
-.container .button{width:100%;max-width:100%;border-radius:1.1rem;font-weight:700;position:relative;margin:0;min-height:3.4rem;background:rgba(var(--shadow-rgb),.05)!important;backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border:1px solid rgba(255,255,255,.15)!important;border-top-color:rgba(255,255,255,.4)!important;border-left-color:rgba(255,255,255,.4)!important;box-shadow:inset 0 1px 2px rgba(255,255,255,.3),0 4px 12px rgba(0,0,0,.08);color:var(--btn-text)!important;text-shadow:var(--btn-shadow);overflow:hidden;z-index:1;transition:filter .2s ease,transform .2s ease,color .3s ease}
-.container .button::after{content:"";position:absolute;inset:0;background:var(--button-background);opacity:.18;z-index:-1;transition:opacity .3s ease;pointer-events:none}
 .button-twitch{--button-background:#9146ff}.button-kick{--button-background:#53fc18}.button-yt{--button-background:#ff0000}.button-x{--button-background:#1da1f2}.button-bluesky{--button-background:#1185fe}.button-reddit{--button-background:#ff4500}.button-tiktok{--button-background:#000}.button-instagram{--button-background:linear-gradient(-135deg,#1400c8,#b900b4,#f50000)}.button-pronombr-es{--button-background:#c71585}
-:root.theme-dark .container .button::after{opacity:.28}
-.container .button:hover::after{opacity:.28}
-:root.theme-dark .container .button:hover::after{opacity:.38}
-.container .button .icon{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
-.glass-sheen{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(145deg,rgba(255,255,255,.4) 0%,rgba(255,255,255,.05) 40%,transparent 60%);pointer-events:none;z-index:0}
-.container .button:hover{filter:brightness(105%);transform:translateY(-1px)}
-body:not(.motion-paused) .container .button:hover{animation:buttonPulse 2.4s ease-in-out infinite}
-@keyframes buttonPulse{0%,100%{box-shadow:inset 0 0 1.1rem rgba(91,206,250,.45),0 .5rem 1.7rem rgba(91,206,250,.25)}33%{box-shadow:inset 0 0 1.1rem rgba(245,169,184,.45),0 .5rem 1.7rem rgba(245,169,184,.25)}66%{box-shadow:inset 0 0 1.1rem rgba(255,255,255,.5),0 .5rem 1.7rem rgba(255,255,255,.3)}}
 body:not(.motion-paused) .container .button:hover .icon{animation:iconWiggle .5s ease}
 @keyframes iconWiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg)}75%{transform:rotate(10deg)}}
 footer{margin:1.2rem 0 0 0;padding-bottom:0;color:var(--text-soft);display:flex;flex-direction:column;align-items:center}
@@ -112,10 +100,206 @@ footer a{color:var(--text-soft);font-weight:600}
 .faq-item[open] .faq-arrow{transform:rotate(90deg);background:rgba(var(--shadow-rgb),.2)}
 .faq-item p{margin:.5rem 0 0 0;line-height:1.45;font-size:.78rem;color:var(--text-soft);animation:faqTextOpen .3s cubic-bezier(.16,1,.3,1) both}
 @keyframes faqTextOpen{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-@media(min-width:640px){.container{width:min(92vw,42rem)}.button-grid{grid-template-columns:repeat(2,1fr);max-width:36rem;margin:0 auto}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:17.5rem;justify-self:center}}
-@media(min-width:900px){.container{width:min(94vw,56rem)}.button-grid{grid-template-columns:repeat(3,1fr);max-width:50rem}.button-grid .button-pronombr-es{grid-column:2;max-width:100%}}
-@media(min-width:1200px){.container{width:min(96vw,68rem)}.button-grid{grid-template-columns:repeat(4,1fr);max-width:62rem}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:15rem;justify-self:center}}
 .clock-widget{position:fixed;bottom:.6rem;left:.6rem;z-index:15;display:flex;flex-direction:column;justify-content:center;gap:.15rem;padding:0 1rem;height:2.8rem;border-radius:1.4rem;color:var(--mono-text);font-variant-numeric:tabular-nums;font-size:.85rem;line-height:1.2;pointer-events:none}
 .clock-row{display:flex;align-items:baseline;gap:.4rem;white-space:nowrap}
 .clock-zone{opacity:.75;font-weight:600;min-width:4.4rem}
 .clock-row span:last-child{font-weight:700;letter-spacing:.02em}
+
+/* Material inspirado en Liquid Glass: soporte legible, lente de borde y reflejo.
+   Solo la tarjeta y los controles flotantes muestrean el fondo. Los botones
+   comparten el material de la tarjeta; no apilan filtros de desenfoque.
+   La refracción se sugiere con luz de borde, sin distorsionar las fotografías. */
+:root {
+  --glass-rgb: 255, 250, 253;
+  --glass-alpha: .80;
+  --glass-widget-alpha: .86;
+  --glass-solid: #fffafd;
+  --glass-edge: rgba(255,255,255,.72);
+  --glass-rim: rgba(93,63,83,.22);
+  --glass-light: rgba(255,255,255,.9);
+  --glass-sheen-light: rgba(255,255,255,.9);
+  --glass-shade: rgba(72,42,64,.10);
+  --glass-button: rgba(255,255,255,.24);
+  --glass-brand-alpha: .10;
+  --glass-icon: brightness(0) saturate(100%);
+  --text-strong: #492038;
+  --text-soft: #593548;
+  --mono-text: #372330;
+  --btn-text: var(--text-strong);
+}
+:root.theme-dark {
+  --glass-rgb: 18, 16, 27;
+  --glass-alpha: .84;
+  --glass-widget-alpha: .89;
+  --glass-solid: #191620;
+  --glass-edge: rgba(255,255,255,.26);
+  --glass-rim: rgba(0,0,0,.48);
+  --glass-light: rgba(255,255,255,.46);
+  --glass-sheen-light: rgba(255,255,255,.12);
+  --glass-shade: rgba(0,0,0,.28);
+  --glass-button: rgba(255,255,255,.06);
+  --glass-brand-alpha: .12;
+  --glass-icon: brightness(0) invert(1);
+  --text-strong: #fff2f9;
+  --text-soft: #eed8e5;
+  --mono-text: #fff2f9;
+  --btn-text: var(--text-strong);
+}
+@media (prefers-color-scheme: dark) {
+  :root.theme-auto {
+    --glass-rgb: 18, 16, 27;
+    --glass-alpha: .84;
+    --glass-widget-alpha: .89;
+    --glass-solid: #191620;
+    --glass-edge: rgba(255,255,255,.26);
+    --glass-rim: rgba(0,0,0,.48);
+    --glass-light: rgba(255,255,255,.46);
+    --glass-sheen-light: rgba(255,255,255,.12);
+    --glass-shade: rgba(0,0,0,.28);
+    --glass-button: rgba(255,255,255,.06);
+    --glass-brand-alpha: .12;
+    --glass-icon: brightness(0) invert(1);
+    --text-strong: #fff2f9;
+    --text-soft: #eed8e5;
+    --mono-text: #fff2f9;
+    --btn-text: var(--text-strong);
+  }
+}
+.container, .theme-toggle, .clock-widget, .repo-badge, .toast {
+  background: var(--glass-solid);
+  border: 1px solid var(--glass-edge);
+  border-bottom-color: var(--glass-rim);
+  box-shadow: inset 0 1px 0 var(--glass-light),
+    inset 0 -1px 0 var(--glass-shade), 0 8px 24px rgba(0,0,0,.16);
+  color: var(--text-strong);
+}
+.theme-toggle, .clock-widget, .repo-badge {
+  background: var(--glass-solid) !important;
+}
+.container {
+  border-radius: 1.5rem;
+  padding: 0 0 1.75rem;
+  width: min(92vw,32rem);
+  position: relative;
+  z-index: 1;
+  /* Opacity < 1 creates a backdrop root. Fade only through translation so the
+     floating material does not switch its background sampling on entry. */
+  animation: glassEnter .6s ease both;
+  box-shadow: inset 0 1px 0 var(--glass-light),
+    inset 0 -1px 0 var(--glass-shade), 0 24px 56px rgba(0,0,0,.18);
+}
+@keyframes glassEnter { from { transform: translateY(12px) } to { transform: translateY(0) } }
+/* Reflejos rasantes: el centro permanece limpio y las fotos no se filtran. */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  box-shadow: inset 1px 0 0 var(--glass-light), inset -1px 0 0 var(--glass-edge);
+  background: linear-gradient(110deg,var(--glass-light),transparent 32%,
+    transparent 70%,var(--glass-edge)) top / 100% 1px no-repeat;
+}
+.container .button {
+  width: 100%; max-width: 100%; min-height: 3.4rem; margin: 0;
+  position: relative; isolation: isolate; overflow: hidden; z-index: 1;
+  border-radius: 1.1rem; font-weight: 700;
+  background: var(--glass-button) !important;
+  border: 1px solid var(--glass-edge) !important;
+  border-bottom-color: var(--glass-rim) !important;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+  box-shadow: inset 0 1px 0 var(--glass-light), inset 0 -1px 1px var(--glass-shade),
+    0 3px 8px rgba(0,0,0,.08);
+  color: var(--btn-text) !important; text-shadow: none;
+  transition: transform .18s ease;
+}
+.container .button::after {
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background: var(--button-background); opacity: var(--glass-brand-alpha);
+  pointer-events: none;
+}
+.glass-sheen {
+  position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+  pointer-events: none; opacity: .64;
+  background: radial-gradient(ellipse at 18% 0%,var(--glass-sheen-light),transparent 62%),
+    linear-gradient(180deg,transparent 65%,var(--glass-shade));
+  transition: opacity .18s ease;
+}
+.container .button .icon { filter: var(--glass-icon); opacity: .94 }
+.repo-badge { position: relative }
+/* La lente periférica concentra la luz sin filtros de distorsión. */
+@supports (mask-composite: exclude) or (-webkit-mask-composite: xor) {
+  .container .button::before, .theme-toggle::before,
+  .clock-widget::before, .repo-badge::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    padding: 1px; pointer-events: none;
+    background: conic-gradient(from 155deg,transparent 8%,var(--glass-light) 22%,
+      transparent 40%,var(--glass-edge) 55%,var(--glass-light) 72%,transparent 88%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+}
+.repo-badge:hover { filter: none }
+.clock-zone, .copyright { opacity: 1 }
+.theme-toggle { color: var(--mono-text) }
+.repo-badge { color: var(--mono-text) !important }
+.toast { backdrop-filter: none; -webkit-backdrop-filter: none }
+/* El contenido conserva su propia tinta, sin heredar el azul de enlaces del tema. */
+.container footer a { color: var(--text-soft) }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .container {
+    background: rgba(var(--glass-rgb),var(--glass-alpha));
+    backdrop-filter: blur(16px) saturate(125%);
+    -webkit-backdrop-filter: blur(16px) saturate(125%);
+  }
+  .theme-toggle, .clock-widget, .repo-badge {
+    background: linear-gradient(145deg,var(--glass-edge),transparent 48%),
+      rgba(var(--glass-rgb),var(--glass-widget-alpha)) !important;
+    backdrop-filter: blur(12px) saturate(125%);
+    -webkit-backdrop-filter: blur(12px) saturate(125%);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .container .button:hover { transform: translateY(-2px); filter: none }
+  .container .button:hover .glass-sheen { opacity: 1 }
+}
+.container .button:active { transform: scale(.98) }
+.container .button:active .glass-sheen { opacity: 1 }
+/* Menor radio en pantallas pequeñas; nunca se anima blur, sombras ni filtros. */
+@media (max-width: 639px), (pointer: coarse) {
+  .container { backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%) }
+  .theme-toggle, .clock-widget, .repo-badge {
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  }
+  body { padding-top: 4.4rem; padding-bottom: 4.4rem }
+  .theme-toggle { min-width: 44px; min-height: 44px }
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .container, .theme-toggle, .clock-widget, .repo-badge, .toast {
+    background: var(--glass-solid) !important;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+  }
+  .container .button { background: var(--glass-solid) !important; border-color: var(--text-strong) !important }
+  .glass-sheen, .container .button::after { display: none }
+}
+body.motion-paused .glass-sheen { transition: none }
+body.motion-paused .container { animation: none }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; scroll-behavior: auto !important }
+  .container .button, .glass-sheen, .theme-toggle, .repo-badge { transition: none !important }
+}
+@media (forced-colors: active) {
+  .container, .theme-toggle, .clock-widget, .repo-badge, .container .button {
+    background: Canvas !important; color: CanvasText !important;
+    border: 1px solid CanvasText !important;
+    backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none;
+  }
+  .container .button::after, .glass-sheen, .container::before { display: none }
+  .container .button .icon { filter: none; forced-color-adjust: auto }
+  .repo-badge svg { fill: CanvasText !important }
+}
+@media(min-width:640px){.container{width:min(92vw,42rem)}.button-grid{grid-template-columns:repeat(2,1fr);max-width:36rem;margin:0 auto}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:17.5rem;justify-self:center}}
+@media(min-width:900px){.container{width:min(94vw,56rem)}.button-grid{grid-template-columns:repeat(3,1fr);max-width:50rem}.button-grid .button-pronombr-es{grid-column:2;max-width:100%}}
+@media(min-width:1200px){.container{width:min(96vw,68rem)}.button-grid{grid-template-columns:repeat(4,1fr);max-width:62rem}.button-grid .button-pronombr-es{grid-column:1/-1;max-width:15rem;justify-self:center}}
