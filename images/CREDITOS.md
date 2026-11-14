@@ -33,3 +33,15 @@ y se recortan con `cover`, sin deformación ni filtros de desenfoque.
 
 myEmotes las ofrece para uso personal y no monetizado. Se cargan desde su CDN,
 no forman parte del código bajo MIT y se ocultan al pausar o reducir el movimiento.
+
+### Personajes adicionales
+
+- [Kagamine Rin — Heart](https://myemotes.io/es/stickers/kagaminerin_heart), black_saphir.
+- [Kagamine Len — Sorry](https://myemotes.io/stickers/kagaminelen_sorry), black_saphir.
+- [Megurine Luka — Sparkle](https://myemotes.io/stickers/megurineluka_sparkle), black_saphir.
+
+Los tres stickers de myEmotes se ofrecen para uso personal y no monetizado.
+
+- [GUMI — Animation Bounce](https://tenor.com/view/animation-bounce-gumi-gumi-megpoid-lost-gif-9118905735352172794), compartido por M0NS en Tenor. Se muestra desde su CDN.
+
+Las animaciones de personajes son obras de sus autores y no se incluyen bajo MIT.

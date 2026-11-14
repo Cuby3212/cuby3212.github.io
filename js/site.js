@@ -56,8 +56,6 @@
   function updateTheme() {
     const dark = isDark();
     if (themeButton) {
-      const icon = themeButton.querySelector("span");
-      if (icon) icon.textContent = dark ? "☀" : "☾";
       const label = dark ? "Activar modo claro" : "Activar modo oscuro";
       themeButton.setAttribute("aria-label", label);
       themeButton.title = label;
@@ -203,8 +201,6 @@
     const enabled = animationsEnabled && !reducedMotion.matches;
     body.classList.toggle("motion-paused", !enabled);
     if (motionButton) {
-      const icon = motionButton.querySelector("span");
-      if (icon) icon.textContent = enabled ? "Ⅱ" : "▷";
       const label = enabled ? "Pausar animaciones" : "Activar animaciones";
       motionButton.setAttribute("aria-label", label);
       motionButton.setAttribute("aria-pressed", String(enabled));

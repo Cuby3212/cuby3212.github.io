@@ -115,9 +115,8 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 .info-toggle > summary { border:1px solid var(--line); border-radius:999px; background-color:var(--control); }
 .button { border-radius:1rem; }
-.theme-toggle span { display:block; }
-.footer-mascots { position:fixed; z-index:5; bottom:max(.65rem,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:flex; justify-content:center; align-items:flex-end; gap:1.25rem; width:9rem; height:4rem; contain:layout paint; pointer-events:none; }
-.footer-mascots img { width:auto; height:3.5rem; object-fit:contain; opacity:.8; }
+.footer-mascots { position:fixed; z-index:5; bottom:max(.65rem,env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); align-items:end; gap:clamp(.3rem,1.5vw,.9rem); width:min(28rem,calc(100% - 2rem)); height:4rem; contain:layout paint; pointer-events:none; }
+.footer-mascots img { width:100%; height:clamp(2.5rem,5.5vw,3.5rem); object-fit:contain; opacity:.8; }
 .footer-mascots img[hidden] { display:none; }
 @media(min-width:1051px) and (orientation:landscape) {
  :root { font-size:100%; }
@@ -148,3 +147,35 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  .links-panel { margin:1rem 2rem; }
  .profile-header { padding-bottom:1.25rem; }
 }
+
+/* Formas y centrado independientes de los glifos de cada sistema. */
+.theme-toggle { border-radius:50%; aspect-ratio:1; line-height:1; }
+.theme-toggle .control-icon { grid-area:1 / 1; display:block; width:1.25rem; height:1.25rem; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+.theme-toggle .icon-sun,.theme-toggle .icon-play { display:none; }
+.theme-toggle[aria-pressed="true"] .icon-sun,.motion-toggle[aria-pressed="false"] .icon-play { display:block; }
+.theme-toggle[aria-pressed="true"] .icon-moon,.motion-toggle[aria-pressed="false"] .icon-pause { display:none; }
+.corner-links { align-items:center; height:2.75rem; }
+.github-link { border-radius:50%; flex:0 0 2.75rem; }
+.repo-badge { height:2.75rem; line-height:1; gap:.4rem; padding:.5rem .8rem; }
+.repo-badge svg { flex-shrink:0; }
+.button,.github-link,.repo-badge,.info-toggle > summary { position:relative; }
+.trans-border { display:none; position:absolute; inset:-1px; padding:2px; border-radius:inherit; overflow:hidden; pointer-events:none; z-index:2; -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.trans-border::before { content:''; position:absolute; left:50%; top:50%; width:160%; aspect-ratio:1; background:conic-gradient(#5bcefa,#f5a9b8 20%,#fff 40%,#f5a9b8 60%,#5bcefa 80%); transform:translate(-50%,-50%); }
+@keyframes trans-border-turn { to { transform:translate(-50%,-50%) rotate(360deg); } }
+:is(.button,.theme-toggle,.github-link,.repo-badge,.info-toggle > summary):is(:focus-visible,:active) > .trans-border { display:block; }
+@media(hover:hover) and (pointer:fine) {
+ :is(.button,.theme-toggle,.github-link,.repo-badge,.info-toggle > summary):hover > .trans-border { display:block; }
+ :is(.button,.theme-toggle,.github-link,.repo-badge,.info-toggle > summary):hover > .trans-border::before { animation:trans-border-turn 6s linear infinite; }
+}
+@media(orientation:portrait) {
+ .container { width:min(100%,56rem); min-height:calc(100svh - 13rem); display:flex; flex-direction:column; }
+ .profile-header { flex-shrink:0; }
+ .banner { height:clamp(10rem,25vw,20rem); }
+ .links-panel { align-self:stretch; margin:clamp(1.25rem,2.5vw,2rem) clamp(.5rem,2vw,1.5rem); }
+ .button-grid { grid-template-columns:minmax(0,1fr); gap:clamp(.6rem,1svh,1rem); }
+ .button { min-height:clamp(3.5rem,5.7svh,6rem); font-size:clamp(1.15rem,2.2vw,1.9rem); }
+ footer { margin-top:auto; }
+}
+@media(forced-colors:active) { .trans-border { display:none !important; } }
+
+.motion-paused .trans-border::before,.page-hidden .trans-border::before { animation-play-state:paused !important; }
