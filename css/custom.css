@@ -30,7 +30,7 @@ h1 { margin:1rem .5rem .4rem; font-size:clamp(2rem,3vw,3.4rem); font-weight:700;
 .button-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
 .button { display:flex; align-items:center; gap:.75rem; min-width:0; min-height:3.7rem; padding:.85rem 1rem; border:1px solid var(--line); border-radius:.65rem; background:var(--control); color:var(--text); font-size:clamp(1.1rem,1.5vw,1.8rem); font-weight:600; line-height:1.3; text-decoration:none; }
 .icon { width:1.3rem; height:1.3rem; flex-shrink:0; object-fit:contain; }
-.button-tiktok .icon { background:#20242b; padding:3px; box-sizing:content-box; border-radius:5px; }
+.button-tiktok .icon,.button-kick .icon,.button-reddit .icon { background:#20242b; padding:3px; box-sizing:content-box; border-radius:5px; }
 .button-pronombr-es { grid-column:1/-1; }
 .button-pronombr-es .icon { width:1.75rem; }
 .network-label { min-width:0; overflow-wrap:anywhere; }
@@ -88,7 +88,7 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  :root[data-event='newyear'] { --scene:url('../images/scene-newyear-portrait.webp'); }
  :root[data-season='autumn'] { --scene-position:60% center; }
 }
-@media(max-width:760px) {
+@media(max-width:760px), (orientation:portrait) {
  body { justify-content:flex-start; padding-top:5.25rem; padding-bottom:max(1.25rem,env(safe-area-inset-bottom)); }
  .container { width:min(100%,32rem); display:block; padding:.6rem; border-radius:1.5rem; }
  .profile-header { padding-bottom:.5rem; }
@@ -123,7 +123,7 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  :root { font-size:90%; }
  .container { grid-template-columns:minmax(0,.85fr) minmax(0,1.65fr); }
  .links-panel { margin:1.75rem 2rem; }
- .profile-header { display:flex; flex-direction:column; justify-content:center; }
+ .profile-header { display:flex; flex-direction:column; justify-content:flex-start; }
  .banner-link { margin-top:0; }
 }
 @media(hover:hover) and (pointer:fine) and (min-width:1051px) {
