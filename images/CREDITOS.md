@@ -1,47 +1,31 @@
-# Paisajes de la página
+# Créditos
 
-Fotografías seleccionadas en Unsplash, bajo su [licencia gratuita](https://unsplash.com/license). Se conservan las fotografías personales del perfil y del banner.
+[Español](CREDITOS.md) | [English](CREDITS.md)
 
-| Fondo | Fotografía y autor |
+## Fondos
+
+Fotografías de [Unsplash](https://unsplash.com/license), adaptadas a WebP.
+
+| Fondo | Autor y fuente |
 | --- | --- |
-| Primavera | [Cerezos y montañas — Amanda da Silva](https://unsplash.com/photos/TDkRPaNzyBo) |
-| Verano | [Costa turquesa — Erwan Hesry](https://unsplash.com/photos/XW3cd0CdUSo) |
-| Otoño | [Lago entre árboles y niebla — Ryan Liu](https://unsplash.com/photos/EpyJ6JL4BaI) |
-| Invierno | [Bosque nevado al amanecer — Harri P](https://unsplash.com/photos/L8p9qMMiCWs) |
-| Navidad | [Cabaña iluminada en el bosque — Kate Shashina](https://unsplash.com/photos/Dmczd2VgaHk) |
-| Año Nuevo | [Fuegos artificiales — Anne Nygård](https://unsplash.com/photos/jrBwmFbIRFw) |
-| Halloween | [Calabazas iluminadas — Alex Dadukin](https://unsplash.com/photos/ov2w7IuNjnE) |
+| Primavera | [Amanda da Silva](https://unsplash.com/photos/TDkRPaNzyBo) |
+| Verano | [Erwan Hesry](https://unsplash.com/photos/XW3cd0CdUSo) |
+| Otoño | [Ryan Liu](https://unsplash.com/photos/EpyJ6JL4BaI) |
+| Invierno | [Harri P](https://unsplash.com/photos/L8p9qMMiCWs) |
+| Navidad | [Kate Shashina](https://unsplash.com/photos/Dmczd2VgaHk) |
+| Año Nuevo | [Anne Nygård](https://unsplash.com/photos/jrBwmFbIRFw) |
+| Halloween | [Alex Dadukin](https://unsplash.com/photos/ov2w7IuNjnE) |
 
-## Imágenes utilizadas
+## Personajes
 
-Los fondos `scene-*.webp` conservan su resolución de hasta 3200 píxeles de ancho.
-Se muestran con recorte centrado, sin estirarlos ni cambiar sus proporciones.
-La foto del perfil tiene 512 × 512 píxeles y el banner 1200 × 400; se conservan
-los originales. El cambio de tema no descarga otra fotografía.
+- [Hatsune Miku — Happy](https://myemotes.io/es/stickers/hatsunemiku_happy): black_saphir.
+- [Kasane Teto — Dance](https://myemotes.io/stickers/teto_dance): mnkq.
+- [Kagamine Rin — Heart](https://myemotes.io/es/stickers/kagaminerin_heart): black_saphir.
+- [Kagamine Len — Sorry](https://myemotes.io/stickers/kagaminelen_sorry): black_saphir.
+- [Megurine Luka — Sparkle](https://myemotes.io/stickers/megurineluka_sparkle): black_saphir.
 
-Navidad: 24–26 de diciembre. Año Nuevo: 31 de diciembre y 1 de enero.
-Halloween: 31 de octubre. El resto del año se usa la estación correspondiente.
+De myEmotes, para uso personal y no monetizado. Convertidos a tiras de fotogramas WebP. No están cubiertos por la licencia MIT del código.
 
-Las variantes `*-portrait.webp` se usan en pantallas verticales para primavera,
-Halloween y Año Nuevo. Los demás fondos mantienen el original de 3200 píxeles
-y se recortan con `cover`, sin deformación ni filtros de desenfoque.
+## Emojis
 
-## Animaciones decorativas
-
-Los personajes se guardan localmente como tiras de fotogramas WebP transparentes.
-CSS conserva los tiempos de los originales y permite pausar y reanudar el mismo
-fotograma. Cada tira usa un lienzo uniforme de 112 × 112 píxeles por fotograma.
-No se descargan animaciones desde servicios externos al visitar la página.
-
-- [Hatsune Miku — Happy](https://myemotes.io/es/stickers/hatsunemiku_happy), black_saphir.
-- [Kasane Teto — Dance](https://myemotes.io/stickers/teto_dance), mnkq.
-- [Kagamine Rin — Heart](https://myemotes.io/es/stickers/kagaminerin_heart), black_saphir.
-- [Kagamine Len — Sorry](https://myemotes.io/stickers/kagaminelen_sorry), black_saphir.
-- [Megurine Luka — Sparkle](https://myemotes.io/stickers/megurineluka_sparkle), black_saphir.
-
-myEmotes las ofrece para uso personal y no monetizado. Son obras de sus autores,
-no forman parte del código bajo MIT. Se conserva su atribución y procedencia.
-
-## Alternativas a emojis
-
-Los 18 SVG de `emoji/` proceden de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji. Se distribuyen sin modificaciones bajo [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); se incluye el texto en `emoji/LICENSE-GRAPHICS`. Las dos banderas del reloj se usan siempre para evitar letras regionales en algunos sistemas. Los demás SVG solo se solicitan cuando el navegador no representa el emoji en color o impide comprobarlo.
+SVG de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji, sin modificaciones. Licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); [texto completo](emoji/LICENSE-GRAPHICS).

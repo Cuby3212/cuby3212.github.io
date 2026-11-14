@@ -28,4 +28,4 @@ Made with HTML, CSS and JavaScript and hosted on [GitHub Pages](https://pages.gi
 
 Thanks to [2Duoble](https://twitter.com/2Duoble) for helping me with some design tweaks.
 
-Code under the [MIT license](LICENSE.md). Images and animations have their own licenses, listed in the [credits](images/CREDITOS.md) (in Spanish).
+Code under the [MIT license](LICENSE.md). Images and animations have their own licenses, listed in the [credits](images/CREDITS.md).
