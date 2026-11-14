@@ -44,4 +44,4 @@ no forman parte del código bajo MIT. Se conserva su atribución y procedencia.
 
 ## Alternativas a emojis
 
-Los 18 SVG de `emoji/` proceden de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji. Se distribuyen sin modificaciones bajo [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); se incluye el texto en `emoji/LICENSE-GRAPHICS`. Solo se solicitan cuando el navegador no representa el emoji en color o impide comprobarlo.
+Los 18 SVG de `emoji/` proceden de [Twemoji 17.0.3](https://github.com/jdecked/twemoji/tree/v17.0.3), de Twitter y los colaboradores de Twemoji. Se distribuyen sin modificaciones bajo [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); se incluye el texto en `emoji/LICENSE-GRAPHICS`. Las dos banderas del reloj se usan siempre para evitar letras regionales en algunos sistemas. Los demás SVG solo se solicitan cuando el navegador no representa el emoji en color o impide comprobarlo.

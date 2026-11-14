@@ -19,13 +19,34 @@
   let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
   const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
   const favicon = document.getElementById("site-favicon");
+  let faviconFrames;
+  let faviconLoading = false;
+  let faviconTimer;
+  let faviconIndex = 0;
   function syncFavicon() {
     if (!favicon) return;
-    const animated = motionAllowed();
-    const href = animated ? "images/favicon.gif?v=20" : "images/avatar.png";
-    if (favicon.getAttribute("href") === href) return;
-    favicon.type = animated ? "image/gif" : "image/png";
-    favicon.href = href;
+    clearTimeout(faviconTimer);
+    if (!motionAllowed()) {
+      favicon.href = "images/avatar.png";
+      return;
+    }
+    if (!faviconFrames) {
+      if (!faviconLoading) {
+        faviconLoading = true;
+        fetch("images/favicon-frames.json").then((response) => {
+          if (!response.ok) throw new Error("Favicon no disponible");
+          return response.json();
+        }).then((frames) => {
+          faviconFrames = frames;
+          syncFavicon();
+        }).catch(() => {});
+      }
+      return;
+    }
+    // Fotogramas precalculados: sin canvas ni descarga en cada cambio.
+    favicon.href = faviconFrames[faviconIndex];
+    faviconIndex = (faviconIndex + 1) % faviconFrames.length;
+    faviconTimer = setTimeout(syncFavicon, 180);
   }
 
   const clocks = [
