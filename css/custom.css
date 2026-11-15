@@ -290,3 +290,18 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  .section-arriving { --section-shift:10px; animation-duration:.46s; }
 }
 .motion-paused .section-arriving { animation:none; }
+
+@media(max-width:1050px) {
+ :root { --scene:url('../images/scene-autumn-mobile.webp'); }
+ :root[data-season='spring'] { --scene:url('../images/scene-spring-mobile.webp'); }
+ :root[data-season='summer'] { --scene:url('../images/scene-summer-mobile.webp'); }
+ :root[data-season='winter'] { --scene:url('../images/scene-winter-mobile.webp'); }
+ :root[data-event='xmas'] { --scene:url('../images/scene-xmas-mobile.webp'); }
+ :root[data-event='newyear'] { --scene:url('../images/scene-newyear-mobile.webp'); }
+ :root[data-event='halloween'] { --scene:url('../images/scene-halloween-mobile.webp'); }
+}
+@media(max-width:1050px) and (orientation:portrait) {
+ :root[data-season='spring'] { --scene:url('../images/scene-spring-portrait-mobile.webp'); }
+ :root[data-event='halloween'] { --scene:url('../images/scene-halloween-portrait-mobile.webp'); }
+ :root[data-event='newyear'] { --scene:url('../images/scene-newyear-portrait-mobile.webp'); }
+}
