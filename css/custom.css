@@ -243,3 +243,15 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 
 .emoji-image { display:inline-block; width:1em; height:1em; vertical-align:-.12em; object-fit:contain; }
+
+@keyframes mascot-group-sway {
+  0%,100% { transform:translate(-50%,0); }
+  50% { transform:translate(-50%,-4px); }
+}
+@media(hover:none), (pointer:coarse), (max-width:1050px) {
+ .secret-overlay { display:none; }
+ .secret-mode .bg-layer::after { background-image:linear-gradient(125deg,#5bcefa66,transparent 50%,#f5a9b866); }
+ .secret-mode .container::after { padding:0; background:url('../images/icons/easter-egg-border.svg') center / 100% 100% no-repeat; -webkit-mask:none; mask:none; }
+ .secret-mode .mascot-sprite { animation-name:var(--frames); animation-duration:var(--frame-duration); animation-timing-function:step-end; }
+ .secret-mode .footer-mascots { animation:mascot-group-sway 5s ease-in-out infinite; will-change:transform; }
+}
