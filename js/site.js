@@ -316,15 +316,23 @@
     card.addEventListener("animationend", finishEntrance);
     card.addEventListener("animationcancel", finishEntrance);
   }
-  document.querySelectorAll(".button").forEach((button) => {
+  document.querySelectorAll(".button").forEach((button, index) => {
+    if (motionAllowed()) {
+      button.style.setProperty("--entry-order", index);
+      button.classList.add("is-revealing");
+    }
     const glint = () => {
       if (motionAllowed()) button.classList.add("press-glow");
     };
     button.addEventListener("pointerdown", glint, { passive: true });
     button.addEventListener("keydown", (event) => { if (event.key === "Enter") glint(); });
-    button.addEventListener("animationend", (event) => {
+    const finishButtonAnimation = (event) => {
+      if (event.target !== button) return;
+      if (event.animationName === "links-enter") button.classList.remove("is-revealing");
       if (event.animationName === "button-glint") button.classList.remove("press-glow");
-    });
+    };
+    button.addEventListener("animationend", finishButtonAnimation);
+    button.addEventListener("animationcancel", finishButtonAnimation);
   });
 
   const secretTrigger = document.getElementById("secret-trigger");

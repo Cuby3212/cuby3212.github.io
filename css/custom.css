@@ -256,3 +256,20 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  .secret-mode .mascot-sprite { animation-name:var(--frames); animation-duration:var(--frame-duration); animation-timing-function:step-end; }
  .secret-mode .footer-mascots { animation:mascot-group-sway 5s ease-in-out infinite; will-change:transform; }
 }
+
+@keyframes links-enter {
+ from { opacity:.4; transform:translateY(var(--entry-offset,3px)); }
+ to { opacity:1; transform:translateY(0); }
+}
+@media(prefers-reduced-motion:no-preference) {
+ .button.is-revealing { animation:links-enter .24s cubic-bezier(.2,.8,.2,1) backwards; }
+ body:not(.motion-paused) .button .icon,body:not(.motion-paused) .network-arrow { transition:transform .18s ease; }
+ body:not(.motion-paused) .button:active { transform:scale(.99); }
+ body:not(.motion-paused) .button:active .icon { transform:scale(.95); }
+}
+@media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine) and (min-width:1051px) {
+ .button.is-revealing { --entry-offset:8px; animation-duration:.34s; animation-delay:calc(var(--entry-order,0) * .035s); }
+ body:not(.motion-paused) .button:is(:hover,:focus-visible) .icon { transform:translateY(-1px) scale(1.08); }
+ body:not(.motion-paused) .button:is(:hover,:focus-visible) .network-arrow { transform:translate(2px,-2px); }
+}
+.motion-paused .button.is-revealing { animation:none; }
