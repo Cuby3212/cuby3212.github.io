@@ -273,3 +273,20 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
  body:not(.motion-paused) .button:is(:hover,:focus-visible) .network-arrow { transform:translate(2px,-2px); }
 }
 .motion-paused .button.is-revealing { animation:none; }
+
+@keyframes section-arrive {
+ from { opacity:.7; transform:translateY(var(--section-shift,4px)); }
+ to { opacity:1; transform:translateY(0); }
+}
+@keyframes profile-arrive {
+ from { opacity:.7; transform:translateY(4px) scale(.96); }
+ to { opacity:1; transform:translateY(0) scale(1); }
+}
+@media(prefers-reduced-motion:no-preference) {
+ .section-arriving { animation:section-arrive .28s ease-out; }
+ .avatar-link.section-arriving { animation-name:profile-arrive; animation-duration:.36s; }
+}
+@media(prefers-reduced-motion:no-preference) and (hover:hover) and (pointer:fine) and (min-width:1051px) {
+ .section-arriving { --section-shift:10px; animation-duration:.46s; }
+}
+.motion-paused .section-arriving { animation:none; }

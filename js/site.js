@@ -277,6 +277,45 @@
     document.fonts.addEventListener("loadingdone", finishDisclosures);
   }
 
+  const detailedMotion = window.matchMedia("(hover:hover) and (pointer:fine) and (min-width:1051px)");
+  let sectionObserver;
+  const pendingSections = new Set();
+  const arrivingSections = new Set();
+  function finishSectionEntrances() {
+    if (sectionObserver) sectionObserver.disconnect();
+    pendingSections.clear();
+    arrivingSections.forEach((element) => element.classList.remove("section-arriving"));
+    arrivingSections.clear();
+  }
+  function observeSectionEntrances() {
+    if (!motionAllowed() || !("IntersectionObserver" in window)) return;
+    const selector = ".avatar-link, .profile-header h1, .profile-description, footer" +
+      (detailedMotion.matches ? "" : ", .links-panel");
+    sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        sectionObserver.unobserve(target);
+        pendingSections.delete(target);
+        if (motionAllowed()) {
+          arrivingSections.add(target);
+          target.classList.add("section-arriving");
+        }
+      });
+      if (pendingSections.size === 0) sectionObserver.disconnect();
+    }, { threshold: .08 });
+    document.querySelectorAll(selector).forEach((element) => {
+      const finish = (event) => {
+        if (event.target !== element || !["section-arrive", "profile-arrive"].includes(event.animationName)) return;
+        element.classList.remove("section-arriving");
+        arrivingSections.delete(element);
+      };
+      element.addEventListener("animationend", finish);
+      element.addEventListener("animationcancel", finish);
+      pendingSections.add(element);
+      sectionObserver.observe(element);
+    });
+  }
+
   const motionButton = document.getElementById("motion-toggle");
   function syncMotion() {
     syncFavicon();
@@ -289,7 +328,10 @@
       motionButton.disabled = reducedMotion.matches;
       motionButton.title = reducedMotion.matches ? "Movimiento reducido por preferencia del sistema" : label;
     }
-    if (!enabled) finishDisclosures();
+    if (!enabled) {
+      finishDisclosures();
+      finishSectionEntrances();
+    }
   }
   if (motionButton) motionButton.addEventListener("click", () => {
     animationsEnabled = !animationsEnabled;
@@ -307,6 +349,8 @@
   syncMotion();
   syncVisibility();
 
+  observeSectionEntrances();
+
   const card = document.querySelector(".container");
   if (card && motionAllowed()) {
     card.classList.add("is-entering");
@@ -317,7 +361,7 @@
     card.addEventListener("animationcancel", finishEntrance);
   }
   document.querySelectorAll(".button").forEach((button, index) => {
-    if (motionAllowed()) {
+    if (motionAllowed() && detailedMotion.matches) {
       button.style.setProperty("--entry-order", index);
       button.classList.add("is-revealing");
     }
