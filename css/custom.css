@@ -24,6 +24,7 @@ img { display:block; max-width:100%; }
 .avatar { width:8.5rem; height:8.5rem; object-fit:cover; border:5px solid var(--surface); border-radius:50%; }
 h1 { margin:1rem .5rem .4rem; font-size:clamp(2rem,3vw,3.4rem); font-weight:700; line-height:1.15; letter-spacing:-.025em; }
 .secret-trigger { all:unset; cursor:pointer; border-radius:.3rem; touch-action:manipulation; }
+.secret-trigger:focus-visible { outline:3px solid #b86298; outline-offset:4px; }
 .profile-description { margin:.4rem 1.25rem 0; color:var(--muted); font-size:1.1rem; text-wrap:balance; }
 .links-panel { min-width:0; margin:1.5rem 1rem 1.5rem 2rem; align-self:center; }
 .button-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }

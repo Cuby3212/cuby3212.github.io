@@ -16,7 +16,7 @@
     else if (query.addListener) query.addListener(listener);
   };
   const storedMotion = readPreference("cuby-motion");
-  let animationsEnabled = storedMotion === "on" || (storedMotion !== "off" && !reducedMotion.matches);
+  let animationsEnabled = storedMotion !== "off";
   const motionAllowed = () => animationsEnabled && !reducedMotion.matches && !document.hidden;
   const favicon = document.getElementById("site-favicon");
   let faviconFrames;
@@ -37,9 +37,15 @@
           if (!response.ok) throw new Error("Favicon no disponible");
           return response.json();
         }).then((frames) => {
+          if (!Array.isArray(frames) || frames.length === 0 ||
+              !frames.every((frame) => typeof frame === "string" && /^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(frame))) {
+            throw new Error("Fotogramas del favicon no válidos");
+          }
           faviconFrames = frames;
           syncFavicon();
-        }).catch(() => {});
+        }).catch(() => {
+          faviconLoading = false;
+        });
       }
       return;
     }
@@ -48,6 +54,8 @@
     faviconIndex = (faviconIndex + 1) % faviconFrames.length;
     faviconTimer = setTimeout(syncFavicon, 180);
   }
+
+  window.addEventListener("online", syncFavicon);
 
   const clocks = [
     { element: document.getElementById("clock-peninsula"), zone: "Europe/Madrid" },
@@ -302,9 +310,11 @@
   const card = document.querySelector(".container");
   if (card && motionAllowed()) {
     card.classList.add("is-entering");
-    card.addEventListener("animationend", (event) => {
+    const finishEntrance = (event) => {
       if (event.target === card && event.animationName === "card-enter") card.classList.remove("is-entering");
-    });
+    };
+    card.addEventListener("animationend", finishEntrance);
+    card.addEventListener("animationcancel", finishEntrance);
   }
   document.querySelectorAll(".button").forEach((button) => {
     const glint = () => {
