@@ -49,7 +49,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400..700&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/custom.css?v=background-27">
+<link rel="stylesheet" href="css/custom.css?v=visits-28">
 <link rel="preload" as="image" href="images/banner.jpg">
 <link rel="preload" as="image" href="images/avatar_cuby.jpg">
 <link id="site-favicon" rel="icon" type="image/png" href="images/avatar.png">
@@ -92,13 +92,22 @@
 </nav>
 </section>
 <footer>
+<div class="visit-counter" id="visit-counter" aria-label="Contador de visitas">
+<div class="visit-pill">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+<span><strong id="visit-count">—</strong> visitas</span>
+<button type="button" id="visit-refresh" aria-label="Actualizar visitas" title="Actualizar visitas" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5M5.5 7a8 8 0 0 1 13-1L20 8M4 16l1.5 2a8 8 0 0 0 13-1"/></svg></button>
+</div>
+<p class="visit-note" id="visit-status" role="status">Cargando contador…</p>
+<noscript><p class="visit-note">El contador necesita JavaScript.</p></noscript>
+</div>
 <p class="site-credit">Creado usando recursos de <a href="https://littlelink.io" rel="noopener noreferrer">LittleLink</a></p>
 <p class="site-credit">Hecho con <span class="emoji" role="img" aria-label="amor">🩷</span> en España</p>
 <details class="info-toggle">
 <summary>FAQs<span class="trans-border" aria-hidden="true"></span></summary>
 <div class="faq">
-<details class="faq-item"><summary>¿Guarda mis datos o me rastrea?<span class="faq-arrow" aria-hidden="true"></span></summary><div><p>No hay analítica ni cookies propias. Las preferencias de tema y movimiento se guardan en tu navegador.</p></div></details>
-<details class="faq-item"><summary>¿Por qué cambian algunos efectos entre dispositivos?<span class="faq-arrow" aria-hidden="true"></span></summary><div><p>Los efectos se adaptan al tamaño de la pantalla, al tipo de interacción y a tus preferencias de movimiento. No se guardan ni se envían datos del hardware.</p></div></details>
+<details class="faq-item"><summary>¿Cómo funciona el contador y qué datos usa?<span class="faq-arrow" aria-hidden="true"></span></summary><div><p>Se acumulan visitas únicas por día (UTC), con actualización cada minuto mientras el contador está visible. Las recargas del mismo navegador e IP no vuelven a sumar ese día. Es una estimación: cambiar de red o navegador puede contar otra visita.</p><p>El contador se aloja en Cloudflare y usa la IP y el navegador para crear un identificador temporal. Su base de datos no guarda la IP original y los identificadores anteriores se eliminan al recibir nuevas visitas. No usa cookies. Las preferencias de tema y movimiento se guardan en tu navegador.</p></div></details>
+<details class="faq-item"><summary>¿Por qué cambian algunos efectos entre dispositivos?<span class="faq-arrow" aria-hidden="true"></span></summary><div><p>Los efectos se adaptan al tamaño de la pantalla, al tipo de interacción y a tus preferencias de movimiento. Esta adaptación se hace en tu navegador, sin consultar ni guardar las especificaciones del equipo.</p></div></details>
 <details class="faq-item"><summary>¿Es algo de pago?<span class="faq-arrow" aria-hidden="true"></span></summary><div><p>No. Es un proyecto personal y gratuito.</p></div></details>
 </div>
 </details>
@@ -117,5 +126,6 @@
 <span class="clock-row"><span class="clock-zone"><span aria-hidden="true"><img class="emoji-image" src="images/emoji/1f1ee-1f1e8.svg" alt="" width="16" height="16"></span> Canarias</span><span id="clock-canarias">--:--</span></span>
 </div>
 <script src="js/site.js?v=section-motion-26"></script>
+<script src="js/visits.js?v=visits-28" defer></script>
 </body>
 </html>

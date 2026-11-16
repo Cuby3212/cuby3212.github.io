@@ -291,6 +291,18 @@ body,.container,.button,.theme-toggle,.github-link,.repo-badge,.clock-widget,foo
 }
 .motion-paused .section-arriving { animation:none; }
 
+.visit-counter { margin:0 auto .85rem; }
+.visit-pill { display:inline-flex; align-items:center; gap:.65rem; min-height:2.75rem; padding:.2rem .35rem .2rem .85rem; border:1px solid var(--line); border-radius:2rem; background:var(--control); color:var(--text); }
+.visit-pill svg { width:1.2rem; height:1.2rem; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.visit-pill strong { display:inline-block; min-width:1ch; font-size:1.15rem; font-variant-numeric:tabular-nums; }
+.visit-pill button { display:grid; place-items:center; width:2.5rem; height:2.5rem; border:0; border-radius:50%; background:transparent; color:inherit; }
+.visit-pill button:enabled:hover { background:var(--control); }
+.visit-pill button:disabled { opacity:.4; cursor:default; }
+.visit-note { margin:.2rem 0 0; font-size:.75rem; color:var(--muted); }
+@keyframes visit-update { from { opacity:.5; transform:translateY(3px); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:no-preference) { .visit-changed { animation:visit-update .25s ease-out; } }
+.motion-paused .visit-changed { animation:none; }
+
 @media(max-width:1050px) {
  :root { --scene:url('../images/scene-autumn-mobile.webp'); }
  :root[data-season='spring'] { --scene:url('../images/scene-spring-mobile.webp'); }

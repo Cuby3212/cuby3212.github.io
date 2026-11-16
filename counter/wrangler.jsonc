@@ -1,0 +1,13 @@
+{
+  "name": "cuby-socials-counter",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-11-16",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "cuby-socials-visits",
+      "database_id": "fd492aaa-ad82-4c54-b831-40c8b5853c38"
+    }
+  ]
+}
