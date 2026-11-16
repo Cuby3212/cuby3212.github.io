@@ -14,7 +14,7 @@ function setup({ production = true, hidden = false } = {}) {
   const tasks = new Map();
   const requests = [];
   const events = {};
-  const elements = Object.fromEntries(["visit-counter", "visit-count", "visit-status", "visit-refresh"].map(id => [id, {
+  const elements = Object.fromEntries(["visit-counter", "visit-count", "visit-label", "visit-status", "visit-refresh"].map(id => [id, {
     textContent: "—", disabled: true,
     classList: { add() {}, remove() {} },
     setAttribute() {}, removeAttribute() {},
@@ -67,6 +67,10 @@ test("Registra una vez y actualiza con GET, sin contar cada consulta", async () 
   await page.click();
   assert.equal(page.requests[1].method, "GET");
   assert.equal(page.elements["visit-count"].textContent, "8");
+  await page.advance(10000);
+  page.setResult({ count: 1 });
+  await page.click();
+  assert.equal(page.elements["visit-label"].textContent, "visita");
 });
 
 test("Solo consulta periódicamente si está visible y pausa al ocultar la pestaña", async () => {

@@ -5,6 +5,7 @@
   const widget = document.getElementById("visit-counter");
   if (!widget) return;
   const number = document.getElementById("visit-count");
+  const label = document.getElementById("visit-label");
   const status = document.getElementById("visit-status");
   const refresh = document.getElementById("visit-refresh");
   const production = location.origin === "https://cuby3212.github.io";
@@ -47,6 +48,7 @@
       registered = true;
       if (data.count !== count) {
         number.textContent = new Intl.NumberFormat("es-ES").format(data.count);
+        label.textContent = data.count === 1 ? "visita" : "visitas";
         number.classList.remove("visit-changed");
         // Las consultas están separadas al menos diez segundos; la animación anterior ya ha terminado.
         requestAnimationFrame(() => number.classList.add("visit-changed"));
